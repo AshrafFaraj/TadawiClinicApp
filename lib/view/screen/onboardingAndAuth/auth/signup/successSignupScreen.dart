@@ -1,0 +1,41 @@
+import 'package:neurology_clinic/controller/auth/registerController/successSignupController.dart';
+import 'package:neurology_clinic/core/constant/app_color.dart';
+import 'package:neurology_clinic/view/screen/widget/Auth/customAuthAppbar.dart';
+import 'package:neurology_clinic/view/screen/widget/Auth/customAuthButton.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class SuccessSignUp extends StatelessWidget {
+  const SuccessSignUp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    AppSuccessSignUpImp controller = Get.put(AppSuccessSignUpImp());
+    return Scaffold(
+      appBar: customAppBar(title: "Success"),
+      body: Container(
+        color: AppColor.white,
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const Icon(
+              Icons.check_circle_outline,
+              size: 200,
+              color: AppColor.primaycolor,
+            ),
+            const Spacer(),
+            SizedBox(
+                width: double.infinity,
+                child: CustomAuthButton(
+                  text: "الذهاب الي تسجيل الدخول",
+                  onPressed: () {
+                    controller.goToLogin();
+                  },
+                ))
+          ],
+        ),
+      ),
+    );
+  }
+}

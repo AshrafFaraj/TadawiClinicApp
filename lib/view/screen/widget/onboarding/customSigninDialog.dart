@@ -1,0 +1,153 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:neurology_clinic/controller/auth/loginController/loginController.dart';
+import 'package:neurology_clinic/view/screen/widget/Auth/customAuthQuestion.dart';
+import 'package:neurology_clinic/view/screen/widget/onboarding/customAuthButton.dart';
+import 'package:neurology_clinic/view/screen/widget/onboarding/customRegisterByEmailOrGoogle.dart';
+import 'package:rive/rive.dart';
+import '../Auth/customAuthTextFeild.dart';
+import '../Auth/customAuthInfo.dart';
+import '../Auth/customAuthTitle.dart';
+import 'customPositionTrigger.dart';
+
+Future<Object?> customSigninDialog(BuildContext context,
+    {required ValueChanged onClosed}) {
+  return showGeneralDialog(
+      barrierDismissible: true,
+      barrierLabel: "Sign In",
+      context: context,
+      transitionDuration: const Duration(milliseconds: 400),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        Tween<Offset> tween =
+            Tween(begin: const Offset(0, -1), end: Offset.zero);
+        return SlideTransition(
+            position: tween.animate(
+                CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
+            child: child);
+      },
+      pageBuilder: (context, _, __) {
+        AppLoginControllerImp controller = Get.put(AppLoginControllerImp());
+        return Center(
+            child: Container(
+          height: MediaQuery.of(context).size.height - 150,
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+          decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.95),
+              borderRadius: const BorderRadius.all(Radius.circular(40))),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset:
+                false, // avoid overflow error when keyboard shows up
+            body: GetBuilder<AppLoginControllerImp>(builder: (controller) {
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  SingleChildScrollView(
+                    child: Column(children: [
+                      const CustomAuthTitle(textTitle: "تسجيل الدخول"),
+                      const CustomAuthInfo(
+                          textInfo:
+                              " مرحباً بعودتك \nلديك حساب أنشأته في وقت سابق يمكنك الدخول باستخدام بريدك الالكتروني وكلمة السر"),
+                      // const SignInForm(),
+                      Form(
+                          key: controller.formState,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "البريد الالكتروني",
+                                style: TextStyle(color: Colors.black54),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8.0, bottom: 16),
+                                child: CustomTextFormFeildAuth(
+                                  suffixIcon: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: SvgPicture.asset(
+                                          "assets/icons/email.svg")),
+                                  hintText:
+                                      "ادخل بريدك الالكتروني أو رقم الهاتف",
+                                ),
+                              ),
+                              const Text(
+                                "كلمة المرور",
+                                style: TextStyle(color: Colors.black54),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8.0, bottom: 16),
+                                child: CustomTextFormFeildAuth(
+                                  suffixIcon: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: SvgPicture.asset(
+                                          "assets/icons/password.svg")),
+                                  hintText: "ادخل كلمة المرور",
+                                ),
+                              ),
+                              CustomAuthQuestion(
+                                  constText: "هل نسيت كلمة السر",
+                                  clickText: "تغيير",
+                                  onTap: controller.goToForgetPass),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, bottom: 24),
+                                  child: CustomAuthBotton(
+                                      onPressed: controller.login,
+                                      title: "دخول"))
+                            ],
+                          )),
+                      const CustomAuthInfo(
+                          textInfo:
+                              "أو قم بإنشاء حساب وتسجيل بياناتك الشخصية أو استخدم حساب جوجل"),
+                      CustomRegisterByEmailOrGoogle(onClosed: onClosed),
+                    ]),
+                  ),
+                  Stack(
+                    children: [
+                      controller.isShowLoading
+                          ? CustomPositionedTrigger(
+                              child: RiveAnimation.asset(
+                              "assets/RiveAssets/check.riv",
+                              onInit: (artboard) {
+                                StateMachineController stateMachineController =
+                                    controller.getRiveController(artboard);
+                                controller.check = stateMachineController
+                                    .findSMI("Check") as SMITrigger;
+                                controller.error = stateMachineController
+                                    .findSMI("Error") as SMITrigger;
+                                controller.reset = stateMachineController
+                                    .findSMI("Reset") as SMITrigger;
+                              },
+                            ))
+                          : const SizedBox(),
+                      controller.isShowConfetti
+                          ? CustomPositionedTrigger(
+                              child: Transform.scale(
+                              scale: 6,
+                              child: RiveAnimation.asset(
+                                "assets/RiveAssets/confetti.riv",
+                                onInit: (artboard) {
+                                  StateMachineController
+                                      stateMachineController =
+                                      controller.getRiveController(artboard);
+                                  controller.confetti = stateMachineController
+                                          .findSMI("Trigger explosion")
+                                      as SMITrigger;
+                                },
+                              ),
+                            ))
+                          : const SizedBox()
+                    ],
+                  )
+                ],
+              );
+            }),
+          ),
+        ));
+      }).then(onClosed);
+}

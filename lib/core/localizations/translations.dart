@@ -1,0 +1,65 @@
+import 'package:get/get.dart';
+
+class AppTranslation implements Translations {
+  @override
+  Map<String, Map<String, String>> get keys => {
+        "ar": {
+          "1": "اختر اللغة",
+          "2": "ابحث عن العناصر المفضلة",
+          "3": "ابحث عن منتجاتك المفضلة\nالتي ترغب في شرائها بسهولة",
+          "4": "تخطي",
+          "5": "التالي",
+          "6": "دفع سهل وآمن",
+          "7": "إدفع ثمن المنتجات \nالتي تشتريها بأمان وسهولة",
+          "8": "تسليم المنتج",
+          "9": "يتم تسليم منتجك \nالي منزلك بشكل آمن",
+          "signIn": "تسجيل الدخول",
+          "signUp": "إنشاء حساب",
+          "welcome": "مرحباً بك",
+          "info":
+              "تسجل الدخول عبر بريدك الالكتروني وكلمة المرور\n او باستخدام حسابات التواصل الاجتماعي",
+          "email": "البريد الإلكتروني",
+          "enterEmail": "أدخل عنوان بريدك الإلكتروني",
+          "pwd": "كلمة المرور",
+          "enterPwd": "ادخل كلمة المرور",
+          "forgetPwd": "هل نسيت كلمة المرور؟",
+          "haveAccount": "لدي حساب بالفعل",
+          "noAccount": "ليس لدي حساب من قبل",
+          "name": "الإسم",
+          "enterName": "ادخل اسمك الكامل",
+          "phone": "رقم الهاتف",
+          "enterPhone": "أدخل رقم هاتفك",
+          "22": "",
+          "23": "",
+          "foPass": "استعادة كلمة المرور",
+        },
+        "en": {
+          "1": "Choose language",
+          "2": "Find Favorite items",
+          "3": "find your favorite products that you want to \nbuy easily",
+          "4": "skip",
+          "5": "Next",
+          "6": "Easy and Safe Payment",
+          "7": "pay for the products you buy safely and\n easily",
+          "8": "Product Delivery",
+          "9": "Your product is delivered to your home\n safely and securely",
+          "signIn": "Sign in",
+          "signUp": "Sign Up",
+          "welcome": "Welcome Back",
+          "info":
+              "Sign in with your email and password\n or countinue with social media",
+          "email": "Email",
+          "enterEmail": "Enter your email",
+          "pwd": "Password",
+          "enterPwd": "Enter the Password",
+          "forgetPwd": "Forget Password ?",
+          "haveAccount": "Do you have an accout ",
+          "noAccount": "Don't have an accout ",
+          "name": "Name",
+          "enterName": "enter your name",
+          "phone": "Phone",
+          "enterPhone": "Enter your number phone",
+          "forgetPass": "Forget Password",
+        }
+      };
+}
