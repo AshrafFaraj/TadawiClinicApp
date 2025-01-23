@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # neurology_clinic
 
 Neurology clinic
@@ -15,6 +16,9 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# NeurologyApp
+>>>>>>> 545862f9a2bdc057a91e3b9485f71980abad1f22
 =======
 # NeurologyApp
 >>>>>>> 545862f9a2bdc057a91e3b9485f71980abad1f22
