@@ -1,4 +1,4 @@
-import 'package:neurology_clinic/controller/auth/checkEmailController.dart';
+import 'package:neurology_clinic/controller/auth/check_email_controller.dart';
 import 'package:neurology_clinic/view/widget/Auth/custom_auth_appbar.dart';
 import 'package:neurology_clinic/view/widget/Auth/custom_auth_otp_feild.dart';
 import 'package:neurology_clinic/view/widget/Auth/custom_auth_info.dart';

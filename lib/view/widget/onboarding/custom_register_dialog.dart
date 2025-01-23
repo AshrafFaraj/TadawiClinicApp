@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/controller/auth/registerController/registerController.dart';
+import 'package:neurology_clinic/controller/auth/registerController/register_controller.dart';
 import 'package:rive/rive.dart';
 import '../../../core/functions/valid_input.dart';
 import '../Auth/custom_auth_textfeild.dart';

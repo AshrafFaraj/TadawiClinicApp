@@ -1,4 +1,4 @@
-import 'package:neurology_clinic/controller/auth/forgetPasswordController/forgetPasswordController.dart';
+import 'package:neurology_clinic/controller/auth/forgetPasswordController/forget_password_controller.dart';
 import 'package:neurology_clinic/core/functions/valid_input.dart';
 import 'package:neurology_clinic/view/widget/Auth/custom_auth_appbar.dart';
 import 'package:neurology_clinic/view/widget/Auth/custom_auth_info.dart';

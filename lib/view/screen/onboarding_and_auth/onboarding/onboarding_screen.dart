@@ -6,7 +6,7 @@ import 'package:neurology_clinic/view/widget/onboarding/onboarding_text.dart';
 import 'package:rive/rive.dart';
 import 'package:neurology_clinic/view/widget/onboarding/animated_btn.dart';
 import 'package:neurology_clinic/view/widget/onboarding/custom_signin_dialog.dart';
-import '../../../../controller/auth/onboardingController/onboardingScreenController.dart';
+import '../../../../controller/auth/onboardingController/onboarding_screen_controller.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});

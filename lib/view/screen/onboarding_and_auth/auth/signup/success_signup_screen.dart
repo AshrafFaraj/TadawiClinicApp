@@ -1,4 +1,4 @@
-import 'package:neurology_clinic/controller/auth/registerController/successSignupController.dart';
+import 'package:neurology_clinic/controller/auth/registerController/success_signup_controller.dart';
 import 'package:neurology_clinic/core/constant/app_color.dart';
 import 'package:neurology_clinic/view/widget/Auth/custom_auth_appbar.dart';
 import 'package:neurology_clinic/view/widget/Auth/custom_auth_button.dart';
