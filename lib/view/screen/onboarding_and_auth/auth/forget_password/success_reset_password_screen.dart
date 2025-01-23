@@ -1,16 +1,15 @@
-import 'package:neurology_clinic/controller/auth/registerController/successSignupController.dart';
 import 'package:neurology_clinic/core/constant/app_color.dart';
-import 'package:neurology_clinic/view/screen/widget/Auth/customAuthAppbar.dart';
-import 'package:neurology_clinic/view/screen/widget/Auth/customAuthButton.dart';
+import 'package:neurology_clinic/view/widget/Auth/custom_auth_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../../data/datasource/static/appRouteName.dart';
+import '../../../../widget/onboarding/custom_auth_button.dart';
 
-class SuccessSignUp extends StatelessWidget {
-  const SuccessSignUp({super.key});
+class SuccessResetPassword extends StatelessWidget {
+  const SuccessResetPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
-    AppSuccessSignUpImp controller = Get.put(AppSuccessSignUpImp());
     return Scaffold(
       appBar: customAppBar(title: "Success"),
       body: Container(
@@ -27,10 +26,10 @@ class SuccessSignUp extends StatelessWidget {
             const Spacer(),
             SizedBox(
                 width: double.infinity,
-                child: CustomAuthButton(
-                  text: "الذهاب الي تسجيل الدخول",
+                child: CustomAuthBotton(
+                  title: "الذهاب لتسجيل الدخول",
                   onPressed: () {
-                    controller.goToLogin();
+                    Get.offAllNamed(AppRouteName.onBoarding);
                   },
                 ))
           ],

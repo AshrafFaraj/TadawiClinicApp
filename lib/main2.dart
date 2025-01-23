@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neurology_clinic/view/screen/onboardingAndAuth/onboarding/onboardingScreen.dart';
+import 'package:neurology_clinic/view/screen/onboarding_and_auth/onboarding/onboarding_screen.dart';
 
 void main() {
   runApp(const MyApp());

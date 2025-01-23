@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/view/screen/widget/onboarding/customPositionSplineImage.dart';
-import 'package:neurology_clinic/view/screen/widget/onboarding/customPositionBlurfill.dart';
-import 'package:neurology_clinic/view/screen/widget/onboarding/onboardingText.dart';
+import 'package:neurology_clinic/view/widget/onboarding/custom_position_spline_image.dart';
+import 'package:neurology_clinic/view/widget/onboarding/custom_position_blurfill.dart';
+import 'package:neurology_clinic/view/widget/onboarding/onboarding_text.dart';
 import 'package:rive/rive.dart';
-import 'package:neurology_clinic/view/screen/widget/onboarding/animated_btn.dart';
-import 'package:neurology_clinic/view/screen/widget/onboarding/customSigninDialog.dart';
+import 'package:neurology_clinic/view/widget/onboarding/animated_btn.dart';
+import 'package:neurology_clinic/view/widget/onboarding/custom_signin_dialog.dart';
 import '../../../../controller/auth/onboardingController/onboardingScreenController.dart';
 
 class OnboardingScreen extends StatelessWidget {

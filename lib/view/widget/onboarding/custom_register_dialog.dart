@@ -3,14 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:neurology_clinic/controller/auth/registerController/registerController.dart';
 import 'package:rive/rive.dart';
-import '../../../../core/functions/valid_input.dart';
-import '../Auth/customAuthTextFeild.dart';
-import '../Auth/customAuthQuestion.dart';
-import '../Auth/customAuthInfo.dart';
-import '../Auth/customAuthTitle.dart';
-import 'customAuthButton.dart';
-import 'customPositionTrigger.dart';
-import 'customSigninDialog.dart';
+import '../../../core/functions/valid_input.dart';
+import '../Auth/custom_auth_textfeild.dart';
+import '../Auth/custom_auth_question.dart';
+import '../Auth/custom_auth_info.dart';
+import '../Auth/custom_auth_title.dart';
+import 'custom_auth_button.dart';
+import 'custom_position_trigger.dart';
+import 'custom_signin_dialog.dart';
 
 Future<Object?> customRegisterDialog(BuildContext context,
     {required ValueChanged onClosed}) {

@@ -8,15 +8,15 @@ MyServices myServices = Get.find();
 ThemeData themeArabic = ThemeData(
     fontFamily: "Cairo",
     textTheme: const TextTheme(
-      headline1: TextStyle(
+      headlineSmall: TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.bold,
         color: Colors.black,
       ),
-      bodyText1: TextStyle(
+      bodyLarge: TextStyle(
         fontSize: 15,
       ),
-      bodyText2: TextStyle(
+      bodyMedium: TextStyle(
         fontSize: 14,
         color: AppColor.grey,
         height: 1.5,
@@ -26,15 +26,15 @@ ThemeData themeArabic = ThemeData(
 ThemeData themeEnglish = ThemeData(
     fontFamily: "PlayfairDisplay",
     textTheme: const TextTheme(
-      headline1: const TextStyle(
+      headlineSmall: TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.bold,
         color: Colors.black,
       ),
-      bodyText1: TextStyle(
+      bodyLarge: TextStyle(
         fontSize: 15,
       ),
-      bodyText2: TextStyle(
+      bodyMedium: TextStyle(
         fontSize: 14,
         color: AppColor.grey,
         height: 1.5,
@@ -54,4 +54,5 @@ ThemeData? appTheme() {
       return themeEnglish;
     }
   }
+  return null;
 }

@@ -1,13 +1,13 @@
 import 'package:neurology_clinic/controller/auth/forgetPasswordController/forgetPasswordController.dart';
 import 'package:neurology_clinic/core/functions/valid_input.dart';
-import 'package:neurology_clinic/view/screen/widget/Auth/customAuthAppbar.dart';
-import 'package:neurology_clinic/view/screen/widget/Auth/customAuthInfo.dart';
-import 'package:neurology_clinic/view/screen/widget/Auth/customAuthTextFeild.dart';
-import 'package:neurology_clinic/view/screen/widget/Auth/customAuthTitle.dart';
+import 'package:neurology_clinic/view/widget/Auth/custom_auth_appbar.dart';
+import 'package:neurology_clinic/view/widget/Auth/custom_auth_info.dart';
+import 'package:neurology_clinic/view/widget/Auth/custom_auth_textfeild.dart';
+import 'package:neurology_clinic/view/widget/Auth/custom_auth_title.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../widget/onboarding/customAuthButton.dart';
+import '../../../../widget/onboarding/custom_auth_button.dart';
 
 class ForgetPassword extends StatelessWidget {
   const ForgetPassword({super.key});

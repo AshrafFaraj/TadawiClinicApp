@@ -1,4 +1,4 @@
-import 'package:neurology_clinic/view/screen/widget/language/customButtonLanguage.dart';
+import 'package:neurology_clinic/view/widget/language/custom_button_language.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'customRegisterDialog.dart';
+import 'custom_register_dialog.dart';
 
 class CustomRegisterByEmailOrGoogle extends StatelessWidget {
   const CustomRegisterByEmailOrGoogle({super.key, required this.onClosed});

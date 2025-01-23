@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:neurology_clinic/controller/auth/loginController/loginController.dart';
-import 'package:neurology_clinic/view/screen/widget/Auth/customAuthQuestion.dart';
-import 'package:neurology_clinic/view/screen/widget/onboarding/customAuthButton.dart';
-import 'package:neurology_clinic/view/screen/widget/onboarding/customRegisterByEmailOrGoogle.dart';
+import 'package:neurology_clinic/view/widget/Auth/custom_auth_question.dart';
+import 'package:neurology_clinic/view/widget/onboarding/custom_auth_button.dart';
+import 'package:neurology_clinic/view/widget/onboarding/custom_register_email_or_google.dart';
 import 'package:rive/rive.dart';
-import '../Auth/customAuthTextFeild.dart';
-import '../Auth/customAuthInfo.dart';
-import '../Auth/customAuthTitle.dart';
-import 'customPositionTrigger.dart';
+import '../Auth/custom_auth_textfeild.dart';
+import '../Auth/custom_auth_info.dart';
+import '../Auth/custom_auth_title.dart';
+import 'custom_position_trigger.dart';
 
 Future<Object?> customSigninDialog(BuildContext context,
     {required ValueChanged onClosed}) {
@@ -27,7 +27,7 @@ Future<Object?> customSigninDialog(BuildContext context,
             child: child);
       },
       pageBuilder: (context, _, __) {
-        AppLoginControllerImp controller = Get.put(AppLoginControllerImp());
+        // AppLoginControllerImp controller = Get.put(AppLoginControllerImp());
         return Center(
             child: Container(
           height: MediaQuery.of(context).size.height - 150,

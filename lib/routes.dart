@@ -1,14 +1,14 @@
 import 'package:neurology_clinic/core/middleware/my_middleware.dart';
 import 'package:neurology_clinic/data/datasource/static/appRouteName.dart';
-import 'package:neurology_clinic/view/screen/onboardingAndAuth/auth/signup/checkEmailScreen.dart';
-import 'package:neurology_clinic/view/screen/onboardingAndAuth/auth/forgetPassword/forgetPasswordScreen.dart';
-import 'package:neurology_clinic/view/screen/onboardingAndAuth/auth/forgetPassword/resetPasswordScreen.dart';
-import 'package:neurology_clinic/view/screen/onboardingAndAuth/auth/forgetPassword/successResetPasswordScreen.dart';
-import 'package:neurology_clinic/view/screen/onboardingAndAuth/auth/signup/successSignupScreen.dart';
-import 'package:neurology_clinic/view/screen/onboardingAndAuth/auth/forgetPassword/verfiyCodeScreen.dart';
+import 'package:neurology_clinic/view/screen/onboarding_and_auth/auth/signup/check_email_screen.dart';
+import 'package:neurology_clinic/view/screen/onboarding_and_auth/auth/forget_password/forget_password_screen.dart';
+import 'package:neurology_clinic/view/screen/onboarding_and_auth/auth/forget_password/reset_password_screen.dart';
+import 'package:neurology_clinic/view/screen/onboarding_and_auth/auth/forget_password/success_reset_password_screen.dart';
+import 'package:neurology_clinic/view/screen/onboarding_and_auth/auth/signup/success_signup_screen.dart';
+import 'package:neurology_clinic/view/screen/onboarding_and_auth/auth/forget_password/verfiy_code_screen.dart';
 import 'package:neurology_clinic/view/screen/language/language_screen.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/view/screen/onboardingAndAuth/onboarding/onboardingScreen.dart';
+import 'package:neurology_clinic/view/screen/onboarding_and_auth/onboarding/onboarding_screen.dart';
 
 List<GetPage<dynamic>>? routes = [
   GetPage(

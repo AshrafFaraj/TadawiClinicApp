@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CustomPositionImage extends StatelessWidget {
   CustomPositionImage({
     super.key,
@@ -15,10 +16,6 @@ class CustomPositionImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-        width: width,
-        bottom: bottom,
-        left: left,
-        child: image);
+    return Positioned(width: width, bottom: bottom, left: left, child: image);
   }
 }

@@ -25,12 +25,13 @@ class CustomTextFormFeildAuth extends StatelessWidget {
       child: TextFormField(
         obscureText: isObscure,
         keyboardType: isNumber
-            ? TextInputType.numberWithOptions(decimal: true)
+            ? const TextInputType.numberWithOptions(decimal: true)
             : TextInputType.text,
         validator: validator,
         controller: mycontroller,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: hintText,
           label: label != ""
@@ -39,7 +40,7 @@ class CustomTextFormFeildAuth extends StatelessWidget {
                   child: Text(label),
                 )
               : null,
-          hintStyle: TextStyle(fontSize: 12),
+          hintStyle: const TextStyle(fontSize: 12),
           suffixIcon: suffixIcon,
         ),
       ),
