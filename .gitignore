@@ -1,13 +1,19 @@
 # See https://www.dartlang.org/guides/libraries/private-files
 
 # Files and directories created by pub
+android
+test
 .dart_tool/
 .packages
 build/
 .idea/
 .vscode/
+new/
+assets/samples/
 *.iml
 *.swp
+main0.dart
+main2.dart
 # If you're building an application, you may want to check-in your pubspec.lock
 pubspec.lock
 

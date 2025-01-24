@@ -40,6 +40,13 @@ flutter:
     - assets/Backgrounds/
     - assets/icons/
     - assets/RiveAssets/
+    - assets/samples/animations/
+    - assets/samples/ui/rive_app/
+    - assets/samples/ui/rive_app/rive/
+    - assets/samples/ui/rive_app/images/
+    - assets/samples/ui/rive_app/images/backgrounds/
+    - assets/samples/ui/rive_app/images/topics/
+    - assets/samples/ui/rive_app/images/avatars/
   #   - images/a_dot_ham.jpeg
 
   fonts:
