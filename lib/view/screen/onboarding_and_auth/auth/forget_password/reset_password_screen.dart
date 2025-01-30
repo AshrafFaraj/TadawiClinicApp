@@ -13,15 +13,13 @@ class ResetPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // AppResetPasswordControllerImp controller =
-    //     Get.put(AppResetPasswordControllerImp());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: customAppBar(title: ""),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         width: double.infinity,
-        child: ListView(
+        child: Column(
           children: [
             const CustomAuthTitle(textTitle: "تغيير كلمة السر"),
             const CustomAuthInfo(textInfo: "قمت بادخال كلمة السر الجديدة"),

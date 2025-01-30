@@ -1,6 +1,7 @@
-import 'package:neurology_clinic/data/datasource/static/appRouteName.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../core/constants/app_route_name.dart';
 
 abstract class AppForgetPasswordController extends GetxController {
   CheckEmail();

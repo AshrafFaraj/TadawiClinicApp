@@ -1,12 +1,12 @@
-// ignore_for_file: deprecated_member_use
-import 'package:neurology_clinic/core/localizations/change_locale_controller.dart';
-import 'package:neurology_clinic/core/localizations/translations.dart';
-import 'package:neurology_clinic/data/datasource/static/appRouteName.dart';
-import 'package:neurology_clinic/my_binding.dart';
-import 'package:neurology_clinic/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/core/services/services.dart';
+
+import 'core/constants/app_route_name.dart';
+import 'locale/local.dart';
+import 'locale/local_controller.dart';
+import 'my_binding.dart';
+import 'routes.dart';
+import 'services/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,16 +15,15 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp(/*  */ {super.key});
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    LocaleController localeController = Get.put(LocaleController());
-
+    LocalController controller = Get.put(LocalController());
     return GetMaterialApp(
-      // theme: appTheme(),
       debugShowCheckedModeBanner: false,
-      locale: localeController.language,
-      translations: AppTranslation(),
+      locale: controller.language,
+      translations: Applocal(),
       initialBinding: MyBinding(),
       initialRoute: AppRouteName.language,
       getPages: routes,

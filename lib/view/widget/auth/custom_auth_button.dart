@@ -1,5 +1,6 @@
-import 'package:neurology_clinic/core/constant/app_color.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/constants/app_color.dart';
 
 class CustomAuthButton extends StatelessWidget {
   const CustomAuthButton({super.key, this.onPressed, required this.text});

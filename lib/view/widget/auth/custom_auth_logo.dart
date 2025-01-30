@@ -1,14 +1,13 @@
-import 'package:neurology_clinic/core/constant/app_image_asset.dart';
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-class CustomAuthLogo extends StatelessWidget {
-  const CustomAuthLogo({super.key});
+// class CustomAuthLogo extends StatelessWidget {
+//   const CustomAuthLogo({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 160,
-      child: Image.asset(AppImageAssets.Logo),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 160,
+//       child: Image.asset(AppImageAssets.Logo),
+//     );
+//   }
+// }

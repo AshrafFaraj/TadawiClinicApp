@@ -1,7 +1,8 @@
 import 'dart:io';
-import 'package:neurology_clinic/core/constant/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../constants/app_color.dart';
 
 Future<bool> alertExitApp() {
   Get.defaultDialog(

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:neurology_clinic/data/datasource/static/appRouteName.dart';
+
+import '../../../core/constants/app_route_name.dart';
 
 abstract class _AppSuccessResetPassword extends GetxController {
   goToLogin();

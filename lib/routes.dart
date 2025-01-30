@@ -1,14 +1,18 @@
-import 'package:neurology_clinic/core/middleware/my_middleware.dart';
-import 'package:neurology_clinic/data/datasource/static/appRouteName.dart';
-import 'package:neurology_clinic/view/screen/onboarding_and_auth/auth/signup/check_email_screen.dart';
-import 'package:neurology_clinic/view/screen/onboarding_and_auth/auth/forget_password/forget_password_screen.dart';
-import 'package:neurology_clinic/view/screen/onboarding_and_auth/auth/forget_password/reset_password_screen.dart';
-import 'package:neurology_clinic/view/screen/onboarding_and_auth/auth/forget_password/success_reset_password_screen.dart';
-import 'package:neurology_clinic/view/screen/onboarding_and_auth/auth/signup/success_signup_screen.dart';
-import 'package:neurology_clinic/view/screen/onboarding_and_auth/auth/forget_password/verfiy_code_screen.dart';
-import 'package:neurology_clinic/view/screen/language/language_screen.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/view/screen/onboarding_and_auth/onboarding/onboarding_screen.dart';
+
+import 'core/constants/app_route_name.dart';
+import 'middleware/my_middleware.dart';
+import 'view/ai_chat/ai_chat_page.dart';
+import 'view/appointment_page/appointment_page.dart';
+import 'view/book_appointment/book_appointment_page.dart';
+import 'view/screen/language/language_screen.dart';
+import 'view/screen/onboarding_and_auth/auth/forget_password/forget_password_screen.dart';
+import 'view/screen/onboarding_and_auth/auth/forget_password/reset_password_screen.dart';
+import 'view/screen/onboarding_and_auth/auth/forget_password/success_reset_password_screen.dart';
+import 'view/screen/onboarding_and_auth/auth/forget_password/verfiy_code_screen.dart';
+import 'view/screen/onboarding_and_auth/auth/signup/check_email_screen.dart';
+import 'view/screen/onboarding_and_auth/auth/signup/success_signup_screen.dart';
+import 'view/screen/onboarding_and_auth/onboarding/onboarding_screen.dart';
 
 List<GetPage<dynamic>>? routes = [
   GetPage(
@@ -29,6 +33,12 @@ List<GetPage<dynamic>>? routes = [
       name: AppRouteName.successResetPassword,
       page: () => const SuccessResetPassword()),
   GetPage(name: AppRouteName.successSignUp, page: () => const SuccessSignUp()),
+  GetPage(
+      name: AppRouteName.appointmentPage, page: () => const AppointmentPage()),
+  GetPage(name: AppRouteName.aiChat, page: () => ChatPage()),
+  GetPage(
+      name: AppRouteName.bookAppointmentPage,
+      page: () => const BookAppointmentPage()),
 ];
 
 // Map<String, Widget Function(BuildContext)> routes = {

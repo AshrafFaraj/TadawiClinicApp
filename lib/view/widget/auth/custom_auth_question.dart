@@ -1,5 +1,6 @@
-import 'package:neurology_clinic/core/constant/app_color.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/constants/app_color.dart';
 
 class CustomAuthQuestion extends StatelessWidget {
   const CustomAuthQuestion(
@@ -18,12 +19,12 @@ class CustomAuthQuestion extends StatelessWidget {
       children: [
         Text("$constText ؟  "),
         InkWell(
+          onTap: onTap,
           child: Text(
             clickText,
             style: const TextStyle(
                 color: AppColor.primaycolor, fontWeight: FontWeight.bold),
           ),
-          onTap: onTap,
         )
       ],
     );

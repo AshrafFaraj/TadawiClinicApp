@@ -1,10 +1,11 @@
-import 'package:neurology_clinic/core/constant/app_color.dart';
-import 'package:neurology_clinic/core/localizations/change_locale_controller.dart';
-import 'package:neurology_clinic/data/datasource/static/appRouteName.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CustomButtonLanguage extends GetView<LocaleController> {
+import '../../../core/constants/app_color.dart';
+import '../../../core/constants/app_route_name.dart';
+import '../../../locale/local_controller.dart';
+
+class CustomButtonLanguage extends GetView<LocalController> {
   const CustomButtonLanguage(
       {super.key, required this.language, required this.languageCode});
   final String language;
@@ -18,7 +19,7 @@ class CustomButtonLanguage extends GetView<LocaleController> {
           language,
         ),
         onPressed: () {
-          controller.changelanguage(languageCode);
+          controller.changeLang(languageCode);
           Get.offAllNamed(AppRouteName.onBoarding);
         });
   }

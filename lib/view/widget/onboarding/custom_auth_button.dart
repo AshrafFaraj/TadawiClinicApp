@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomAuthBotton extends StatelessWidget {
-  CustomAuthBotton({
+  const CustomAuthBotton({
     Key? key,
     required this.onPressed,
     this.backgroundColor = const Color(0xFFF77D8E),

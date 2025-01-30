@@ -1,10 +1,11 @@
-import 'package:neurology_clinic/core/class/status_request.dart';
-import 'package:neurology_clinic/core/functions/handling_data.dart';
-import 'package:neurology_clinic/data/datasource/remote/signup_data.dart';
-import 'package:neurology_clinic/data/datasource/static/appRouteName.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
+
+import '../../../core/class/status_request.dart';
+import '../../../core/constants/app_route_name.dart';
+import '../../../core/functions/handling_data.dart';
+import '../../../data/datasource/remote/signup_data.dart';
 
 abstract class AppSignUpController extends GetxController {
   register();

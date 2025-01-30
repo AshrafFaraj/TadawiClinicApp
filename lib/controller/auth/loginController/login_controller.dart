@@ -1,7 +1,8 @@
-import 'package:neurology_clinic/data/datasource/static/appRouteName.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
+
+import '../../../core/constants/app_route_name.dart';
 
 abstract class AppLoginController extends GetxController {
   getRiveController(Artboard artboard);
@@ -46,6 +47,7 @@ class AppLoginControllerImp extends AppLoginController {
           update();
           confetti.fire();
         });
+        Get.offAllNamed(AppRouteName.appointmentPage);
       } else {
         error.fire();
         Future.delayed(const Duration(seconds: 2), () {

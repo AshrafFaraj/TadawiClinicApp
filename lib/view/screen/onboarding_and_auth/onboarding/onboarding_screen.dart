@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/view/widget/onboarding/custom_position_spline_image.dart';
-import 'package:neurology_clinic/view/widget/onboarding/custom_position_blurfill.dart';
-import 'package:neurology_clinic/view/widget/onboarding/onboarding_text.dart';
-import 'package:rive/rive.dart';
-import 'package:neurology_clinic/view/widget/onboarding/animated_btn.dart';
-import 'package:neurology_clinic/view/widget/onboarding/custom_signin_dialog.dart';
+import 'package:rive/rive.dart' as rive;
+
+import '/view/widget/onboarding/custom_position_blurfill.dart';
+import '/view/widget/onboarding/onboarding_text.dart';
+import '/view/widget/onboarding/animated_btn.dart';
+import '/view/widget/onboarding/custom_signin_dialog.dart';
 import '../../../../controller/auth/onboardingController/onboarding_screen_controller.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -18,20 +18,17 @@ class OnboardingScreen extends StatelessWidget {
     return Scaffold(
         body: Stack(
       children: [
-        CustomPositionImage(
+        Positioned(
+            width: MediaQuery.of(context).size.width * 1.7,
             bottom: 200,
             left: 100,
-            image: Image.asset('assets/Backgrounds/Spline.png'),
-            width: MediaQuery.of(context).size.width * 1.7),
+            child: Image.asset('assets/Backgrounds/Spline.png')),
         const CustomPositionBlurfill(sigmaX: 20, sigmaY: 10),
-        const RiveAnimation.asset('assets/RiveAssets/shapes.riv'),
+        const rive.RiveAnimation.asset('assets/RiveAssets/shapes.riv'),
         const CustomPositionBlurfill(
           sigmaX: 20,
           sigmaY: 10,
           child: SizedBox(),
-        ),
-        const Spacer(
-          flex: 1,
         ),
         AnimatedPositioned(
           duration: const Duration(milliseconds: 250),

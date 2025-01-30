@@ -6,21 +6,22 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
+  sdk: ^3.6.0
 
 
 dependencies:
   flutter:
-    sdk: flutter
-  flutter_otp_text_field: ^1.1.1
-  get:
-  http: ^0.13.3
-  shared_preferences:
+    sdk: flutter  
+  cupertino_icons: ^1.0.8
+  flutter_svg: ^2.0.17
+  get: ^4.6.6
+  easy_date_timeline: ^2.0.6
+  lottie: ^3.3.1
+  flutter_otp_text_field: ^1.4.0+2
   dartz: ^0.10.1
-  cupertino_icons: ^1.0.2
-#  rive: ^0.13.4
-  rive: ^0.9.1
-  flutter_svg: ^1.1.6
+  rive: ^0.13.20
+  shared_preferences: ^2.3.5
+  http: ^1.3.0
 
 dev_dependencies:
   flutter_test:
@@ -40,13 +41,13 @@ flutter:
     - assets/Backgrounds/
     - assets/icons/
     - assets/RiveAssets/
-    - assets/samples/animations/
-    - assets/samples/ui/rive_app/
-    - assets/samples/ui/rive_app/rive/
-    - assets/samples/ui/rive_app/images/
-    - assets/samples/ui/rive_app/images/backgrounds/
-    - assets/samples/ui/rive_app/images/topics/
-    - assets/samples/ui/rive_app/images/avatars/
+    # - assets/samples/animations/
+    # - assets/samples/ui/rive_app/
+    # - assets/samples/ui/rive_app/rive/
+    # - assets/samples/ui/rive_app/images/
+    # - assets/samples/ui/rive_app/images/backgrounds/
+    # - assets/samples/ui/rive_app/images/topics/
+    # - assets/samples/ui/rive_app/images/avatars/
   #   - images/a_dot_ham.jpeg
 
   fonts:

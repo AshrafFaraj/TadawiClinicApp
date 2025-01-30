@@ -1,5 +1,6 @@
-import 'package:neurology_clinic/core/constant/app_color.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/constants/app_color.dart';
 
 PreferredSizeWidget? customAppBar({required String title}) {
   return AppBar(
@@ -9,7 +10,7 @@ PreferredSizeWidget? customAppBar({required String title}) {
     centerTitle: true,
     title: Text(
       title,
-      style: TextStyle(
+      style: const TextStyle(
           color: AppColor.grey, fontSize: 20, fontWeight: FontWeight.bold),
     ),
   );

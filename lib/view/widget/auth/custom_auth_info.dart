@@ -10,7 +10,7 @@ class CustomAuthInfo extends StatelessWidget {
       padding: const EdgeInsets.only(top: 15, bottom: 25),
       child: Text(
         textInfo,
-        style: Theme.of(context).textTheme.bodyText2,
+        style: Theme.of(context).textTheme.bodyMedium,
         textAlign: TextAlign.center,
       ),
     );
