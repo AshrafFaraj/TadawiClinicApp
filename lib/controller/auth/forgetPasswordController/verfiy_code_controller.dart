@@ -18,6 +18,16 @@ class AppVerfiyCodeControllerImp extends AppVerfiyCodeController {
 
   @override
   goToResetPassword() {
-    Get.toNamed(AppRouteName.resetPassword);
+    Get.offAndToNamed(AppRouteName.resetPassword);
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

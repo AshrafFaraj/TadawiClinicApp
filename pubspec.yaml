@@ -41,6 +41,7 @@ flutter:
     - assets/Backgrounds/
     - assets/icons/
     - assets/RiveAssets/
+    - assets/svg/
     # - assets/samples/animations/
     # - assets/samples/ui/rive_app/
     # - assets/samples/ui/rive_app/rive/

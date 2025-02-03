@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
-import '/core/class/status_request.dart';
+import 'package:neurology_clinic/core/class/status_request.dart';
 
 class Curd {
   Future<Either<StatusRequest, Map>> postData(String myUrl, Map data) async {

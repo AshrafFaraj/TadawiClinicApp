@@ -1,5 +1,6 @@
-import 'package:neurology_clinic/core/class/curd.dart';
-import 'package:neurology_clinic/link_api.dart';
+
+import '../../../core/class/curd.dart';
+import '../../../link_api.dart';
 
 class SignUpData {
   Curd curd;

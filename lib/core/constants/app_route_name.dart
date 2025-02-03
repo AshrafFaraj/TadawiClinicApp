@@ -13,4 +13,5 @@ class AppRouteName {
   static const String aiChat = "/aiChat";
   static const String appointmentPage = "/appointmentPage";
   static const String bookAppointmentPage = "/bookAppointmentPage";
+  static const String layoutPage = "/layoutPage";
 }

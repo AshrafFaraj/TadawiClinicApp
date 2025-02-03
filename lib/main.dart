@@ -8,10 +8,11 @@ import 'my_binding.dart';
 import 'routes.dart';
 import 'services/services.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initialServices();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
