@@ -1,4 +1,4 @@
-import '/view/widget/language/custom_button_language.dart';
+import '../../widgets/language/custom_button_language.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

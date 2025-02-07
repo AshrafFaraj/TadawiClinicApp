@@ -1,10 +1,9 @@
-import 'package:neurology_clinic/controller/auth/registerController/success_signup_controller.dart';
-import 'package:neurology_clinic/view/widget/Auth/custom_auth_appbar.dart';
-import 'package:neurology_clinic/view/widget/Auth/custom_auth_button.dart';
+import '/controller/auth/registerController/success_signup_controller.dart';
+import '/view/widgets/Auth/custom_auth_appbar.dart';
+import '/view/widgets/Auth/custom_auth_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../../core/constants/app_color.dart';
+import '/core/constants/app_color.dart';
 
 class SuccessSignUp extends StatelessWidget {
   const SuccessSignUp({super.key});

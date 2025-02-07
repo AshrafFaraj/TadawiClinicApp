@@ -7,6 +7,7 @@ version: 1.0.0+1
 
 environment:
   sdk: ^3.6.0
+  # flutter: '>= 3.27.1'
 
 
 dependencies:
@@ -36,7 +37,9 @@ flutter:
 
   uses-material-design: true
   assets:
-    - assets/images/
+    - assets/images/avatars/
+    - assets/images/backgrounds/
+    - assets/images/topics/
     - assets/avaters/
     - assets/Backgrounds/
     - assets/icons/

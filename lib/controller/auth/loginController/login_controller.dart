@@ -47,6 +47,7 @@ class AppLoginControllerImp extends AppLoginController {
           update();
           confetti.fire();
         });
+        Get.toNamed(AppRouteName.appointmentPage);
       } else {
         error.fire();
         Future.delayed(const Duration(seconds: 2), () {

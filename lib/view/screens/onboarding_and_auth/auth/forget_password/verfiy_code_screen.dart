@@ -1,8 +1,8 @@
-import 'package:neurology_clinic/controller/auth/forgetPasswordController/verfiy_code_controller.dart';
-import 'package:neurology_clinic/view/widget/Auth/custom_auth_appbar.dart';
-import 'package:neurology_clinic/view/widget/Auth/custom_auth_otp_feild.dart';
-import 'package:neurology_clinic/view/widget/Auth/custom_auth_info.dart';
-import 'package:neurology_clinic/view/widget/Auth/custom_auth_title.dart';
+import '/controller/auth/forgetPasswordController/verfiy_code_controller.dart';
+import '/view/widgets/Auth/custom_auth_appbar.dart';
+import '/view/widgets/Auth/custom_auth_otp_feild.dart';
+import '/view/widgets/Auth/custom_auth_info.dart';
+import '/view/widgets/Auth/custom_auth_title.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

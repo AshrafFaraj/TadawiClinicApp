@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '/view/widget/onboarding/custom_register_email_or_google.dart';
+import '/view/widgets/onboarding/custom_register_email_or_google.dart';
 import 'package:rive/rive.dart';
 import '../../../controller/auth/loginController/login_controller.dart';
-import '../Auth/custom_auth_textfeild.dart';
-import '../Auth/custom_auth_info.dart';
-import '../Auth/custom_auth_title.dart';
+import '../../widgets/Auth/custom_auth_textfeild.dart';
+import '../../widgets/Auth/custom_auth_info.dart';
+import '../../widgets/Auth/custom_auth_title.dart';
 import '../auth/custom_auth_question.dart';
 import 'custom_auth_button.dart';
 import 'custom_position_trigger.dart';
@@ -34,7 +34,7 @@ Future<Object?> customSigninDialog(BuildContext context,
           margin: const EdgeInsets.symmetric(horizontal: 16),
           padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
           decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.95),
+              color: Colors.white.withOpacity(0.95),
               borderRadius: const BorderRadius.all(Radius.circular(40))),
           child: Scaffold(
             backgroundColor: Colors.transparent,

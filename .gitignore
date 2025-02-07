@@ -9,6 +9,7 @@ build/
 .idea/
 .vscode/
 new/
+demo/
 assets/samples/
 *.iml
 *.swp

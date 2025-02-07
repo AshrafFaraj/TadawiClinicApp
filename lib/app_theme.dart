@@ -7,7 +7,7 @@ import 'services/services.dart';
 MyServices myServices = Get.find();
 
 ThemeData themeArabic = ThemeData(
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
     fontFamily: "Cairo",
     textTheme: const TextTheme(
       headlineSmall: TextStyle(
@@ -20,13 +20,13 @@ ThemeData themeArabic = ThemeData(
       ),
       bodyMedium: TextStyle(
         fontSize: 14,
-        color: AppColor.grey,
+        color: AppColor.white,
         height: 1.5,
       ),
     ));
 
 ThemeData themeEnglish = ThemeData(
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
     fontFamily: "PlayfairDisplay",
     textTheme: const TextTheme(
       headlineSmall: TextStyle(

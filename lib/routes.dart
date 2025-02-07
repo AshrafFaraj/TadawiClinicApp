@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
-import 'package:neurology_clinic/view/screens/layout_page/layout_page.dart';
 
+import 'view/screens/app_layout.dart';
+import '/view/screens/layout_page/layout_page.dart';
 import 'core/constants/app_route_name.dart';
+import 'view/screens/home/home_view.dart';
 import 'middleware/my_middleware.dart';
 import 'view/screens/ai_chat/ai_chat_page.dart';
 import 'view/screens/appointment_page/appointment_page.dart';
@@ -16,12 +18,12 @@ import 'view/screens/onboarding_and_auth/auth/signup/success_signup_screen.dart'
 import 'view/screens/onboarding_and_auth/onboarding/onboarding_screen.dart';
 
 List<GetPage<dynamic>>? routes = [
-  GetPage(
-      name: AppRouteName.language,
-      page: () => const AppLanguage(),
-      middlewares: [
-        MyMiddleWare(),
-      ]),
+  // GetPage(
+  //     name: AppRouteName.language,
+  //     page: () => const AppLanguage(),
+  //     middlewares: [
+  //       MyMiddleWare(),
+  //     ]),
   // GetPage(name: "/", page: () => TestVeiw()),
   // GetPage(name: AppRouteName.onBoarding, page: () => const Onboarding()),
   GetPage(name: AppRouteName.onBoarding, page: () => const OnboardingScreen()),
@@ -31,14 +33,22 @@ List<GetPage<dynamic>>? routes = [
       name: AppRouteName.forgetPassword, page: () => const ForgetPassword()),
   GetPage(name: AppRouteName.verfiyCode, page: () => const VerfiyCode()),
   GetPage(name: AppRouteName.resetPassword, page: () => const ResetPassword()),
-  GetPage(name: AppRouteName.layoutPage, page: () => const LayoutPage()),
+  // GetPage(name: AppRouteName.layoutPage, page: () => const LayoutPage()),
   GetPage(
       name: AppRouteName.successResetPassword,
       page: () => const SuccessResetPassword()),
   GetPage(name: AppRouteName.successSignUp, page: () => const SuccessSignUp()),
-  GetPage(name: AppRouteName.appointmentPage, page: () => const AppointmentPage()),
-  GetPage(name: AppRouteName.aiChat, page: () =>  ChatPage()),
-  GetPage(name: AppRouteName.bookAppointmentPage, page: () => const BookAppointmentPage()),
+  GetPage(
+      name: AppRouteName.appointmentPage, page: () => const AppointmentPage()),
+  GetPage(name: AppRouteName.aiChat, page: () => ChatPage()),
+  GetPage(
+      name: AppRouteName.bookAppointmentPage,
+      page: () => const BookAppointmentPage()),
+
+  GetPage(name: AppRouteName.layout, page: () => const RiveAppHome()),
+  GetPage(name: AppRouteName.home, page: () => HomeView()),
+
+  // GetPage(name: AppRouteName.doctorDetails, page: () => DoctorDetailsView()),
 ];
 
 // Map<String, Widget Function(BuildContext)> routes = {

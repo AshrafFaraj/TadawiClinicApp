@@ -8,11 +8,10 @@ import 'my_binding.dart';
 import 'routes.dart';
 import 'services/services.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initialServices();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
       locale: controller.language,
       translations: Applocal(),
       initialBinding: MyBinding(),
-      initialRoute: AppRouteName.language,
+      initialRoute: AppRouteName.layout,
       getPages: routes,
     );
   }

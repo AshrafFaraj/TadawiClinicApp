@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:neurology_clinic/controller/appointment/appointments_controller.dart';
 import 'package:neurology_clinic/core/constants/app_route_name.dart';
 
-import '../../../core/constants/app_images.dart';
 import '../../../core/constants/app_svg.dart';
 import '../../../core/layouts/app_layout.dart';
 
@@ -178,12 +177,6 @@ class AppointmentPage extends StatelessWidget {
             onPressed: () {},
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.toNamed(AppRouteName.bookAppointmentPage);
-        },
-        child: Icon(Icons.add_outlined),
       ),
     );
   }

@@ -11,11 +11,13 @@ class CustomPositionedTrigger extends StatelessWidget {
     return Positioned.fill(
       child: Column(
         children: [
+          const Spacer(),
           SizedBox(
             height: size,
             width: size,
             child: child,
           ),
+          const Spacer(flex: 2),
         ],
       ),
     );

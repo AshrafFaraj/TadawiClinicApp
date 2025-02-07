@@ -19,12 +19,12 @@ class CustomAuthQuestion extends StatelessWidget {
       children: [
         Text("$constText ؟  "),
         InkWell(
-          onTap: onTap,
           child: Text(
             clickText,
             style: const TextStyle(
                 color: AppColor.primaycolor, fontWeight: FontWeight.bold),
           ),
+          onTap: onTap,
         )
       ],
     );
