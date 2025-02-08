@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../demo/models/patient_model.dart';
+import '../data/datasource/model/patient_model.dart';
 
 class HomeController extends GetxController {
   var patient = Patient(

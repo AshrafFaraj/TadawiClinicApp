@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/demo/models/courses.dart';
+import '../../../data/datasource/model/courses.dart';
 import '../../../core/layouts/rive_theme.dart';
 
 class HealthTipsCarousel extends StatelessWidget {
