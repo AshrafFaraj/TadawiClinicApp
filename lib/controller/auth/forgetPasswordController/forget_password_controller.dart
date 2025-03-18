@@ -1,35 +1,57 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../core/constants/app_route_name.dart';
+import '../../../link_api.dart';
 
 abstract class AppForgetPasswordController extends GetxController {
-  CheckEmail();
-  goToVerfiyCode();
+  // ignore: non_constant_identifier_names
+  checkEmail();
 }
 
 class AppForgetPasswordControllerImp extends AppForgetPasswordController {
-  late TextEditingController emailController;
+  late TextEditingController email;
 
   @override
-  CheckEmail() {
-    throw UnimplementedError();
-  }
-
-  @override
-  goToVerfiyCode() {
-    Get.offAndToNamed(AppRouteName.verfiyCode);
+  checkEmail() async {
+    try {
+      final response = await http.post(
+        Uri.parse(AppLink.sendResetOtp),
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "application/json",
+          "Accept": "application/json"
+        },
+        body: jsonEncode({
+          "email": email.text,
+        }),
+      );
+      final data = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        Get.snackbar("نجاح", data['message']);
+        Get.offAndToNamed(AppRouteName.verfiyCode, arguments: {
+          'email': email.text,
+          'nextRoute': AppRouteName.resetPassword
+        });
+      } else {
+        Get.snackbar("فشل", data['message']);
+      }
+    } catch (e) {
+      Get.snackbar("خطأ", "حدث خطأ أثناء الاتصال بالسيرفر.");
+    }
   }
 
   @override
   void onInit() {
-    emailController = TextEditingController();
+    email = TextEditingController();
     super.onInit();
   }
 
   @override
   void dispose() {
-    emailController.dispose();
+    email.dispose();
     super.dispose();
   }
 }

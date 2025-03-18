@@ -26,7 +26,7 @@ class VerfiyCode extends StatelessWidget {
                 textInfo:
                     "قمت بإدخال كود التحقق الذي تم ارساله الي بريدك الإلكتروني"),
             CustomOtpFeildAuth(onSubmit: (String verificationCode) {
-              controller.goToResetPassword();
+              controller.verifyOtp(verificationCode);
             }),
           ],
         ),

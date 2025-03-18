@@ -4,13 +4,14 @@ import 'package:get/get.dart';
 import '../app_theme.dart';
 import '../services/services.dart';
 
-
 class LocalController extends GetxController {
-  // Locale initialLang = sharedpref!.getString("lang") == null
-  //     ? Get.deviceLocale!
-  //     : Locale(sharedpref!.getString("lang")!);
-  Locale? language;
+  // Locale initialLang =
+  //     myServices.sharedPreferences.getString("langCode") == null
+  //         ? Get.deviceLocale!
+  //         : Locale(myServices.sharedPreferences.getString("langCode")!);
+
   MyServices myServices = Get.find();
+  Locale? language;
   ThemeData appTheme = themeEnglish;
   void changeLang(String languageCode) {
     Locale locale = Locale(languageCode);

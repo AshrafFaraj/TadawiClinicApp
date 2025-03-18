@@ -1,33 +1,51 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:neurology_clinic/services/services.dart';
 
-import '../../../core/constants/app_route_name.dart';
+import '../../../link_api.dart';
 
 abstract class AppVerfiyCodeController extends GetxController {
-  checkCode();
-  goToResetPassword();
+  verifyOtp(String otpCode);
 }
 
 class AppVerfiyCodeControllerImp extends AppVerfiyCodeController {
-  late TextEditingController emailController;
+  String? email;
+  String? nextRoute;
 
   @override
-  checkCode() {
-    throw UnimplementedError();
-  }
-
-  @override
-  goToResetPassword() {
-    Get.offAndToNamed(AppRouteName.resetPassword);
+  void verifyOtp(String otpCode) async {
+    try {
+      final response = await http.post(
+        Uri.parse(AppLink.verifyOtpCode),
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "application/json",
+          "Accept": "application/json"
+        },
+        body: jsonEncode({
+          "email": email,
+          "otp": otpCode,
+        }),
+      );
+      final data = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        MyServices myServices = Get.find();
+        await myServices.sharedPreferences.setString('token', data['token']);
+        Get.snackbar("نجاح", data['message']);
+        Get.offAndToNamed(nextRoute!, arguments: {'email': email});
+      } else {
+        Get.snackbar("فشل", data['message']);
+      }
+    } catch (e) {
+      Get.snackbar("خطأ", "حدث خطأ أثناء الاتصال بالسيرفر.");
+    }
   }
 
   @override
   void onInit() {
     super.onInit();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    email = Get.arguments['email'];
+    nextRoute = Get.arguments['nextRoute'];
   }
 }

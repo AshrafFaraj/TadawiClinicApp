@@ -1,14 +1,12 @@
 import 'package:get/get.dart';
 
 import 'view/screens/app_layout.dart';
-import '/view/screens/layout_page/layout_page.dart';
 import 'core/constants/app_route_name.dart';
 import 'view/screens/home/home_view.dart';
 import 'middleware/my_middleware.dart';
 import 'view/screens/ai_chat/ai_chat_page.dart';
 import 'view/screens/appointment_page/appointment_page.dart';
 import 'view/screens/book_appointment/book_appointment_page.dart';
-import 'view/screens/language/language_screen.dart';
 import 'view/screens/onboarding_and_auth/auth/forget_password/forget_password_screen.dart';
 import 'view/screens/onboarding_and_auth/auth/forget_password/reset_password_screen.dart';
 import 'view/screens/onboarding_and_auth/auth/forget_password/success_reset_password_screen.dart';
@@ -39,13 +37,21 @@ List<GetPage<dynamic>>? routes = [
       page: () => const SuccessResetPassword()),
   GetPage(name: AppRouteName.successSignUp, page: () => const SuccessSignUp()),
   GetPage(
-      name: AppRouteName.appointmentPage, page: () => const AppointmentPage()),
+    name: AppRouteName.appointmentPage,
+    page: () => const AppointmentPage(),
+  ),
   GetPage(name: AppRouteName.aiChat, page: () => ChatPage()),
   GetPage(
       name: AppRouteName.bookAppointmentPage,
-      page: () => const BookAppointmentPage()),
+      page: () => const BookAppointmentPage(),
+      middlewares: [
+        MyMiddleWare(),
+      ]),
 
-  GetPage(name: AppRouteName.layout, page: () => const RiveAppHome()),
+  GetPage(
+    name: AppRouteName.layout,
+    page: () => const RiveAppHome(),
+  ),
   GetPage(name: AppRouteName.home, page: () => HomeView()),
 
   // GetPage(name: AppRouteName.doctorDetails, page: () => DoctorDetailsView()),

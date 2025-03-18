@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:neurology_clinic/view/widgets/onboarding_and_auth/build_blood_type_grid.dart';
+import 'package:neurology_clinic/view/widgets/onboarding_and_auth/build_gender_options.dart';
+import 'package:neurology_clinic/view/widgets/onboarding_and_auth/build_section_title.dart';
 import 'package:rive/rive.dart';
 import '../../../controller/auth/registerController/register_controller.dart';
 import '../../../core/functions/valid_input.dart';
-import '../../widgets/Auth/custom_auth_textfeild.dart';
-import '../../widgets/Auth/custom_auth_question.dart';
-import '../../widgets/Auth/custom_auth_info.dart';
-import '../../widgets/Auth/custom_auth_title.dart';
+import '../Auth/custom_auth_textfeild.dart';
+import '../Auth/custom_auth_question.dart';
+import '../Auth/custom_auth_info.dart';
+import '../Auth/custom_auth_title.dart';
 import 'custom_auth_button.dart';
 import 'custom_position_trigger.dart';
 import 'custom_signin_dialog.dart';
@@ -15,7 +18,6 @@ import 'custom_signin_dialog.dart';
 Future<Object?> customRegisterDialog(BuildContext context,
     {required ValueChanged onClosed}) {
   return showGeneralDialog(
-      barrierDismissible: true,
       barrierLabel: "Sign up",
       context: context,
       transitionDuration: const Duration(milliseconds: 400),
@@ -34,8 +36,8 @@ Future<Object?> customRegisterDialog(BuildContext context,
             margin: const EdgeInsets.symmetric(horizontal: 16),
             padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
             decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.95),
-                borderRadius: const BorderRadius.all(Radius.circular(40))),
+                color: Colors.white.withValues(alpha: 0.95),
+                borderRadius: const BorderRadius.all(Radius.circular(15))),
             child: Scaffold(
                 backgroundColor: Colors.transparent,
                 resizeToAvoidBottomInset:
@@ -57,6 +59,10 @@ Future<Object?> customRegisterDialog(BuildContext context,
                                   Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
                                     child: CustomTextFormFeildAuth(
+                                      validator: (val) {
+                                        return validInput(val!, 20, 30, "name");
+                                      },
+                                      mycontroller: controller.name,
                                       suffixIcon: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 8.0),
@@ -65,31 +71,54 @@ Future<Object?> customRegisterDialog(BuildContext context,
                                       hintText: "اكتب اسمك الكامل",
                                     ),
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 8.0),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
                                     child: CustomTextFormFeildAuth(
+                                      mycontroller: controller.email,
+                                      validator: (val) {
+                                        return validInput(
+                                            val!, 12, 30, "email");
+                                      },
+                                      suffixIcon: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0),
+                                          child: SvgPicture.asset(
+                                              "assets/icons/email.svg")),
+                                      hintText: "اكتب بريدك الالكتروني",
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: CustomTextFormFeildAuth(
+                                        mycontroller: controller.mobile,
+                                        validator: (val) {
+                                          return validInput(
+                                              val!, 9, 9, "phone");
+                                        },
                                         isNumber: true,
-                                        // validator: (val) {
-                                        //   return validInput(val!, 9, 9, "phone");
-                                        // },
-                                        suffixIcon:
-                                            Icon(Icons.phone_android_outlined),
+                                        suffixIcon: const Icon(
+                                            Icons.phone_android_outlined),
                                         hintText: "ادخل رقم الموبايل"),
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 8.0),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
                                     child: CustomTextFormFeildAuth(
+                                      validator: (val) {
+                                        return validInput(val!, 1, 3, "age");
+                                      },
+                                      mycontroller: controller.age,
                                       suffixIcon:
-                                          Icon(Icons.date_range_outlined),
+                                          const Icon(Icons.date_range_outlined),
                                       hintText: "كم هو عمرك",
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
                                     child: CustomTextFormFeildAuth(
+                                      mycontroller: controller.password,
                                       validator: (val) {
                                         return validInput(
-                                            val!, 8, 30, "password");
+                                            val!, 8, 15, "password");
                                       },
                                       suffixIcon: SvgPicture.asset(
                                           "assets/icons/password.svg"),
@@ -100,37 +129,37 @@ Future<Object?> customRegisterDialog(BuildContext context,
                                   Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
                                     child: CustomTextFormFeildAuth(
-                                      // isObscure: controller.isObscure,
+                                      mycontroller: controller.address,
                                       validator: (val) {
                                         return validInput(
-                                            val!, 8, 30, "password");
+                                            val!, 10, 30, "address");
                                       },
-                                      suffixIcon: SvgPicture.asset(
-                                          "assets/icons/password.svg"),
-                                      hintText: "أعد إدخال كلمة السر للتأكيد",
-                                      // mycontroller: controller.password
+                                      suffixIcon: const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Icon(Icons.location_city),
+                                      ),
+                                      hintText: "اكتب عنوانك",
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      const Text(" نوع الجنس"),
-                                      const Spacer(),
-                                      const Text("ذكر"),
-                                      Radio(
-                                          value: "male",
-                                          groupValue: controller.patientSex,
-                                          onChanged: (val) {
-                                            controller.radioSexSelect(val);
-                                          }),
-                                      const Text("أنثى"),
-                                      Radio(
-                                          value: "female",
-                                          groupValue: controller.patientSex,
-                                          onChanged: (val) {
-                                            controller.radioSexSelect(val);
-                                          }),
-                                    ],
-                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Column(
+                                        children: [
+                                          const BuildSectionTitle(
+                                            title: 'اختر فصيلة الدم',
+                                          ),
+                                          BuildBloodTypeGrid(
+                                            controller: controller,
+                                          ),
+                                          const SizedBox(height: 20),
+                                          const BuildSectionTitle(
+                                              title: 'اختر الجنس'),
+                                          BuildGenderOptions(
+                                            controller: controller,
+                                          ),
+                                        ],
+                                      )),
                                   Padding(
                                       padding: const EdgeInsets.only(
                                           top: 8.0, bottom: 24),
@@ -140,7 +169,7 @@ Future<Object?> customRegisterDialog(BuildContext context,
                                 ],
                               )),
                           CustomAuthQuestion(
-                            constText: "لديك حساب أنشأته في وقت سابق",
+                            constText: "هل لديك حساب بالفعل",
                             clickText: "تسجيل الدخول",
                             onTap: () {
                               Navigator.pop(context);

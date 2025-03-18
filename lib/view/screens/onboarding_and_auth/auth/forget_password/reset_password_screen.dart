@@ -7,7 +7,7 @@ import '/view/widgets/Auth/custom_auth_appbar.dart';
 import '/view/widgets/Auth/custom_auth_info.dart';
 import '/view/widgets/Auth/custom_auth_textfeild.dart';
 import '/view/widgets/Auth/custom_auth_title.dart';
-import '/view/widgets/onboarding/custom_auth_button.dart';
+import '../../../../widgets/onboarding_and_auth/custom_auth_button.dart';
 
 class ResetPassword extends StatelessWidget {
   const ResetPassword({super.key});
@@ -29,7 +29,7 @@ class ResetPassword extends StatelessWidget {
                 children: [
                   CustomTextFormFeildAuth(
                       validator: (val) {
-                        return validInput(val!, 8, 30, "password");
+                        return validInput(val!, 8, 15, "password");
                       },
                       mycontroller: controller.newPassword,
                       isObscure: controller.isObscure,
@@ -37,10 +37,10 @@ class ResetPassword extends StatelessWidget {
                         onTap: controller.showPassword,
                         child: controller.iconEye,
                       ),
-                      hintText: "ادخل كلمة السر الجديدة"),
+                      hintText: "ادخل كلمة المرور الجديدة"),
                   CustomTextFormFeildAuth(
                       validator: (val) {
-                        return validInput(val!, 8, 30, "password");
+                        return validInput(val!, 8, 15, "password");
                       },
                       mycontroller: controller.rePassword,
                       isObscure: controller.isObscure,
@@ -50,8 +50,7 @@ class ResetPassword extends StatelessWidget {
                       ),
                       hintText: "أعد كتابة كلمة السر للتأكيد"),
                   CustomAuthBotton(
-                      onPressed: controller.goToSuccessResetPassword,
-                      title: "تغيير"),
+                      onPressed: controller.resetPassword, title: "تغيير"),
                 ],
               ),
             ),

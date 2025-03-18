@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '/view/widgets/Auth/custom_auth_appbar.dart';
 import '/core/constants/app_color.dart';
 import '/core/constants/app_route_name.dart';
-import '../../../../widgets/onboarding/custom_auth_button.dart';
+import '../../../../widgets/onboarding_and_auth/custom_auth_button.dart';
 
 class SuccessResetPassword extends StatelessWidget {
   const SuccessResetPassword({super.key});
@@ -30,7 +30,7 @@ class SuccessResetPassword extends StatelessWidget {
                 child: CustomAuthBotton(
                   title: "الذهاب لتسجيل الدخول",
                   onPressed: () {
-                    Get.offAllNamed(AppRouteName.onBoarding);
+                    Get.offAllNamed(AppRouteName.home);
                   },
                 ))
           ],

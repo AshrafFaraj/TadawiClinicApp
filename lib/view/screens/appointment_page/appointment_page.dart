@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:neurology_clinic/controller/appointment/appointments_controller.dart';
-import 'package:neurology_clinic/core/constants/app_route_name.dart';
 
 import '../../../core/constants/app_svg.dart';
 import '../../../core/layouts/app_layout.dart';
@@ -12,7 +11,7 @@ class AppointmentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme;
+    // final color = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
     final controller = Get.put(AppointmentController());
     return Scaffold(

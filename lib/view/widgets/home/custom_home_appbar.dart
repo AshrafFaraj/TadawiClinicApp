@@ -10,7 +10,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(bottom: 10, right: 16),
+      padding: const EdgeInsets.only(bottom: 10, right: 10),
       margin: const EdgeInsets.only(bottom: 5),
       child: Row(
         children: [
@@ -40,7 +40,7 @@ class CustomAppBar extends StatelessWidget {
             onPressed: () {},
           ),
           const SizedBox(
-            width: 30,
+            width: 10,
           ),
           Obx(() => Text(
                 "مرحبًا, ${controller.patient.value.name}",

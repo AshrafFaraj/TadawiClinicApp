@@ -7,7 +7,7 @@ import '/view/widgets/Auth/custom_auth_appbar.dart';
 import '/view/widgets/Auth/custom_auth_info.dart';
 import '/view/widgets/Auth/custom_auth_textfeild.dart';
 import '/view/widgets/Auth/custom_auth_title.dart';
-import '../../../../widgets/onboarding/custom_auth_button.dart';
+import '../../../../widgets/onboarding_and_auth/custom_auth_button.dart';
 
 class ForgetPassword extends StatelessWidget {
   const ForgetPassword({super.key});
@@ -35,13 +35,13 @@ class ForgetPassword extends StatelessWidget {
                 validator: (val) {
                   return validInput(val!, 12, 30, "email");
                 },
-                mycontroller: controller.emailController,
+                mycontroller: controller.email,
                 suffixIcon: const Icon(Icons.email_outlined),
                 hintText: "ادخل بريدك الالكتروني أو رقم هاتفك"),
             CustomAuthBotton(
               title: "Check",
               onPressed: () {
-                controller.goToVerfiyCode();
+                controller.checkEmail();
               },
             ),
           ],
