@@ -42,11 +42,13 @@ class HomeView extends StatelessWidget {
                   Column(
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.toNamed(AppRouteName.onBoarding);
+                        },
                         child: const HCard(
-                          title: 'آخر التقارير الطبية',
+                          title: 'مراجعة الادوية',
                           color: AppColor.primaycolor,
-                          icon: Icons.report,
+                          icon: Icons.medical_information,
                         ),
                       ),
                       const SizedBox(
@@ -71,17 +73,6 @@ class HomeView extends StatelessWidget {
           ]),
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   items: const [
-      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: "الرئيسية"),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.calendar_today), label: "الحجوزات"),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.description), label: "التقارير"),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.chat), label: "المساعد الذكي"),
-      //   ],
-      // ),
     );
   }
 }

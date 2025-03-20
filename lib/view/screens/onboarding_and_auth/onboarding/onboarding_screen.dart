@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart' as rive;
 
-import '../../../widgets/onboarding/custom_position_blurfill.dart';
-import '../../../widgets/onboarding/onboarding_text.dart';
-import '../../../widgets/onboarding/animated_btn.dart';
-import '../../../widgets/onboarding/custom_signin_dialog.dart';
+import '../../../widgets/onboarding_and_auth/custom_position_blurfill.dart';
+import '../../../widgets/onboarding_and_auth/onboarding_text.dart';
+import '../../../widgets/onboarding_and_auth/animated_btn.dart';
+import '../../../widgets/onboarding_and_auth/custom_signin_dialog.dart';
 import '../../../../controller/auth/onboardingController/onboarding_screen_controller.dart';
 
 class OnboardingScreen extends StatelessWidget {

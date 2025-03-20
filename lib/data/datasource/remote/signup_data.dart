@@ -1,4 +1,3 @@
-
 import '../../../core/class/curd.dart';
 import '../../../link_api.dart';
 
@@ -8,7 +7,7 @@ class SignUpData {
 
   signUpData(
       String username, String password, String email, String phone) async {
-    var response = await curd.postData(AppLink.signUp, {
+    var response = await curd.postData(AppLink.register, {
       "username": username,
       "password": password,
       "email": email,

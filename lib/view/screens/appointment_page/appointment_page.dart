@@ -1,17 +1,22 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/view/screens/appointment_page/past_appointment_page.dart';
-import 'package:neurology_clinic/view/screens/appointment_page/upcoming_appointment_page.dart';
+import 'package:neurology_clinic/controller/appointment/appointments_controller.dart';
 
-import '../../../controller/appointment/appointments_controller.dart';
 import '../../../core/layouts/app_layout.dart';
+import 'past_appointment_page.dart';
+import 'upcoming_appointment_page.dart';
+
+
+
 
 class AppointmentPage extends StatelessWidget {
   const AppointmentPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+
     final controller = Get.put(AppointmentController());
     return Scaffold(
       appBar: AppBar(

@@ -1,14 +1,20 @@
 import 'package:get/get.dart';
 import '../data/datasource/model/patient_model.dart';
+import '../services/services.dart';
 
 class HomeController extends GetxController {
-  var patient = Patient(
-    name: "أشرف عبدالله",
-    avatarUrl: "https://example.com/avatar.png",
-    bloodType: "O+",
-    allergies: ["الغبار", "البنسلين"],
-    medications: ["باراسيتامول", "أوميبرازول"],
-  ).obs;
+  var patient;
+// دالة لتحميل البيانات من SharedPreferences
+  Future<void> loadProfileData() async {
+    MyServices myServices = Get.find();
+    patient = Patient(
+      name: myServices.sharedPreferences.getString('name') ?? 'غير محدد',
+      avatarUrl: "https://example.com/avatar.png",
+      bloodType: "O+",
+      allergies: ["الغبار", "البنسلين"],
+      medications: ["باراسيتامول", "أوميبرازول"],
+    ).obs;
+  }
 
   var unreadNotifications = 3.obs;
   var nextAppointment = {
@@ -17,4 +23,10 @@ class HomeController extends GetxController {
     "time": "10:30 صباحًا",
     "type": "استشارة أعصاب"
   }.obs;
+
+  @override
+  void onInit() {
+    loadProfileData();
+    super.onInit();
+  }
 }

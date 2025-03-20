@@ -13,9 +13,25 @@ import '../../view/screens/profile/profile_page/profile_page.dart';
 
 class LayoutPageController extends GetxController
     with GetTickerProviderStateMixin {
+  static const String route = '/course-rive';
+
+  late AnimationController? animationController;
+  late AnimationController? onBoardingAnimController;
+  late Animation<double> onBoardingAnim;
+  late Animation<double> sidebarAnim;
+
+  late SMIBool menuBtn;
+  bool showOnBoarding = false;
+  Widget tabBody = Container(color: RiveAppTheme.background);
+
+  final List<Widget> screens = [
+    HomeView(),
+    const AppointmentPage(),
+    AiPage(),
+    const ProfilePage(),
+  ];
   int selectedIndex = 0;
 
-  // List<Widget>pages=[HomePage(),AiPage(),AppointmentPage(),ProfilePage()];
   changeIndex(int index) {
     selectedIndex = index;
     update();
@@ -42,24 +58,6 @@ class LayoutPageController extends GetxController
     artboard.addController(controller!);
     icons[index].status = controller.findInput<bool>("active") as SMIBool;
   }
-
-  static const String route = '/course-rive';
-
-  late AnimationController? animationController;
-  late AnimationController? onBoardingAnimController;
-  late Animation<double> onBoardingAnim;
-  late Animation<double> sidebarAnim;
-
-  late SMIBool menuBtn;
-  bool showOnBoarding = false;
-  Widget tabBody = Container(color: RiveAppTheme.background);
-
-  final List<Widget> screens = [
-    HomeView(),
-    const AppointmentPage(),
-    AiPage(),
-    const ProfilePage(),
-  ];
 
   final springDesc = const SpringDescription(
     mass: 0.1,

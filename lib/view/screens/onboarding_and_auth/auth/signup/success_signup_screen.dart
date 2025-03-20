@@ -30,7 +30,7 @@ class SuccessSignUp extends StatelessWidget {
                 child: CustomAuthButton(
                   text: "الذهاب الي تسجيل الدخول",
                   onPressed: () {
-                    controller.goToLogin();
+                    controller.goToHome();
                   },
                 ))
           ],

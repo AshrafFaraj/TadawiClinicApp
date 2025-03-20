@@ -1,14 +1,16 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
+import 'package:http/http.dart' as http;
 
-import '../../../core/constants/app_route_name.dart';
+import '/controller/auth/registerController/register_controller.dart';
+import '/core/constants/app_route_name.dart';
+import '/link_api.dart';
+import '/services/services.dart';
 
 abstract class AppLoginController extends GetxController {
-  getRiveController(Artboard artboard);
   login();
-  goToSignUp();
-  goToForgetPass();
   showPassword();
 }
 
@@ -25,7 +27,6 @@ class AppLoginControllerImp extends AppLoginController {
   late SMITrigger reset;
   late SMITrigger confetti;
 
-  @override
   StateMachineController getRiveController(Artboard artboard) {
     StateMachineController? controller =
         StateMachineController.fromArtboard(artboard, "State Machine 1");
@@ -34,38 +35,65 @@ class AppLoginControllerImp extends AppLoginController {
   }
 
   @override
-  void login() {
+  showPassword() {
+    isObscure
+        ? {isObscure = false: iconEye = const Icon(Icons.visibility_outlined)}
+        : {
+            isObscure = true: iconEye =
+                const Icon(Icons.visibility_off_outlined)
+          };
+    update();
+  }
+
+  @override
+  // دالة تسجيل الدخول
+  login() async {
     isShowLoading = true;
     isShowConfetti = true;
     update();
-    Future.delayed(const Duration(seconds: 1), () {
-      if (formState.currentState!.validate()) {
-        // show success
+    try {
+      final response = await http.post(
+        Uri.parse(AppLink.login),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': emailController.text,
+          'password': passwordController.text,
+        }),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final data = jsonDecode(response.body);
+
+        // حفظ بيانات المستخدم والتوكن محليًا باستخدام SharedPreferences
+        MyServices myServices = Get.find();
+        userInfoStore(data: data, myServices: myServices);
         check.fire();
         Future.delayed(const Duration(seconds: 2), () {
           isShowLoading = false;
           update();
           confetti.fire();
         });
-        Get.toNamed(AppRouteName.appointmentPage);
+        Get.snackbar("نجاح", "تم تسجيل الدخول بنجاح!");
+        Get.offAllNamed(AppRouteName.home);
       } else {
+        // في حالة حصول خطأ مثلاً: صلاحية غير كافية أو بيانات غير صحيحة
         error.fire();
         Future.delayed(const Duration(seconds: 2), () {
           isShowLoading = false;
           update();
         });
+
+        final errorData = jsonDecode(response.body);
+        Get.snackbar("خطأ", errorData['message'] ?? "خطأ أثناء تسجيل الدخول");
       }
-    });
-  }
+    } catch (e) {
+      Get.snackbar("خطأ", "حدث خطأ أثناء الاتصال بالسيرفر.");
 
-  @override
-  goToSignUp() {
-    Get.toNamed(AppRouteName.signUp);
-  }
-
-  @override
-  goToForgetPass() {
-    Get.toNamed(AppRouteName.forgetPassword);
+      Future.delayed(const Duration(seconds: 2), () {
+        isShowLoading = false;
+        update();
+      });
+    }
   }
 
   @override
@@ -81,13 +109,5 @@ class AppLoginControllerImp extends AppLoginController {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
-  }
-
-  @override
-  showPassword() {
-    isObscure
-        ? {isObscure = false: iconEye = Icon(Icons.visibility_outlined)}
-        : {isObscure = true: iconEye = Icon(Icons.visibility_off_outlined)};
-    update();
   }
 }

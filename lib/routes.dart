@@ -5,6 +5,7 @@ import 'package:neurology_clinic/view/screens/profile/edit_profile/edit_profile.
 import 'package:neurology_clinic/view/screens/profile/profile_page/profile_page.dart';
 import 'package:neurology_clinic/view/screens/profile/settings/settings_page.dart';
 
+import 'middleware/my_middleware.dart';
 import 'view/screens/app_layout.dart';
 import 'core/constants/app_route_name.dart';
 import 'view/screens/home/home_view.dart';
@@ -47,9 +48,15 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRouteName.aiChat, page: () => AiPage()),
   GetPage(
       name: AppRouteName.bookAppointmentPage,
-      page: () => const BookAppointmentPage()),
+      page: () => const BookAppointmentPage(),
+      middlewares: [
+        MyMiddleWare(),
+      ]),
 
-  GetPage(name: AppRouteName.layout, page: () => const RiveAppHome()),
+  GetPage(
+    name: AppRouteName.layout,
+    page: () => const RiveAppHome(),
+  ),
   GetPage(name: AppRouteName.home, page: () => HomeView()),
   // GetPage(name: AppRouteName.test, page: () => TestPage()),
   GetPage(name: AppRouteName.prescription, page: () => const PrescriptionPage()),

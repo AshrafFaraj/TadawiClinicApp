@@ -34,6 +34,8 @@ validInput(String val, int min, int max, String type) {
       } else {
         return "not valid username";
       }
+    } else if (type == "name") {
+      return _checkLength(val, min, max);
     } else if (type == "email") {
       if (GetUtils.isEmail(val)) {
         return _checkLength(val, min, max);
@@ -46,10 +48,16 @@ validInput(String val, int min, int max, String type) {
       } else {
         return "not valid phone number";
       }
+    } else if (type == "age") {
+      if (GetUtils.isNumericOnly(val)) {
+        return _checkLength(val, min, max);
+      } else {
+        return "دخل العمر بالارقام فقط";
+      }
     } else if (type == "password") {
       return _checkLength(val, min, max);
     }
   } else {
-    return "$type can't be empty";
+    return "$type لايمكن ان يكون فارغاً";
   }
 }

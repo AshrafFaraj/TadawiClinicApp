@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '/view/widgets/onboarding/custom_register_email_or_google.dart';
 import 'package:rive/rive.dart';
+
+import '/core/constants/app_route_name.dart';
+import '/core/functions/valid_input.dart';
+import '/view/screens/onboarding_and_auth/auth/forget_password/forget_password_screen.dart';
+import 'custom_register_email_or_google.dart';
 import '../../../controller/auth/loginController/login_controller.dart';
-import '../../widgets/Auth/custom_auth_textfeild.dart';
-import '../../widgets/Auth/custom_auth_info.dart';
-import '../../widgets/Auth/custom_auth_title.dart';
+import '../Auth/custom_auth_textfeild.dart';
+import '../Auth/custom_auth_info.dart';
+import '../Auth/custom_auth_title.dart';
 import '../auth/custom_auth_question.dart';
 import 'custom_auth_button.dart';
 import 'custom_position_trigger.dart';
@@ -14,7 +18,6 @@ import 'custom_position_trigger.dart';
 Future<Object?> customSigninDialog(BuildContext context,
     {required ValueChanged onClosed}) {
   return showGeneralDialog(
-      barrierDismissible: true,
       barrierLabel: "Sign In",
       context: context,
       transitionDuration: const Duration(milliseconds: 400),
@@ -34,13 +37,14 @@ Future<Object?> customSigninDialog(BuildContext context,
           margin: const EdgeInsets.symmetric(horizontal: 16),
           padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.95),
-              borderRadius: const BorderRadius.all(Radius.circular(40))),
+              color: Colors.white.withValues(alpha: 0.95),
+              borderRadius: const BorderRadius.all(Radius.circular(15))),
           child: Scaffold(
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset:
                 false, // avoid overflow error when keyboard shows up
             body: GetBuilder<AppLoginControllerImp>(builder: (controller) {
+              Get.put(ForgetPassword());
               return Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -64,6 +68,10 @@ Future<Object?> customSigninDialog(BuildContext context,
                                 padding:
                                     const EdgeInsets.only(top: 8.0, bottom: 16),
                                 child: CustomTextFormFeildAuth(
+                                  validator: (val) {
+                                    return validInput(val!, 12, 30, "email");
+                                  },
+                                  mycontroller: controller.emailController,
                                   suffixIcon: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 8.0),
@@ -81,18 +89,25 @@ Future<Object?> customSigninDialog(BuildContext context,
                                 padding:
                                     const EdgeInsets.only(top: 8.0, bottom: 16),
                                 child: CustomTextFormFeildAuth(
-                                  suffixIcon: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: SvgPicture.asset(
-                                          "assets/icons/password.svg")),
+                                  validator: (val) {
+                                    return validInput(val!, 8, 15, "password");
+                                  },
+                                  isObscure: controller.isObscure,
+                                  mycontroller: controller.passwordController,
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        controller.showPassword();
+                                      },
+                                      icon: controller.iconEye),
                                   hintText: "ادخل كلمة المرور",
                                 ),
                               ),
                               CustomAuthQuestion(
                                   constText: "هل نسيت كلمة السر",
                                   clickText: "تغيير",
-                                  onTap: controller.goToForgetPass),
+                                  onTap: () {
+                                    Get.toNamed(AppRouteName.forgetPassword);
+                                  }),
                               Padding(
                                   padding: const EdgeInsets.only(
                                       top: 8.0, bottom: 24),
