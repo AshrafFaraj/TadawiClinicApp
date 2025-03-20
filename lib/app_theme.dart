@@ -27,7 +27,7 @@ ThemeData themeArabic = ThemeData(
 
 ThemeData themeEnglish = ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-    fontFamily: "PlayfairDisplay",
+    // fontFamily: "PlayfairDisplay",
     textTheme: const TextTheme(
       headlineSmall: TextStyle(
         fontSize: 24,

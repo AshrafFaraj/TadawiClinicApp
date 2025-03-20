@@ -1,237 +1,207 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:neurology_clinic/core/constants/app_lottie.dart';
 
-import '/controller/ai_chat/ai_chat_controller.dart';
-import '/core/constants/app_lottie.dart';
-import '/core/constants/app_svg.dart';
-import '/locale/local_controller.dart';
+import '../../../controller/ai_chat/ai_chat_controller.dart';
+import '../../../core/constants/app_svg.dart';
+import '../../../locale/local_controller.dart';
 
-class ChatPage extends StatelessWidget {
-  final TextEditingController _messageController = TextEditingController();
-  ChatPage({super.key});
+class AiPage extends StatelessWidget {
+  final TextEditingController messageController = TextEditingController();
+  final ScrollController scrollController =
+      ScrollController(); // Add Scroll Controller
+
+  AiPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
+    final chatController = Get.put(AiController());
     final size = MediaQuery.of(context).size;
-    final color = Theme.of(context).colorScheme;
-    LocalController localController = Get.find();
-    Get.put(AiChatController());
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text("chatpage".tr),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_outlined),
-            onPressed: () {
-              Navigator.pop(context);
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text("wt".tr),
+        backgroundColor: Colors.white,
+      ),
+      body: Column(
+        children: [
+          Expanded(child: GetBuilder<AiController>(
+            builder: (controller) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (scrollController.hasClients) {
+                  scrollController
+                      .jumpTo(scrollController.position.maxScrollExtent);
+                }
+              });
+
+              return ListView.builder(
+                controller: scrollController, // Attach scroll controller
+                itemCount: chatController.messages.length,
+                itemBuilder: (context, index) {
+                  var msg = chatController.messages[index];
+                  return MessageBubble(
+                    msg: msg,
+                    size: size,
+                  );
+                },
+              );
             },
-          ),
-        ),
-        body: GetBuilder<AiChatController>(
-          builder: (controller) {
-            return SizedBox(
-              height: MediaQuery.of(context).size.height - 150,
-              child: Column(
-                children: [
-                  controller.messages.isEmpty
-                      ? Expanded(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "wt".tr,
-                                  style: text.headlineSmall!
-                                      .copyWith(fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 20),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Tips(
-                                      onTap: () {
-                                        localController.changeLang("ar");
-                                      },
-                                      textTheme: text,
-                                      text: "medidea".tr,
-                                      svg: AppSvg.idea,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Tips(
-                                      onTap: () {
-                                        localController.changeLang("en");
-                                      },
-                                      textTheme: text,
-                                      text: "medadvice".tr,
-                                      svg: AppSvg.help,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+          )),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: CustomizedTextField(
+              hintText: "typemessege".tr,
+              controller: messageController,
+              onPressed: () {
+                if (chatController.isGenerating) {
+                  chatController
+                      .stopGenerating(); // Stop the generation if it is ongoing
+                } else {
+                  chatController
+                      .sendMessage(messageController.text); // Send the message
+                  messageController.clear();
+                }
+              },
+              icon: GetBuilder<AiController>(
+                builder: (controller) {
+                  return controller.isGenerating
+                      ? const Icon(
+                          Icons.stop,
+                          color: Colors.white,
                         )
-                      : Expanded(
-                          child: ListView.builder(
-                            itemCount: controller.messages.length +
-                                (controller.isLoading ? 1 : 0),
-                            reverse: true,
-                            padding: const EdgeInsets.all(10),
-                            itemBuilder: (context, index) {
-                              if (controller.isLoading && index == 0) {
-                                // Show Lottie animation for loading
-                                return Align(
-                                  alignment: Get.locale!.languageCode == "en"
-                                      ? Alignment.centerLeft
-                                      : Alignment.centerRight,
-                                  child: Lottie.asset(
-                                    AppLottie
-                                        .generating, // Replace with your Lottie file
-                                    width: 50,
-                                    height: 50,
-                                  ),
-                                );
-                              }
-
-                              final message = controller.messages[
-                                  controller.messages.length -
-                                      1 -
-                                      (index - (controller.isLoading ? 1 : 0))];
-                              final isUser = message["sender"] == "user";
-
-                              return Align(
-                                alignment: isUser
-                                    ? Get.locale!.languageCode == "en"
-                                        ? Alignment.centerRight
-                                        : Alignment.centerLeft
-                                    : Get.locale!.languageCode == "en"
-                                        ? Alignment.centerLeft
-                                        : Alignment.centerRight,
-                                child: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 5),
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: isUser
-                                        ? color.primaryContainer
-                                        : Colors.grey[200],
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    message["text"]!,
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 5),
-                      width: size.width,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              alignment: Alignment.center,
-                              height: size.height * .07,
-                              decoration: BoxDecoration(
-                                color: color.secondaryContainer,
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              child: TextField(
-                                controller: _messageController,
-                                decoration: InputDecoration(
-                                  hintText: "typemessege".tr,
-                                  hintStyle: TextStyle(
-                                      color: color.onSecondaryContainer),
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Container(
-                            height: size.height * .09,
-                            decoration: const BoxDecoration(
-                                color: Colors.black, shape: BoxShape.circle),
-                            child: IconButton(
-                              icon: SvgPicture.asset(
-                                AppSvg.send,
-                                colorFilter: const ColorFilter.mode(
-                                    Colors.white, BlendMode.srcIn),
-                              ),
-                              onPressed: () {
-                                controller
-                                    .sendMesseges(_messageController.text);
-                                _messageController.clear();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                      : SvgPicture.asset(
+                          AppSvg.send,
+                          colorFilter: const ColorFilter.mode(
+                              Colors.white, BlendMode.srcIn),
+                        );
+                },
               ),
-            );
-          },
-        ));
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
-class Tips extends StatelessWidget {
-  const Tips({
-    super.key,
-    required this.textTheme,
-    required this.text,
-    required this.svg,
-    this.onTap,
-  });
+class MessageBubble extends StatelessWidget {
+  final Map<String, dynamic> msg;
+  final Size size;
 
-  final TextTheme textTheme;
-  final String text;
-  final String svg;
-  final void Function()? onTap;
+  const MessageBubble({super.key, required this.msg, required this.size});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
+    bool isUser = msg["sender"] == "user";
+    bool isTyping = msg["loading"] ?? false;
+    bool isArabic = Get.locale?.languageCode == "ar";
+
+    return Align(
+      alignment: isUser
+          ? (isArabic ? Alignment.centerLeft : Alignment.centerRight)
+          : (isArabic ? Alignment.centerRight : Alignment.centerLeft),
       child: Container(
-        width: 140,
-        height: 40,
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        // width: size.width * 0.7,
+        margin: EdgeInsets.only(
+          top: 10,
+          bottom: 10,
+          left: isUser ? (isArabic ? 10 : 120) : 10,
+          right: isUser ? (isArabic ? 120 : 10) : (isArabic ? 20 : 50),
+        ),
         decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.grey, width: 0.5),
-            borderRadius: BorderRadius.circular(20)),
+          color: isUser ? const Color(0xFF201D67) : const Color(0xFFF5F5F5),
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(!isUser ? (isArabic ? 8 : 20) : 20),
+            topLeft: Radius.circular(!isUser ? (isArabic ? 20 : 8) : 20),
+            bottomLeft: Radius.circular(isUser ? (isArabic ? 8 : 20) : 20),
+            bottomRight: Radius.circular(isUser ? (isArabic ? 20 : 8) : 20),
+          ),
+        ),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(
-              svg,
-              width: 20,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              text,
-              style:
-                  textTheme.labelSmall!.copyWith(fontWeight: FontWeight.w300),
-            )
+            if (isTyping)
+              SizedBox(
+                width: 30,
+                child: Lottie.asset(
+                  AppLottie.generating, // Replace with your Lottie file
+                  // width: 50,
+                  // height: 50,
+                ),
+              ),
+            if (!isTyping)
+              Flexible(
+                child: Text(
+                  msg["text"]!,
+                  textAlign: isArabic ? TextAlign.right : TextAlign.left,
+                  style: TextStyle(
+                    color: isUser ? Colors.white : Colors.black,
+                    fontSize: 15,
+                    // fontFamily: "monospace",
+                  ),
+                ),
+              ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CustomizedTextField extends StatelessWidget {
+  final void Function()? onPressed;
+  final TextEditingController? controller;
+  final String hintText;
+  final Widget icon;
+
+  const CustomizedTextField({
+    super.key,
+    this.onPressed,
+    this.controller,
+    required this.hintText,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      height: 100,
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              height: 50,
+              padding: const EdgeInsets.only(left: 20),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF5F5F5),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: hintText, // Localized text
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: const Color(0xFF201D67),
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: IconButton(onPressed: onPressed, icon: icon),
+          ),
+        ],
       ),
     );
   }

@@ -3,8 +3,8 @@ class AppSvg {
   static const String doctors = "${path}undraw_doctors_djoj.svg";
   static const String doctorsSvg = "${path}undraw_medicine_hqqg.svg";
   static const String history = "${path}history-svgrepo-com.svg";
-  static const String calendar = "${path}calendar-svgrepo-com.svg";
-  static const String clock = "${path}clock-circle-svgrepo-com.svg";
+  static const String calendar = "${path}calendar-svgrepo-com (4).svg";
+  static const String clock = "${path}clock-one-thirty-svgrepo-com.svg";
   static const String medicineBottle = "${path}medicine-bottle-svgrepo-com.svg";
   static const String idea = "${path}idea-svgrepo-com.svg";
   static const String help = "${path}help-svgrepo-com.svg";
@@ -17,4 +17,5 @@ class AppSvg {
   static const String chat = "${path}chat-round-svgrepo-com.svg";
   static const String calendarIcon = "${path}calendar-svgrepo-com (2).svg";
   static const String heart = "${path}heart-svgrepo-com.svg";
+  static const String pill = "${path}pill-svgrepo-com.svg";
 }

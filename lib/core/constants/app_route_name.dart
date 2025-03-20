@@ -18,4 +18,8 @@ class AppRouteName {
   static const layout = '/';
   static const home = '/home';
   static const doctorDetails = '/doctorDetailsPage';
+  static const String settingsPage = '/settingsPage';
+  static const String profilePage = '/profilePage';
+  static const String editProfile = '/editProfile';
+  static const String prescription = '/prescription';
 }
