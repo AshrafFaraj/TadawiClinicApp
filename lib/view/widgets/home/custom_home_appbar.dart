@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '/controller/home_controller.dart';
-import '/core/layouts/rive_theme.dart';
+import '../../../controller/home_controller/home_controller.dart';
+import '../../../core/layouts/app_color_theme.dart';
 
 class CustomAppBar extends StatelessWidget {
   final HomeController controller;
@@ -43,10 +43,10 @@ class CustomAppBar extends StatelessWidget {
             width: 10,
           ),
           Obx(() => Text(
-                "مرحبًا, ${controller.patient.value.name}",
+                "مرحبًا, ${controller.myServices.userData['user']['name'] ?? ''}",
                 style: const TextStyle(
                     fontSize: 20,
-                    color: RiveAppTheme.shadowDark,
+                    color: AppColorTheme.shadowDark,
                     fontWeight: FontWeight.bold),
               )),
         ],

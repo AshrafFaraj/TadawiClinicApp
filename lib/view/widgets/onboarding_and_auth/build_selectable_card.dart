@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neurology_clinic/core/layouts/rive_theme.dart';
+import 'package:neurology_clinic/core/layouts/app_color_theme.dart';
 
 class BuildSelectableCard extends StatelessWidget {
   const BuildSelectableCard(
@@ -18,11 +18,11 @@ class BuildSelectableCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        constraints: BoxConstraints(minHeight: 50),
+        constraints: const BoxConstraints(minHeight: 50),
         margin: const EdgeInsets.all(2),
         decoration: BoxDecoration(
           gradient: gradient,
-          color: isSelected ? RiveAppTheme.background3 : Color(0xFF7850F0),
+          color: isSelected ? AppColorTheme.background3 : AppColorTheme.card,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(

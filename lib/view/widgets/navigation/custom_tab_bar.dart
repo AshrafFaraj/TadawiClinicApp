@@ -4,7 +4,7 @@ import 'package:rive/rive.dart' hide LinearGradient;
 
 import '/controller/app_layout/app_layout_controller.dart';
 import '../../../data/datasource/model/tab_item.dart';
-import '../../../core/layouts/rive_theme.dart';
+import '../../../core/layouts/app_color_theme.dart';
 import '../../../core/constants/assets.dart' as app_assets;
 
 class CustomTabBar extends StatelessWidget {
@@ -29,11 +29,11 @@ class CustomTabBar extends StatelessWidget {
         child: Container(
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
-            color: RiveAppTheme.background2.withValues(alpha: 0.8),
+            color: AppColorTheme.background2.withValues(alpha: 0.8),
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: RiveAppTheme.background2.withValues(alpha: 0.3),
+                color: AppColorTheme.background2.withValues(alpha: 0.3),
                 blurRadius: 20,
                 offset: const Offset(0, 20),
               )
@@ -63,7 +63,7 @@ class CustomTabBar extends StatelessWidget {
                               width:
                                   getController.selectedTab == index ? 20 : 0,
                               decoration: BoxDecoration(
-                                color: RiveAppTheme.accentColor,
+                                color: AppColorTheme.accentColor,
                                 borderRadius: BorderRadius.circular(2),
                               ),
                             ),

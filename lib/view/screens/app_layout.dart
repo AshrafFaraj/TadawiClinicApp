@@ -6,7 +6,7 @@ import 'dart:math' as math;
 import '/controller/app_layout/app_layout_controller.dart';
 import '../widgets/navigation/custom_tab_bar.dart';
 import '../widgets/navigation/side_menu.dart';
-import '../../core/layouts/rive_theme.dart';
+import '../../core/layouts/app_color_theme.dart';
 import '../../core/constants/assets.dart' as app_assets;
 
 // Common Tab Scene for the tabs other than 1st one, showing only tab name in center
@@ -31,7 +31,7 @@ class RiveAppHome extends StatelessWidget {
         extendBody: true,
         body: Stack(
           children: [
-            Positioned(child: Container(color: RiveAppTheme.background2)),
+            Positioned(child: Container(color: AppColorTheme.background2)),
             RepaintBoundary(
               child: AnimatedBuilder(
                 animation: controller.sidebarAnim,
@@ -108,7 +108,8 @@ class RiveAppHome extends StatelessWidget {
                           borderRadius: BorderRadius.circular(44 / 2),
                           boxShadow: [
                             BoxShadow(
-                              color: RiveAppTheme.shadow.withValues(alpha: 0.2),
+                              color:
+                                  AppColorTheme.shadow.withValues(alpha: 0.2),
                               blurRadius: 5,
                               offset: const Offset(0, 5),
                             )

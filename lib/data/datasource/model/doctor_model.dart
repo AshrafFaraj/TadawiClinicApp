@@ -1,40 +1,62 @@
+import 'doctor_schedule.dart';
+
+/// نموذج بيانات الطبيب مع بيانات المستخدم وجدول الدوام
 class Doctor {
-  int? id;
-  String? name;
-  String? specialization;
-  String? gender;
-  String? mobile;
-  String? landlinePhone;
-  int? status;
+  final int id;
+  final int userId;
+  final String specialization;
+  final String address;
+  final String about;
+  final int experienceYears;
+  final String? landlinePhone;
+  final int? detectionPrice;
+  final bool isAvailable;
+  // بيانات المستخدم المرتبطة بالطالب
+  final String name;
+  final String? mobile;
+  final String? profileImage;
+  // دوام الطبيب
+  final List<DoctorSchedule> schedules;
 
-  Doctor(
-      {this.id,
-      this.name,
-      this.specialization,
-      this.gender,
-      this.mobile,
-      this.landlinePhone,
-      this.status
-      });
+  Doctor({
+    required this.id,
+    required this.userId,
+    required this.specialization,
+    required this.address,
+    required this.about,
+    required this.experienceYears,
+    this.landlinePhone,
+    this.detectionPrice,
+    required this.isAvailable,
+    required this.name,
+    this.mobile,
+    this.profileImage,
+    required this.schedules,
+  });
 
-  factory Doctor.fromMap(Map<String, dynamic> json) => Doctor(
-        id: json['id'],
-        name: json['name'],
-        specialization: json['specialization'],
-        gender: json['gender'],
-        mobile: json['mobile'],
-        landlinePhone: json['landlinePhone'],
-        status: json['status'],
-       
-      );
+  factory Doctor.fromJson(Map<String, dynamic> json) {
+    // جلب بيانات الدوام إذا وُجدت
+    List<DoctorSchedule> schedulesList = [];
+    if (json['schedules'] != null && json['schedules'] is List) {
+      schedulesList = (json['schedules'] as List)
+          .map((e) => DoctorSchedule.fromJson(e))
+          .toList();
+    }
 
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'name': name,
-        'specialization': specialization,
-        'gender': gender,
-        'mobile': mobile,
-        'landlinePhone': landlinePhone,
-        'status': status,
-      };
+    return Doctor(
+      id: json['id'],
+      userId: json['user_id'],
+      specialization: json['specialization'] ?? '',
+      address: json['address'] ?? '',
+      about: json['about'] ?? '',
+      experienceYears: json['experience_years'] ?? 0,
+      landlinePhone: json['landline_phone'] ?? '',
+      detectionPrice: json['detection_price'],
+      isAvailable: json['is_available'] == 1 ? true : false,
+      name: json['user'] != null ? json['user']['name'] ?? '' : '',
+      mobile: json['user'] != null ? json['user']['mobile'] : null,
+      profileImage: json['user'] != null ? json['user']['profile_image'] : null,
+      schedules: schedulesList,
+    );
+  }
 }

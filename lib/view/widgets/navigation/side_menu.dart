@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'menu_row.dart';
 import '../../../data/datasource/model/menu_item.dart';
-import '../../../core/layouts/rive_theme.dart';
+import '../../../core/layouts/app_color_theme.dart';
 import '../../../core/constants/assets.dart' as app_assets;
 
 class SideMenu extends StatefulWidget {
@@ -54,7 +54,7 @@ class _SideMenuState extends State<SideMenu> {
         ),
         width: width,
         decoration: BoxDecoration(
-          color: RiveAppTheme.background2,
+          color: AppColorTheme.background2,
           borderRadius: BorderRadius.circular(30),
         ),
         child: Column(

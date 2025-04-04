@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../app_theme.dart';
-import '../services/services.dart';
 
 class LocalController extends GetxController {
   // Locale initialLang =
@@ -10,31 +9,26 @@ class LocalController extends GetxController {
   //         ? Get.deviceLocale!
   //         : Locale(myServices.sharedPreferences.getString("langCode")!);
 
-  MyServices myServices = Get.find();
   Locale? language;
-  ThemeData appTheme = themeEnglish;
-  void changeLang(String languageCode) {
-    Locale locale = Locale(languageCode);
-    myServices.sharedPreferences.setString("langCode", languageCode);
-    appTheme = languageCode == "ar" ? themeArabic : themeEnglish;
-    Get.changeTheme(appTheme);
+  ThemeData? appTheme;
+  // void changeLang(String languageCode) {
+  //   Locale locale = Locale(languageCode);
+  //   myServices.sharedPreferences.setString("langCode", languageCode);
+  //   appTheme = languageCode == "ar" ? themeArabic : themeEnglish;
+  //   Get.changeTheme(appTheme);
 
-    Get.updateLocale(locale);
-  }
+  //   Get.updateLocale(locale);
+  // }
 
   @override
   void onInit() {
-    String? sharedPrefLang = myServices.sharedPreferences.getString("langCode");
-    if (sharedPrefLang == "ar") {
-      language = Locale(sharedPrefLang!);
+    String? langCode = 'ar';
+    if (langCode == "ar") {
+      language = Locale(langCode);
       appTheme = themeArabic;
-    } else if (sharedPrefLang == "en") {
-      language = Locale(sharedPrefLang!);
-      appTheme = themeEnglish;
-    } else {
-      language = Locale(Get.deviceLocale!.languageCode);
+
+      Get.changeTheme(appTheme!);
+      super.onInit();
     }
-    Get.changeTheme(appTheme);
-    super.onInit();
   }
 }

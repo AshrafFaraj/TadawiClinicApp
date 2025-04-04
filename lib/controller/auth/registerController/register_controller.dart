@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:neurology_clinic/link_api.dart';
-import 'package:neurology_clinic/services/services.dart';
 import 'package:rive/rive.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -111,13 +110,8 @@ class AppSignUpControllerImp extends AppSignUpController {
         )
             .then(
           (response) async {
-            if (response.statusCode == 201) {
-              Map data = jsonDecode(response.body);
-              MyServices myServices = Get.find();
-              // حفظ البيانات محليًا
-              userInfoStore(data: data, myServices: myServices);
-
-              Get.snackbar("نجاح", "تم تسجيل الحساب بنجاح!");
+            if (response.statusCode == 201 || response.statusCode == 200) {
+              Get.snackbar("نجاح", "تم إنشاء الحساب بنجاح!");
               check.fire();
               Future.delayed(const Duration(seconds: 2), () {
                 isShowLoading = false;
@@ -172,17 +166,17 @@ class AppSignUpControllerImp extends AppSignUpController {
   }
 }
 
-void userInfoStore({required Map data, required MyServices myServices}) async {
-  // await myServices.sharedPreferences.setString('token', data['token']);
-  await myServices.sharedPreferences.setInt('user_id', data['user']['id']);
-  await myServices.sharedPreferences.setString('name', data['user']['name']);
-  await myServices.sharedPreferences.setString('email', data['user']['email']);
-  await myServices.sharedPreferences
-      .setString('gender', data['user']['gender']);
-  await myServices.sharedPreferences
-      .setString('mobile', data['user']['mobile']);
-  await myServices.sharedPreferences.setInt('age', data['age']);
-  await myServices.sharedPreferences.setString('address', data['address']);
-  await myServices.sharedPreferences
-      .setString('blood_type', data['blood_type']);
-}
+// void userInfoStore({required Map data, required MyServices myServices}) async {
+//   // await myServices.sharedPreferences.setString('token', data['token']);
+//   await myServices.sharedPreferences.setInt('user_id', data['user']['id']);
+//   await myServices.sharedPreferences.setString('name', data['user']['name']);
+//   await myServices.sharedPreferences.setString('email', data['user']['email']);
+//   await myServices.sharedPreferences
+//       .setString('gender', data['user']['gender']);
+//   await myServices.sharedPreferences
+//       .setString('mobile', data['user']['mobile']);
+//   await myServices.sharedPreferences.setInt('age', data['age']);
+//   await myServices.sharedPreferences.setString('address', data['address']);
+//   await myServices.sharedPreferences
+//       .setString('blood_type', data['blood_type']);
+// }

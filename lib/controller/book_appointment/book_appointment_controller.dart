@@ -31,8 +31,9 @@ class BookAppointmentController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     dateController = EasyDatePickerController();
+
     super.onInit();
   }
 

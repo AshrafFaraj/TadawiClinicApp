@@ -1,9 +1,8 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 import '../../data/datasource/model/prescription_model.dart';
-import 'package:http/http.dart' as http;
 
 enum PrescriptionStatus { initial, loading, failure, success }
 

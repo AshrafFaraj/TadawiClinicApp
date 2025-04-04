@@ -32,8 +32,7 @@ class Booking {
         type: json['type'],
         status: json['status'],
         isPaid: json['isPaid'],
-        doctor:
-            json['doctor'] == null ? null : Doctor.fromMap(json['doctor']),
+        doctor: json['doctor'] == null ? json['doctor'] : null,
         createdAt: json['createdAt'],
         updatedAt: json['updatedAt'],
       );

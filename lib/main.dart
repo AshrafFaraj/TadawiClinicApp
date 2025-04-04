@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
 
 import 'core/constants/app_route_name.dart';
 import 'locale/local.dart';
@@ -10,7 +11,9 @@ import 'services/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   await initialServices();
+
   runApp(const MyApp());
 }
 
