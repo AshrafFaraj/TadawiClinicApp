@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,7 @@ class SimpleUseExample extends StatelessWidget {
                 SizedBox(height: 10),
                 EasyDateTimeLinePicker(
                   controller: controller.dateController,
-                  firstDate: DateTime(2024, 3, 18),
+                  firstDate: DateTime.now(),
                   lastDate: DateTime(2030, 3, 18),
                   locale: Get.locale,
                   // locale: controller.initialLang,
@@ -84,12 +85,11 @@ class SimpleUseExample extends StatelessWidget {
                 ElevatedButton(
                   onPressed: controller.selectedTime != null
                       ? () {
-                          // Handle booking logic
-                          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          //     content: Text(
-                          //       "Appointment booked on $_selectedDate at $_selectedTime",
-                          //     ),
-                          //   ));
+                          if (controller.action == "update") {
+                            controller.updateBooking();
+                          } else {
+                            controller.bookAppointment();
+                          }
                         }
                       : null,
                   style: ElevatedButton.styleFrom(
@@ -100,10 +100,14 @@ class SimpleUseExample extends StatelessWidget {
                           BorderRadius.circular(5), // Makes the button square
                     ),
                   ),
-                  child: textWidget(
-                      text: "setappointment".tr,
-                      textColor: Colors.white,
-                      fontWeight: FontWeight.w600),
+                  child: controller.status == BookAppointmentStatus.loading
+                      ? CircularProgressIndicator()
+                      : textWidget(
+                          text: controller.action == "new"
+                              ? "setappointment".tr
+                              : "Update",
+                          textColor: Colors.white,
+                          fontWeight: FontWeight.w600),
                 ),
               ],
             );

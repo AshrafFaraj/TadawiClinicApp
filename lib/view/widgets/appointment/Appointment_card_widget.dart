@@ -13,6 +13,7 @@ class AppointmentCardWidget extends StatelessWidget {
     required this.booking,
     this.onElevatedPressed,
     this.onOutlinedPressed,
+    required this.buttonText, required this.status, required this.outlinedText,
   });
   final Booking booking;
 
@@ -20,6 +21,9 @@ class AppointmentCardWidget extends StatelessWidget {
   final ColorScheme color;
   final void Function()? onElevatedPressed;
   final void Function()? onOutlinedPressed;
+  final String buttonText;
+  final String status;
+  final String outlinedText;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +81,7 @@ class AppointmentCardWidget extends StatelessWidget {
                     color: color.secondaryContainer,
                     borderRadius: BorderRadius.circular(20)),
                 child: Text(
-                  "${booking.status}",
+                  status,
                   style: TextStyle(
                     color: color.onSecondaryContainer,
                   ),
@@ -123,14 +127,14 @@ class AppointmentCardWidget extends StatelessWidget {
               ElevatedButton(
                 onPressed: onElevatedPressed,
                 child:
-                    textWidget(text: "Reshedule", textColor: color.onPrimary),
+                    textWidget(text: outlinedText, textColor: color.onPrimary),
                 style: ElevatedButton.styleFrom(
                     fixedSize: Size(size.width * .4, size.height * .01),
                     backgroundColor: color.primary),
               ),
               OutlinedButton(
                 onPressed: onOutlinedPressed,
-                child: Text("Prescription"),
+                child: Text(buttonText),
                 style: OutlinedButton.styleFrom(
                   fixedSize: Size(size.width * .4, size.height * .01),
                 ),

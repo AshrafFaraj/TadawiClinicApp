@@ -39,7 +39,7 @@ ThemeData themeEnglish = ThemeData(
       ),
       bodyMedium: TextStyle(
         fontSize: 14,
-        color: AppColor.grey,
+        // color: AppColor.grey,
         height: 1.5,
       ),
     ));

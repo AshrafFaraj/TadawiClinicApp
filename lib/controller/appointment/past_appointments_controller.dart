@@ -19,7 +19,7 @@ class PastAppointmentController extends GetxController{
         Uri.parse(apiUrl),
         headers: {
           'Authorization':
-              'Bearer 1|Snn8NkpgVRBlTFIZzKI4MGiL4KY2PSa3XNsL2EYmea684a90', // Add Bearer token
+              'Bearer 3|qYwZkpUjaRh7waMnGVKj4zyKKsDE9rw6tUZOvMu6647e89da', // Add Bearer token
           'Accept': 'application/json', // Optional but good to specify
         },
       );

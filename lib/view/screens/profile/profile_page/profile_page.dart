@@ -13,7 +13,7 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text("Profile"),
+        title: Text("profile".tr),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -22,37 +22,36 @@ class ProfilePage extends StatelessWidget {
             const ProfilePic(),
             const SizedBox(height: 20),
             ProfileMenu(
-              text: "Personal Information",
-              icon: "assets/icons/User Icon.svg",
-              svgSrc: profileIconSvg,
+              text: "personalInfo".tr,
+              svgSrc: AppSvg.profileSvg,
               press: () {
                 Get.toNamed(AppRouteName.editProfile);
               },
             ),
             ProfileMenu(
-              text: "Notifications",
-              icon: "assets/icons/Bell.svg",
-              svgSrc: profileIconSvg,
-              press: () {},
+              text: "notification".tr,
+              svgSrc: AppSvg.notifications,
+              press: () {
+                Get.toNamed(AppRouteName.editProfile);
+              },
             ),
             ProfileMenu(
-              text: "Settings",
-              icon: "assets/icons/Settings.svg",
-              svgSrc: profileIconSvg,
+              text: "settings".tr,
+              svgSrc: AppSvg.settings,
               press: () {
                 Get.toNamed(AppRouteName.settingsPage);
               },
             ),
             ProfileMenu(
-              text: "Help Center",
-              icon: "assets/icons/Question mark.svg",
-              svgSrc: profileIconSvg,
-              press: () {},
+              text: "helpCenter".tr,
+              svgSrc: AppSvg.helpCenter,
+              press: () {
+                Get.toNamed(AppRouteName.helpCenter);
+              },
             ),
             ProfileMenu(
-              text: "Log Out",
-              icon: "assets/icons/Log out.svg",
-              svgSrc: profileIconSvg,
+              text: "logout".tr,
+              svgSrc: AppSvg.logOut,
               press: () {},
             ),
           ],
@@ -110,12 +109,11 @@ class ProfileMenu extends StatelessWidget {
   const ProfileMenu({
     Key? key,
     required this.text,
-    required this.icon,
     this.press,
     this.svgSrc,
   }) : super(key: key);
 
-  final String text, icon;
+  final String text;
   final VoidCallback? press;
   final String? svgSrc;
 
@@ -134,7 +132,7 @@ class ProfileMenu extends StatelessWidget {
         onPressed: press,
         child: Row(
           children: [
-            SvgPicture.string(
+            SvgPicture.asset(
               svgSrc!,
               height: 24,
               width: 24,

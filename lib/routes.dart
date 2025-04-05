@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
 import 'package:neurology_clinic/view/screens/appointment_page/appointment_page.dart';
+import 'package:neurology_clinic/view/screens/help_center/help_center_page.dart';
+import 'package:neurology_clinic/view/screens/language/language_screen.dart';
 import 'package:neurology_clinic/view/screens/prescription/prescription_page.dart';
 import 'package:neurology_clinic/view/screens/profile/edit_profile/edit_profile.dart';
+import 'package:neurology_clinic/view/screens/profile/privacy_policy/privacy_policy_page.dart';
 import 'package:neurology_clinic/view/screens/profile/profile_page/profile_page.dart';
 import 'package:neurology_clinic/view/screens/profile/settings/settings_page.dart';
 
@@ -33,6 +36,8 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRouteName.profilePage, page: () => const ProfilePage()),
   GetPage(name: AppRouteName.settingsPage, page: () => const SettingsPage()),
   GetPage(name: AppRouteName.checkEmail, page: () => const CheckEmail()),
+  GetPage(name: AppRouteName.privacy, page: () => const PrivacyPolicyPage()),
+  GetPage(name: AppRouteName.helpCenter, page: () => const HelpCenterPage()),
   // GetPage(name: AppRouteName.layoutPage, page: () => const MyHomePage()),
   GetPage(
       name: AppRouteName.forgetPassword, page: () => const ForgetPassword()),
@@ -47,11 +52,12 @@ List<GetPage<dynamic>>? routes = [
       name: AppRouteName.appointmentPage, page: () => const AppointmentPage()),
   GetPage(name: AppRouteName.aiChat, page: () => AiPage()),
   GetPage(
-      name: AppRouteName.bookAppointmentPage,
-      page: () => const BookAppointmentPage(),
-      middlewares: [
-        MyMiddleWare(),
-      ]),
+    name: AppRouteName.bookAppointmentPage,
+    page: () => const BookAppointmentPage(),
+    // middlewares: [
+    //   MyMiddleWare(),
+    // ]
+  ),
 
   GetPage(
     name: AppRouteName.layout,
@@ -59,7 +65,9 @@ List<GetPage<dynamic>>? routes = [
   ),
   GetPage(name: AppRouteName.home, page: () => HomeView()),
   // GetPage(name: AppRouteName.test, page: () => TestPage()),
-  GetPage(name: AppRouteName.prescription, page: () => const PrescriptionPage()),
+  GetPage(
+      name: AppRouteName.prescription, page: () => const PrescriptionPage()),
+  GetPage(name: AppRouteName.language, page: () => const AppLanguage()),
 
   // GetPage(name: AppRouteName.doctorDetails, page: () => DoctorDetailsView()),
 ];

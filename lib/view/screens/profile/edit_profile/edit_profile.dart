@@ -12,10 +12,10 @@ class EditProfile extends StatelessWidget {
     Get.put(EditProfileController());
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Profile"),
+        title: Text("editProfile".tr),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 15),
+            padding: const EdgeInsets.only(right: 15, left: 15),
             child: Icon(Icons.check),
           )
         ],
@@ -28,7 +28,7 @@ class EditProfile extends StatelessWidget {
             Center(child: const ProfilePic()),
             const SizedBox(height: 30),
             Text(
-              "About me",
+              "aboutMe".tr,
               style: TextStyle(color: Colors.black),
             ),
             SizedBox(
@@ -42,13 +42,13 @@ class EditProfile extends StatelessWidget {
               child: Column(
                 children: [
                   CustomizedTextField(
-                    hintText: "Name",
+                    hintText: "name".tr,
                   ),
                   CustomizedTextField(
-                    hintText: "Mobile",
+                    hintText: "mobile".tr,
                   ),
                   CustomizedTextField(
-                    hintText: "Address",
+                    hintText: "address".tr,
                   ),
                 ],
               ),
@@ -57,7 +57,7 @@ class EditProfile extends StatelessWidget {
               height: 35,
             ),
             Text(
-              "Blood Type",
+              "bloodType".tr,
               style: TextStyle(color: Colors.black),
             ),
             SizedBox(
@@ -124,7 +124,7 @@ class EditProfile extends StatelessWidget {
               height: 35,
             ),
             Text(
-              "Gender",
+              "gender".tr,
               style: TextStyle(color: Colors.black),
             ),
             SizedBox(

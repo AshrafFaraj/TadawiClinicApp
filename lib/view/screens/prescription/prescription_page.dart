@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:neurology_clinic/controller/prescriptions/prescriptions_controller.dart';
 import 'package:neurology_clinic/core/constants/app_svg.dart';
+import 'package:neurology_clinic/data/datasource/model/booking_model.dart';
 import 'package:neurology_clinic/data/datasource/model/prescription_model.dart';
 
 class PrescriptionPage extends StatelessWidget {
@@ -11,7 +12,7 @@ class PrescriptionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    Get.put(PrescriptionsController());
+    final controller = Get.put(PrescriptionsController());
     return Scaffold(
       // appBar: AppBar(
       //   title: Text("Prescription"),
@@ -21,6 +22,8 @@ class PrescriptionPage extends StatelessWidget {
           Positioned(
             top: 0,
             child: CustomizedAppBar(
+              appBarText: "prescriptions".tr,
+              booking: controller.booking!,
               size: size,
               onPressed: () {
                 Get.back();
@@ -43,7 +46,7 @@ class PrescriptionPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Medications",
+                      "medications".tr,
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -74,7 +77,10 @@ class PrescriptionPage extends StatelessWidget {
                             children: [
                               ...controller.prescriptions.map((prescription) {
                                 return MedicationCard(
-                                    size: size, prescription: prescription);
+                                  size: size,
+                                  prescription: prescription,
+                                  instructions: 'instructions'.tr,
+                                );
                               }).toList()
                             ],
                           );
@@ -100,10 +106,12 @@ class MedicationCard extends StatelessWidget {
     super.key,
     required this.size,
     required this.prescription,
+    required this.instructions,
   });
 
   final Size size;
   final Prescription prescription;
+  final String instructions;
 
   @override
   Widget build(BuildContext context) {
@@ -141,26 +149,22 @@ class MedicationCard extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            alignment: Alignment.center,
-            width: size.width * .25,
-            height: size.height * .05,
-            margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                color: Color.fromARGB(255, 226, 231, 246),
-                borderRadius: BorderRadius.circular(8)),
-            child: Text(
-              "1 Tab",
-              style: TextStyle(color: Colors.black45),
-            ),
+          Wrap(
+            runSpacing: 5.0,
+            spacing: 5.0,
+            children: [
+              PrescriptionTakes(size: size, text: prescription.dosage!),
+              PrescriptionTakes(size: size, text: prescription.duration!),
+              PrescriptionTakes(size: size, text: prescription.time!),
+            ],
           ),
           Divider(
             color: const Color(0xFFE0E7FF),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(5.0),
             child: Text(
-              'Instructions',
+              instructions,
               style: TextStyle(
                   fontSize: 15, color: Color.fromARGB(255, 130, 155, 237)),
             ),
@@ -168,11 +172,39 @@ class MedicationCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
             child: Text(
-              '${prescription.instructions}',
+              prescription.notes ?? "noInstructions".tr,
               style: TextStyle(color: Colors.black54, fontSize: 13),
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class PrescriptionTakes extends StatelessWidget {
+  const PrescriptionTakes({
+    super.key,
+    required this.size,
+    required this.text,
+  });
+
+  final Size size;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      width: size.width * .25,
+      height: size.height * .05,
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          color: Color.fromARGB(255, 226, 231, 246),
+          borderRadius: BorderRadius.circular(8)),
+      child: Text(
+        text,
+        style: TextStyle(color: Colors.black54),
       ),
     );
   }
@@ -183,10 +215,14 @@ class CustomizedAppBar extends StatelessWidget {
     super.key,
     required this.size,
     this.onPressed,
+    required this.booking,
+    required this.appBarText,
   });
 
   final Size size;
   final void Function()? onPressed;
+  final Booking booking;
+  final String appBarText;
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +247,7 @@ class CustomizedAppBar extends StatelessWidget {
                 width: 14,
               ),
               Text(
-                "Prescription",
+                appBarText,
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -226,14 +262,14 @@ class CustomizedAppBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Dr.Ahmed",
+                booking.doctor!.name!,
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                "02 sep 21",
+                booking.date!,
                 style: TextStyle(color: Colors.white70, fontSize: 16),
               ),
             ],
