@@ -12,7 +12,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(SettingsController());
+    final controller = Get.put(SettingsController());
     return Scaffold(
       appBar: AppBar(
         title: Text("accountSettings".tr,
@@ -102,7 +102,9 @@ class SettingsPage extends StatelessWidget {
                   svgSrc: AppSvg.darkTheme,
                   title: "theme".tr,
                   subTitle: "themeDesc".tr,
-                  press: () {},
+                  press: () {
+                    controller.check();
+                  },
                 ),
                 ProfileMenuCard(
                   svgSrc: AppSvg.deleteAccount,

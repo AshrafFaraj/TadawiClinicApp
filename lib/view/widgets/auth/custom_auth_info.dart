@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/layouts/rive_theme.dart';
+import '../../../core/layouts/app_color_theme.dart';
 
 class CustomAuthInfo extends StatelessWidget {
   const CustomAuthInfo({super.key, required this.textInfo});
@@ -13,7 +13,7 @@ class CustomAuthInfo extends StatelessWidget {
       child: Text(
         textInfo,
         // style: Theme.of(context).textTheme.bodyMedium,
-        style: const TextStyle(color: RiveAppTheme.background2),
+        style: const TextStyle(color: AppColorTheme.background2),
         textAlign: TextAlign.center,
       ),
     );

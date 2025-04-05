@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/layouts/rive_theme.dart';
+import '../../../core/layouts/app_color_theme.dart';
 
 class CustomAuthQuestion extends StatelessWidget {
   const CustomAuthQuestion(
@@ -19,14 +19,15 @@ class CustomAuthQuestion extends StatelessWidget {
       children: [
         Text(
           "$constText ؟  ",
-          style: const TextStyle(color: RiveAppTheme.background2, fontSize: 17),
+          style:
+              const TextStyle(color: AppColorTheme.background2, fontSize: 17),
         ),
         InkWell(
           onTap: onTap,
           child: Text(
             clickText,
             style: const TextStyle(
-                color: RiveAppTheme.background2,
+                color: AppColorTheme.background2,
                 fontWeight: FontWeight.bold,
                 fontSize: 17),
           ),

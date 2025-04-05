@@ -68,9 +68,9 @@ Future<Object?> customSigninDialog(BuildContext context,
                                 padding:
                                     const EdgeInsets.only(top: 8.0, bottom: 16),
                                 child: CustomTextFormFeildAuth(
-                                  validator: (val) {
-                                    return validInput(val!, 12, 30, "email");
-                                  },
+                                  // validator: (val) {
+                                  //   return validInput(val!, 12, 30, "email");
+                                  // },
                                   mycontroller: controller.emailController,
                                   suffixIcon: Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -89,9 +89,9 @@ Future<Object?> customSigninDialog(BuildContext context,
                                 padding:
                                     const EdgeInsets.only(top: 8.0, bottom: 16),
                                 child: CustomTextFormFeildAuth(
-                                  validator: (val) {
-                                    return validInput(val!, 8, 15, "password");
-                                  },
+                                  // validator: (val) {
+                                  //   return validInput(val!, 8, 15, "password");
+                                  // },
                                   isObscure: controller.isObscure,
                                   mycontroller: controller.passwordController,
                                   suffixIcon: IconButton(

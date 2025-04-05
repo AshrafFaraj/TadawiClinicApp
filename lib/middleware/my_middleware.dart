@@ -10,7 +10,7 @@ class MyMiddleWare extends GetMiddleware {
 
   @override
   RouteSettings? redirect(String? route) {
-    if (!myServices.sharedPreferences.containsKey('token')) {
+    if (!myServices.userData.containsKey('token')) {
       return const RouteSettings(name: AppRouteName.onBoarding);
     }
   }

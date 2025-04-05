@@ -1,10 +1,10 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:neurology_clinic/data/datasource/model/booking_model.dart';
+import 'package:http/http.dart'as http;
 
 import '../../data/datasource/model/prescription_model.dart';
-import 'package:http/http.dart' as http;
+import '../../services/services.dart';
 
 enum PrescriptionStatus { initial, loading, failure, success }
 
@@ -14,9 +14,11 @@ class PrescriptionsController extends GetxController {
   PrescriptionStatus status = PrescriptionStatus.initial;
   List<Prescription> prescriptions = [];
   Booking? booking;
+  late MyServices myServices;
 
   Future<void> fetchPrescriptions(int id) async {
     String apiUrl = 'http://10.0.2.2:8000/api/v1/prescriptions/$id';
+    final token = myServices.userData['token'];
     prescriptions.clear();
     try {
       status = PrescriptionStatus.loading;
@@ -25,7 +27,7 @@ class PrescriptionsController extends GetxController {
         Uri.parse(apiUrl),
         headers: {
           'Authorization':
-              'Bearer 3|qYwZkpUjaRh7waMnGVKj4zyKKsDE9rw6tUZOvMu6647e89da', // Add Bearer token
+              'Bearer $token', // Add Bearer token
           'Content-Type': 'application/json', // Optional but good to specify
         },
       );
@@ -52,6 +54,7 @@ class PrescriptionsController extends GetxController {
 
   @override
   void onInit() {
+    myServices = Get.find<MyServices>();
     super.onInit();
     booking = Get.arguments?['booking'] ?? Booking();
 

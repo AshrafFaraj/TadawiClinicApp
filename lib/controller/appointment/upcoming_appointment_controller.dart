@@ -4,15 +4,21 @@ import 'package:get/get.dart';
 import 'package:neurology_clinic/data/datasource/model/booking_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../../services/services.dart';
+
 enum AppointmentStatus { initial, loading, failure, success }
 
 class UpcomingAppointmentController extends GetxController {
-  final String apiUrl =
-      'http://10.0.2.2:8000/api/v1/bookings?filter[status]=pending&filter[patient_id]=1&include=doctor'; // Replace with your actual project path
+  // Replace with your actual project path
   AppointmentStatus status = AppointmentStatus.initial;
   List<Booking> bookings = [];
+  late MyServices myServices;
+  String? token;
+  int id = 0;
 
   Future<void> fetchUpcomingAppointments() async {
+    final String apiUrl =
+        'http://10.0.2.2:8000/api/v1/bookings?filter[status]=pending&filter[patient_id]=$id&include=doctor';
     bookings.clear();
     try {
       status = AppointmentStatus.loading;
@@ -20,16 +26,16 @@ class UpcomingAppointmentController extends GetxController {
       final response = await http.get(
         Uri.parse(apiUrl),
         headers: {
-          'Authorization':
-              'Bearer 3|qYwZkpUjaRh7waMnGVKj4zyKKsDE9rw6tUZOvMu6647e89da', // Add Bearer token
+          'Authorization': 'Bearer $token', // Add Bearer token
           'Accept': 'application/json', // Optional but good to specify
         },
       );
+      print(response.body);
       final responseData = json.decode(response.body)['data'];
       final l = (responseData as List).map((e) => Booking.fromMap(e)).toList();
 
       if (response.statusCode == 200) {
-        print(l);
+        print(l[0].doctor!.name);
         status = AppointmentStatus.success;
         bookings.addAll(l);
         update();
@@ -52,8 +58,7 @@ class UpcomingAppointmentController extends GetxController {
       final response = await http.delete(
         url,
         headers: {
-          'Authorization':
-              'Bearer 3|qYwZkpUjaRh7waMnGVKj4zyKKsDE9rw6tUZOvMu6647e89da', // Replace with actual token
+          'Authorization': 'Bearer $token', // Replace with actual token
           'Accept': 'application/json',
         },
       );
@@ -75,6 +80,10 @@ class UpcomingAppointmentController extends GetxController {
 
   @override
   void onInit() {
+    myServices = Get.find<MyServices>();
+    token = myServices.userData['token'];
+    id = myServices.userData['patient']['id'];
+
     fetchUpcomingAppointments();
     super.onInit();
   }

@@ -19,7 +19,7 @@ class CustomButtonLanguage extends GetView<LocalController> {
           language,
         ),
         onPressed: () {
-          controller.changeLang(languageCode);
+          // controller.changeLang(languageCode);
           Get.offAllNamed(AppRouteName.layout);
         });
   }

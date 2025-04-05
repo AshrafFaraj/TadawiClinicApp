@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
+import 'package:neurology_clinic/view/screens/doctor_details/doctor_details.dart';
 import 'package:neurology_clinic/view/screens/appointment_page/appointment_page.dart';
 import 'package:neurology_clinic/view/screens/help_center/help_center_page.dart';
-import 'package:neurology_clinic/view/screens/language/language_screen.dart';
 import 'package:neurology_clinic/view/screens/prescription/prescription_page.dart';
 import 'package:neurology_clinic/view/screens/profile/edit_profile/edit_profile.dart';
 import 'package:neurology_clinic/view/screens/profile/privacy_policy/privacy_policy_page.dart';
@@ -52,22 +52,25 @@ List<GetPage<dynamic>>? routes = [
       name: AppRouteName.appointmentPage, page: () => const AppointmentPage()),
   GetPage(name: AppRouteName.aiChat, page: () => AiPage()),
   GetPage(
-    name: AppRouteName.bookAppointmentPage,
-    page: () => const BookAppointmentPage(),
-    // middlewares: [
-    //   MyMiddleWare(),
-    // ]
-  ),
+      name: AppRouteName.bookAppointmentPage,
+      page: () => BookAppointmentPage(),
+      // middlewares: [
+      //   MyMiddleWare(),
+      // ]
+      ),
 
   GetPage(
     name: AppRouteName.layout,
     page: () => const RiveAppHome(),
+    middlewares: [
+      MyMiddleWare()
+    ]
   ),
   GetPage(name: AppRouteName.home, page: () => HomeView()),
   // GetPage(name: AppRouteName.test, page: () => TestPage()),
   GetPage(
       name: AppRouteName.prescription, page: () => const PrescriptionPage()),
-  GetPage(name: AppRouteName.language, page: () => const AppLanguage()),
+  GetPage(name: AppRouteName.doctorDetails, page: () => DoctorDetails()),
 
   // GetPage(name: AppRouteName.doctorDetails, page: () => DoctorDetailsView()),
 ];

@@ -30,8 +30,9 @@ class AppVerfiyCodeControllerImp extends AppVerfiyCodeController {
       );
       final data = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        MyServices myServices = Get.find();
-        await myServices.sharedPreferences.setString('token', data['token']);
+        MyServices myServices = Get.find<MyServices>();
+        await myServices.storeData('userdata', data);
+
         Get.snackbar("نجاح", data['message']);
         Get.offAndToNamed(nextRoute!, arguments: {'email': email});
       } else {

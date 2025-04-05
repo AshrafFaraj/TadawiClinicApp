@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 import 'package:http/http.dart' as http;
 
-import '/controller/auth/registerController/register_controller.dart';
 import '/core/constants/app_route_name.dart';
 import '/link_api.dart';
 import '/services/services.dart';
@@ -52,6 +51,7 @@ class AppLoginControllerImp extends AppLoginController {
     isShowConfetti = true;
     update();
     try {
+      print("heloooooooo");
       final response = await http.post(
         Uri.parse(AppLink.login),
         headers: {'Content-Type': 'application/json'},
@@ -60,13 +60,12 @@ class AppLoginControllerImp extends AppLoginController {
           'password': passwordController.text,
         }),
       );
-
+      print("${response.body}========");
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
-
-        // حفظ بيانات المستخدم والتوكن محليًا باستخدام SharedPreferences
+        // حفظ بيانات المستخدم والتوكن محليًا باستخدام Hive
         MyServices myServices = Get.find();
-        userInfoStore(data: data, myServices: myServices);
+        await myServices.storeData('userData', data);
         check.fire();
         Future.delayed(const Duration(seconds: 2), () {
           isShowLoading = false;
@@ -74,7 +73,7 @@ class AppLoginControllerImp extends AppLoginController {
           confetti.fire();
         });
         Get.snackbar("نجاح", "تم تسجيل الدخول بنجاح!");
-        Get.offAllNamed(AppRouteName.home);
+        Get.offAllNamed(AppRouteName.layout);
       } else {
         // في حالة حصول خطأ مثلاً: صلاحية غير كافية أو بيانات غير صحيحة
         error.fire();

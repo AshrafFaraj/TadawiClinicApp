@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../controller/home_controller.dart';
+import 'package:neurology_clinic/app_theme.dart';
+import 'package:neurology_clinic/view/widgets/home/doctor_card.dart';
+import '../../../controller/home_controller/home_controller.dart';
 import '../../widgets/home/appointment_card.dart';
-import '../../widgets/home/health_tips_carousel.dart';
 import '../../widgets/home/hcard.dart';
 import '../../widgets/home/custom_home_appbar.dart';
 import '/core/constants/app_color.dart';
-import '../../../core/layouts/rive_theme.dart';
+import '../../../core/layouts/app_color_theme.dart';
 import '/core/constants/app_route_name.dart';
 
 class HomeView extends StatelessWidget {
-  final HomeController controller = Get.put(HomeController());
   HomeView({super.key});
-
+  final HomeController controller = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,7 @@ class HomeView extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          color: RiveAppTheme.background,
+          color: AppColorTheme.background,
           borderRadius: BorderRadius.circular(30),
         ),
         child: SingleChildScrollView(
@@ -37,13 +37,21 @@ class HomeView extends StatelessWidget {
                   CustomAppBar(controller: controller),
                   AppointmentCard(),
                   const SizedBox(height: 16),
-                  const HealthTipsCarousel(),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'قائمة الأطباء',
+                      style: themeArabic.textTheme.headlineLarge,
+                    ),
+                  ),
+                  DoctorsCard(controller: controller),
                   const SizedBox(height: 16),
                   Column(
                     children: [
                       TextButton(
                         onPressed: () {
-                          Get.toNamed(AppRouteName.onBoarding);
+                          Get.toNamed(AppRouteName.prescription);
                         },
                         child: const HCard(
                           title: 'مراجعة الادوية',
@@ -53,16 +61,6 @@ class HomeView extends StatelessWidget {
                       ),
                       const SizedBox(
                         height: 15,
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Get.toNamed(AppRouteName.bookAppointmentPage);
-                        },
-                        child: const HCard(
-                          title: 'إنشاء حجز جديد',
-                          color: Color(0xFF005FE7),
-                          icon: Icons.add_task,
-                        ),
                       ),
                     ],
                   ),
