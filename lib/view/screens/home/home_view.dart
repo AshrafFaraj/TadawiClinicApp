@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/app_theme.dart';
-import 'package:neurology_clinic/view/widgets/home/doctor_card.dart';
+
+import '/app_theme.dart';
+import '/view/widgets/home/doctor_card.dart';
 import '../../../controller/home_controller/home_controller.dart';
 import '../../widgets/home/appointment_card.dart';
 import '../../widgets/home/hcard.dart';
@@ -35,10 +36,12 @@ class HomeView extends StatelessWidget {
               child: Column(
                 children: [
                   CustomAppBar(controller: controller),
-                  AppointmentCard(),
+                  // AppointmentCard(),
+                  SizedBox(
+                      height: 250, child: Expanded(child: AppointmentList())),
                   const SizedBox(height: 16),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
                     alignment: Alignment.centerRight,
                     child: Text(
                       'قائمة الأطباء',
@@ -62,6 +65,11 @@ class HomeView extends StatelessWidget {
                       const SizedBox(
                         height: 15,
                       ),
+                      // ElevatedButton(
+                      //     onPressed: () {
+                      //       Get.toNamed(AppRouteName.onBoarding);
+                      //     },
+                      //     child: Text('Auth'))
                     ],
                   ),
                   // EmergencyButton(),

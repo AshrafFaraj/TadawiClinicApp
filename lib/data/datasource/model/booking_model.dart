@@ -1,54 +1,45 @@
-import 'doctor_model.dart';
-
 class Booking {
-  int? id;
-  int? patientId;
-  int? doctorId;
-  String? date;
-  String? type;
-  String? status;
-  int? isPaid;
-  Doctor? doctor;
-  String? createdAt;
-  String? updatedAt;
+  final int id;
+  final int doctorId;
+  final String doctorName;
+  final String date;
+  final String status;
+  final String type;
+  DateTime? lastUpdated;
 
-  Booking(
-      {this.id,
-      this.patientId,
-      this.doctorId,
-      this.date,
-      this.type,
-      this.status,
-      this.isPaid,
-      this.doctor,
-      this.createdAt,
-      this.updatedAt});
+  Booking({
+    required this.id,
+    required this.doctorId,
+    required this.doctorName,
+    required this.date,
+    required this.status,
+    required this.type,
+    this.lastUpdated,
+  });
 
-  factory Booking.fromMap(Map<String, dynamic> json) => Booking(
-        id: json['id'],
-        patientId: json['patientId'],
-        doctorId: json['doctorId'],
-        date: json['date'],
-        type: json['type'],
-        status: json['status'],
-        isPaid: json['isPaid'],
-        doctor: json['doctor'] == null ? json['doctor'] : null,
-        createdAt: json['createdAt'],
-        updatedAt: json['updatedAt'],
-      );
+  factory Booking.fromJson(Map<String, dynamic> json) {
+    return Booking(
+      id: json['id'],
+      doctorId: json['doctor_id'],
+      doctorName: json['doctor_name'],
+      date: json['date'],
+      status: json['status'],
+      type: json['type'],
+      lastUpdated: json['last_updated'] != null
+          ? DateTime.tryParse(json['last_updated'])
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'patientId': patientId,
-        'doctorId': doctorId,
-        'date': date,
-        'type': type,
-        'status': status,
-        'isPaid': isPaid,
-        'doctor': doctor,
-        'createdAt': createdAt,
-        'updatedAt': updatedAt,
-        // 'medicine':
-        //     medicine != null ? Medicine.fromLocation(medicine!).toMap() : null,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'doctor_id': doctorId,
+      'doctor_name': doctorName,
+      'date': date,
+      'status': status,
+      'type': type,
+      'last_updated': lastUpdated?.toIso8601String(),
+    };
+  }
 }

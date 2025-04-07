@@ -2,12 +2,6 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 class MyServices extends GetxService {
-  // late SharedPreferences sharedPreferences;
-  // Future<MyServices> init() async {
-  //   sharedPreferences = await SharedPreferences.getInstance();
-  //   return this;
-  // }
-
   late Box _box;
   RxMap<String, dynamic> userData = <String, dynamic>{}.obs;
 
@@ -15,6 +9,7 @@ class MyServices extends GetxService {
   Future<MyServices> init() async {
     _box = await Hive.openBox('appBox');
     userData.value = Map<String, dynamic>.from(getData('userData'));
+
     return this;
   }
 
@@ -34,11 +29,6 @@ class MyServices extends GetxService {
   // دالة عامة لحذف بيانات بواسطة المفتاح
   Future<void> clearData(String key) async {
     await _box.delete(key);
-  }
-
-  @override
-  void onInit() async {
-    super.onInit();
   }
 }
 

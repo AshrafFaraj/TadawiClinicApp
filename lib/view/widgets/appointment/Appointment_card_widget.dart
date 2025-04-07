@@ -55,17 +55,17 @@ class AppointmentCardWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${booking.doctor!.name}",
+                      "${booking.doctorName}",
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
-                    textWidget(
-                        text: "${booking.doctor!.specialization}",
-                        fontWeight: FontWeight.w500,
-                        textColor: Colors.black,
-                        fontSize: 14),
+                    // textWidget(
+                    //     text: "${booking.doctor!.specialization}",
+                    //     fontWeight: FontWeight.w500,
+                    //     textColor: Colors.black,
+                    //     fontSize: 14),
                   ],
                 ),
               ),

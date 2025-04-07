@@ -62,9 +62,12 @@ class AppLoginControllerImp extends AppLoginController {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
+        print(data);
         // حفظ بيانات المستخدم والتوكن محليًا باستخدام Hive
         MyServices myServices = Get.find();
         await myServices.storeData('userData', data);
+        print(
+            "------------------------------token : ${myServices.userData['token']}");
         check.fire();
         Future.delayed(const Duration(seconds: 2), () {
           isShowLoading = false;

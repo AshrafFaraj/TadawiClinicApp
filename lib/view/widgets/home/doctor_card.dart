@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/controller/home_controller/home_controller.dart';
-import 'package:neurology_clinic/core/layouts/app_color_theme.dart';
 
+import '/controller/home_controller/home_controller.dart';
+import '/core/layouts/app_color_theme.dart';
 import '../../../app_theme.dart';
 import '../../../core/constants/app_route_name.dart';
 import '../../../data/datasource/model/doctor_model.dart';
@@ -22,10 +22,11 @@ class DoctorsCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Obx(() {
-        if (controller.isLoading.value) {
+        if (controller.loadingStates['bookingloading'] == true ||
+            controller.doctors.isEmpty) {
           return const Center(child: CircularProgressIndicator());
-        } else if (controller.errorMessage.isNotEmpty) {
-          return const Center(child: Text('لست متصلاً بالانترنت'));
+          // } else if (controller.errorMessage.isNotEmpty) {
+          //   return const Center(child: Text('لست متصلاً بالانترنت'));
         } else {
           return ListView.builder(
               itemCount: controller.doctors.length,
@@ -77,14 +78,14 @@ class DoctorsCard extends StatelessWidget {
                               profileImage: doctor.profileImage,
                               height: 200,
                               fit: BoxFit.fitHeight),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Expanded(
                             flex: 2,
                             child: Container(
-                              padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.only(top: 10),
+                              padding: const EdgeInsets.all(10),
+                              margin: const EdgeInsets.only(top: 10),
                               decoration: BoxDecoration(
                                   color: AppColorTheme.background,
                                   borderRadius: BorderRadius.circular(10)),
@@ -109,7 +110,7 @@ class DoctorsCard extends StatelessWidget {
                                             arguments: {'doctor': doctor});
                                       },
                                       child: Container(
-                                        margin: EdgeInsets.only(top: 5),
+                                        margin: const EdgeInsets.only(top: 5),
                                         alignment: Alignment.center,
                                         height: 50,
                                         width: 150,
