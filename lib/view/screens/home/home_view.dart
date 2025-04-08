@@ -36,9 +36,7 @@ class HomeView extends StatelessWidget {
               child: Column(
                 children: [
                   CustomAppBar(controller: controller),
-                  // AppointmentCard(),
-                  SizedBox(
-                      height: 250, child: Expanded(child: AppointmentList())),
+                  SizedBox(height: 250, child: AppointmentList()),
                   const SizedBox(height: 16),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -48,7 +46,9 @@ class HomeView extends StatelessWidget {
                       style: themeArabic.textTheme.headlineLarge,
                     ),
                   ),
-                  DoctorsCard(controller: controller),
+                  DoctorsCard(
+                    scrollDirection: Axis.horizontal,
+                  ),
                   const SizedBox(height: 16),
                   Column(
                     children: [

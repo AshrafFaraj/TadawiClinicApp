@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:neurology_clinic/core/constants/app_route_name.dart';
 import 'package:neurology_clinic/view/screens/appointment_page/appointment_page.dart';
 import 'package:rive/rive.dart';
 
 import '../../core/layouts/app_color_theme.dart';
 import '../../data/datasource/model/tab_item.dart';
-import '../../view/screens/ai_chat/ai_chat_page.dart';
 import '../../view/screens/home/home_view.dart';
 import '../../view/screens/profile/profile_page/profile_page.dart';
 
@@ -27,7 +27,6 @@ class LayoutPageController extends GetxController
   final List<Widget> screens = [
     HomeView(),
     const AppointmentPage(),
-    AiPage(),
     const ProfilePage(),
   ];
   int selectedIndex = 0;
@@ -41,14 +40,25 @@ class LayoutPageController extends GetxController
   int selectedTab = 0;
 
   void onTabPress(int index) {
-    if (selectedTab != index) {
+    if (index == 2) {
+      // Navigate to aiChat directly when the aiChat tab (index 2) is pressed
+      Get.toNamed(AppRouteName.aiChat); // Navigate to aiChat page
+    } else if (index == 3) {
+      // Simply update the tabBody to show ProfilePage (index 3) when selected
       selectedTab = index;
+      tabBody = screens[2]; // Update tabBody to ProfilePage content
       update();
-      tabBody = screens[index];
-      icons[index].status!.change(true);
-      Future.delayed(const Duration(seconds: 1), () {
-        icons[index].status!.change(false);
-      });
+    } else {
+      // For all other tabs, switch the tab body normally
+      if (selectedTab != index) {
+        selectedTab = index;
+        update();
+        tabBody = screens[index]; // Switch to the selected screen
+        icons[index].status!.change(true); // Change the tab icon's status
+        Future.delayed(const Duration(seconds: 1), () {
+          icons[index].status!.change(false); // Reset the tab icon status
+        });
+      }
     }
   }
 

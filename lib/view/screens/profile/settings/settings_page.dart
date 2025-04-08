@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:neurology_clinic/controller/settings/settings_controller.dart';
+import 'package:neurology_clinic/core/constants/app_route_name.dart';
+import 'package:neurology_clinic/core/constants/app_svg.dart';
+
+import '../../../../locale/local_controller.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SettingsController());
     return Scaffold(
+      appBar: AppBar(
+        title: Text("accountSettings".tr,
+            style: Theme.of(context).textTheme.headlineMedium),
+        backgroundColor: Colors.white,
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -15,48 +27,89 @@ class SettingsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 16),
-                Text("Account Settings",
-                    style: Theme.of(context).textTheme.headlineMedium),
+                // const SizedBox(height: 16),
+                // Row(
+                //   children: [
+                //     IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+                //     Text("accountSettings".tr,
+                //         style: Theme.of(context).textTheme.headlineMedium),
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: 14,
+                // ),
                 Text(
-                  "Update your settings like notifications, payments, profile edit etc.",
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  "accountDesc".tr,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: Colors.black54),
                 ),
                 const SizedBox(height: 24),
                 ProfileMenuCard(
-                  svgSrc: profileIconSvg,
-                  title: "Profile Information",
-                  subTitle: "Change your account information",
+                  svgSrc: AppSvg.changePassword,
+                  title: "changePassowrd".tr,
+                  subTitle: "changePassowrdDesc".tr,
                   press: () {},
                 ),
                 ProfileMenuCard(
-                  svgSrc: lockIconSvg,
-                  title: "Change Password",
-                  subTitle: "Change your password",
-                  press: () {},
+                  svgSrc: AppSvg.privacyPolicy,
+                  title: "privacyPolicy".tr,
+                  subTitle: "privacyPolicyDesc".tr,
+                  press: () {
+                    Get.toNamed(AppRouteName.privacy);
+                  },
                 ),
                 ProfileMenuCard(
-                  svgSrc: cardIconSvg,
-                  title: "Payment Methods",
-                  subTitle: "Add your credit & debit cards",
-                  press: () {},
+                  svgSrc: AppSvg.language,
+                  title: "language".tr,
+                  subTitle: "languageDesc".tr,
+                  press: () {
+                    Get.defaultDialog(
+                        title: 'chooseLang'.tr,
+                        content: GetBuilder<SettingsController>(
+                          builder: (controller) {
+                            return Column(
+                              children: [
+                                ...controller.list.map((e) {
+                                  return LanguageOption(
+                                    title: e.language,
+                                    isSelected: controller.value == e.value,
+                                    onTap: () {
+                                      controller.changeValue(e.value);
+                                    },
+                                  );
+                                }),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                ElevatedButton(
+                                    onPressed: controller.selectedLanguage ==
+                                            controller.value
+                                        ? null
+                                        : () {
+                                            controller.changeLanguage();
+                                            Get.back();
+                                          },
+                                    child: Text("submit".tr))
+                              ],
+                            );
+                          },
+                        ));
+                  },
                 ),
                 ProfileMenuCard(
-                  svgSrc: markerIconSvg,
-                  title: "Locations",
-                  subTitle: "Add or remove your delivery locations",
-                  press: () {},
+                  svgSrc: AppSvg.darkTheme,
+                  title: "theme".tr,
+                  subTitle: "themeDesc".tr,
+                  press: () {
+                    controller.check();
+                  },
                 ),
                 ProfileMenuCard(
-                  svgSrc: fbIconSvg,
-                  title: "Add Social Account",
-                  subTitle: "Add Facebook, Twitter etc ",
-                  press: () {},
-                ),
-                ProfileMenuCard(
-                  svgSrc: shareIconSvg,
-                  title: "Refer to Friends",
-                  subTitle: "Get \$10 for reffering friends",
+                  svgSrc: AppSvg.deleteAccount,
+                  title: "deleteAccount".tr,
+                  subTitle: "deleteAccountDesc".tr,
                   press: () {},
                 ),
               ],
@@ -65,6 +118,27 @@ class SettingsPage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class LanguageOption extends StatelessWidget {
+  const LanguageOption({
+    super.key,
+    required this.title,
+    required this.isSelected,
+    this.onTap,
+  });
+
+  final String title;
+  final bool isSelected;
+  final void Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        title: Text(title),
+        trailing: isSelected ? Icon(Icons.check, color: Colors.blue) : null,
+        onTap: onTap);
   }
 }
 
@@ -91,10 +165,10 @@ class ProfileMenuCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: Row(
             children: [
-              SvgPicture.string(
+              SvgPicture.asset(
                 svgSrc!,
                 height: 24,
-                width: 24,
+                width: 20,
                 colorFilter: ColorFilter.mode(
                   const Color(0xFF010F07).withOpacity(0.64),
                   BlendMode.srcIn,
@@ -110,7 +184,7 @@ class ProfileMenuCard extends StatelessWidget {
                       maxLines: 1,
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 2),
                     Text(
                       subTitle!,
                       maxLines: 1,

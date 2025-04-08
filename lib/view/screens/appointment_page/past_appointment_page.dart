@@ -1,39 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/controller/appointment/past_appointments_controller.dart';
-import 'package:neurology_clinic/view/widgets/appointment/Appointment_card_widget.dart';
+
+import '/core/constants/app_route_name.dart';
+import '/services/services.dart';
+import '/view/widgets/appointment/Appointment_card_widget.dart';
 
 class PastAppointmentsPage extends StatelessWidget {
-  const PastAppointmentsPage({Key? key}) : super(key: key);
+  PastAppointmentsPage({Key? key}) : super(key: key);
+  final MyServices myServices = Get.find<MyServices>();
 
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
     // return AppointmentCardWidget(size: size, color: color);
-    Get.put(PastAppointmentController());
-    return GetBuilder<PastAppointmentController>(
-      builder: (controller) {
-        if (controller.status == AppointmentStatus.loading) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (controller.status == AppointmentStatus.success) {
-          return ListView.builder(
-            itemCount: controller.bookings.length,
-            itemBuilder: (context, index) {
-              return AppointmentCardWidget(
-                  size: size,
-                  color: color,
-                  booking: controller.bookings[index]);
-            },
-          );
-        }
-        return Center(
-          child: Text("something went wrong"),
+    return Obx(() {
+      if (myServices.loadingStates['appointmentLoading'] == true) {
+        return const Center(
+          child: CircularProgressIndicator(),
         );
-      },
-    );
+      } else if (myServices.pastAppointment.isEmpty) {
+        return const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.event_busy, size: 80, color: Colors.grey),
+              SizedBox(height: 16),
+              Text("ليس لديك مواعيد مكتملة"),
+            ],
+          ),
+        );
+      } else {
+        return ListView.builder(
+          itemCount: myServices.pastAppointment.length,
+          itemBuilder: (context, index) {
+            return AppointmentCardWidget(
+                onOutlinedPressed: () {
+                  Get.toNamed(AppRouteName.prescription, arguments: {
+                    'booking': myServices.pastAppointment[index]
+                  });
+                },
+                onElevatedPressed: () {
+                  print(myServices.pastAppointment[index].id);
+                },
+                status: "completed".tr,
+                outlinedText: "reshedule".tr,
+                buttonText: "prescriptions".tr,
+                size: size,
+                color: color,
+                appointment: myServices.pastAppointment[index]);
+          },
+        );
+      }
+    });
   }
 }

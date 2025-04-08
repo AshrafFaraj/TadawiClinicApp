@@ -11,7 +11,7 @@ class MyBinding extends Bindings {
     Get.lazyPut(() => AppSignUpControllerImp(), fenix: true);
     Get.lazyPut(() => AppLoginControllerImp(), fenix: true);
     Get.lazyPut(() => LayoutPageController(), fenix: true);
-    Get.lazyPut(() => BookAppointmentController(), fenix: true);
+    // Get.lazyPut(() => BookAppointmentController(), fenix: true);
     // Get.put(Curd());
     Get.put(HomeController());
   }

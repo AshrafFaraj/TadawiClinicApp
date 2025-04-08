@@ -1,5 +1,5 @@
 class AppRouteName {
-  // static const String language = "/";
+  static const String language = "/";
   static const String onBoarding = "/onboarding";
   static const String login = "/login";
   static const String signUp = "/signup";
@@ -22,4 +22,6 @@ class AppRouteName {
   static const String profilePage = '/profilePage';
   static const String editProfile = '/editProfile';
   static const String prescription = '/prescription';
+  static const String privacy = '/privacy';
+  static const String helpCenter = '/helpCenter';
 }

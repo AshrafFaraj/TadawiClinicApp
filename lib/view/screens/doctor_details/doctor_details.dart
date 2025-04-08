@@ -37,7 +37,7 @@ class DoctorDetails extends StatelessWidget {
                       borderRadius: 50,
                     ),
                     const SizedBox(
-                      width: 30,
+                      width: 20,
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -62,9 +62,13 @@ class DoctorDetails extends StatelessWidget {
                             child: doctor.detectionPrice != null
                                 ? Text(
                                     'سعر الكشف: ${doctor.detectionPrice} ريال',
-                                    style: TextStyle(fontSize: 15),
-                                  )
-                                : Text('غير محدد'))
+                                    style: themeArabic.textTheme.bodyLarge)
+                                : const Text(
+                                    'غير محدد',
+                                    style: TextStyle(
+                                        color: AppColorTheme.card,
+                                        fontSize: 15),
+                                  ))
                       ],
                     ),
                     const SizedBox(
@@ -157,7 +161,7 @@ class DoctorDetails extends StatelessWidget {
                                   ),
                                   Container(
                                     width: 180,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 2, vertical: 5),
                                     decoration: BoxDecoration(
                                       color: AppColorTheme.background,

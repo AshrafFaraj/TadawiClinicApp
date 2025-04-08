@@ -1,42 +1,53 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import '/services/services.dart';
 
-import '/controller/home_controller/home_controller.dart';
 import '/app_theme.dart';
 import '../../../core/layouts/app_color_theme.dart';
 import '/data/datasource/model/booking_model.dart';
 
 class AppointmentList extends StatelessWidget {
-  final HomeController controller = Get.find<HomeController>();
+  final MyServices myServices = Get.find<MyServices>();
 
   AppointmentList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (controller.loadingStates['bookingloading'] == true) {
+      if (myServices.loadingStates['appointmentLoading'] == true) {
         return const Center(child: CircularProgressIndicator());
       }
       // else if (controller.errorMessage.isNotEmpty) {
       //   return Center(child: Text(controller.errorMessage.value));
       // }
-      else if (controller.upcomingBooking.isEmpty) {
-        return const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.event_busy, size: 80, color: Colors.grey),
-              SizedBox(height: 16),
-              Text("لا توجد مواعيد قادمة"),
-            ],
+      else if (myServices.upcomingAppointment.isEmpty) {
+        return Center(
+          child: Container(
+            margin: const EdgeInsets.all(15),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColorTheme.card,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.event_busy,
+                    size: 80, color: AppColorTheme.background),
+                const SizedBox(height: 16),
+                Text("لا توجد مواعيد قادمة",
+                    style: themeArabic.textTheme.bodyMedium),
+              ],
+            ),
           ),
         );
       } else {
         return ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: controller.upcomingBooking.length,
+          itemCount: myServices.upcomingAppointment.length,
           itemBuilder: (context, index) {
-            final Booking appointment = controller.upcomingBooking[index];
+            final Appointment appointment =
+                myServices.upcomingAppointment[index];
             // return
             return AppointmentCard(
               appointment: appointment,
@@ -51,7 +62,7 @@ class AppointmentList extends StatelessWidget {
 }
 
 class AppointmentCard extends StatelessWidget {
-  final Booking appointment;
+  final Appointment appointment;
   final VoidCallback onCancel;
   final VoidCallback onEdit;
 

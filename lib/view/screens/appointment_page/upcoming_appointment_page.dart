@@ -1,39 +1,105 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/controller/appointment/upcoming_appointment_controller.dart';
-import 'package:neurology_clinic/view/widgets/appointment/Appointment_card_widget.dart';
+import 'package:neurology_clinic/services/services.dart';
+
+import '/controller/appointment/upcoming_appointment_controller.dart';
+import '/core/constants/app_route_name.dart';
+import '/core/functions/dialog_functions.dart';
+import '/view/widgets/appointment/Appointment_card_widget.dart';
 import '../../../core/layouts/app_layout.dart';
 
 class UpcomingAppointmentsPage extends StatelessWidget {
-  const UpcomingAppointmentsPage({Key? key}) : super(key: key);
+  UpcomingAppointmentsPage({Key? key}) : super(key: key);
+  final MyServices myServices = Get.find<MyServices>();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final color = Theme.of(context).colorScheme;
-    Get.put(UpcomingAppointmentController());
-    return GetBuilder<UpcomingAppointmentController>(
-      builder: (controller) {
-        if (controller.status == AppointmentStatus.loading) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (controller.status == AppointmentStatus.success) {
-          return ListView.builder(
-            itemCount: controller.bookings.length,
-            itemBuilder: (context, index) {
-              return AppointmentCardWidget(
+
+    return Scaffold(
+      body: Obx(
+        () {
+          if (myServices.loadingStates['appointmentLoading'] == true) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (myServices.upcomingAppointment.isEmpty) {
+            return const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.event_busy, size: 80, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text("لا توجد مواعيد قادمة"),
+                ],
+              ),
+            );
+          } else {
+            Get.put(UpcomingAppointmentController());
+            var appointment = myServices.upcomingAppointment;
+            return ListView.builder(
+              itemCount: appointment.length,
+              itemBuilder: (context, index) {
+                return AppointmentCardWidget(
+                  onOutlinedPressed: () {
+                    showWarningDialog(
+                        context: context,
+                        title: 'question'.tr,
+                        desc: 'desc'.tr,
+                        btnCancelText: 'cancelMs'.tr,
+                        btnOkText: 'ok'.tr,
+                        btnOkOnPress: () {
+                          myServices.deleteAppointmet(appointment[index].id);
+                        });
+                  },
+                  onElevatedPressed: () async {
+                    final result = await Get.toNamed(
+                        AppRouteName.bookAppointmentPage,
+                        arguments: {
+                          'action': 'update',
+                          'booking': appointment[index]
+                        });
+                    if (result != null) {
+                      myServices.fetchAppointmentFromServer();
+                    }
+                  },
                   size: size,
                   color: color,
-                  booking: controller.bookings[index]);
-            },
+                  appointment: appointment[index],
+                  status: "pending".tr,
+                  outlinedText: "reshedule".tr,
+                  buttonText: "cancel".tr,
+                );
+              },
+            );
+          }
+        },
+      ),
+      floatingActionButton: GetBuilder<UpcomingAppointmentController>(
+        builder: (controller) {
+          return Stack(
+            children: [
+              // Other content of the screen
+              Positioned(
+                bottom: 80, // Increase to move higher, decrease to move lower
+                right: 16, // To adjust the horizontal position
+                child: FloatingActionButton(
+                  onPressed: () async {
+                    final result = await Get.toNamed(
+                        AppRouteName.bookAppointmentPage,
+                        arguments: {'action': 'new'});
+                    if (result != null) {
+                      controller.fetchUpcomingAppointments();
+                    }
+                  },
+                  child: Icon(Icons.add),
+                ),
+              ),
+            ],
           );
-        }
-        return Center(
-          child: Text("something went wrong"),
-        );
-      },
+        },
+      ),
     );
   }
 }

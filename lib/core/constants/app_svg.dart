@@ -18,4 +18,14 @@ class AppSvg {
   static const String calendarIcon = "${path}calendar-svgrepo-com (2).svg";
   static const String heart = "${path}heart-svgrepo-com.svg";
   static const String pill = "${path}pill-svgrepo-com.svg";
+  static const String helpCenter = "${path}help-circle-svgrepo-com.svg";
+  static const String profileSvg = "${path}profile-svgrepo-com.svg";
+  static const String logOut = "${path}logout-svgrepo-com.svg";
+  static const String settings = "${path}settings-svgrepo-com.svg";
+  static const String notifications = "${path}notifications-svgrepo-com.svg";
+  static const String changePassword = "${path}lock-password-svgrepo-com.svg";
+  static const String privacyPolicy = "${path}lock-svgrepo-com.svg";
+  static const String language = "${path}language-svgrepo-com.svg";
+  static const String darkTheme = "${path}night-mode-svgrepo-com.svg";
+  static const String deleteAccount = "${path}trash-2.svg";
 }

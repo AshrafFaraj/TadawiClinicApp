@@ -10,16 +10,22 @@ class AppointmentCardWidget extends StatelessWidget {
     super.key,
     required this.size,
     required this.color,
-    required this.booking,
+    required this.appointment,
     this.onElevatedPressed,
     this.onOutlinedPressed,
+    required this.buttonText,
+    required this.status,
+    required this.outlinedText,
   });
-  final Booking booking;
+  final Appointment appointment;
 
   final Size size;
   final ColorScheme color;
   final void Function()? onElevatedPressed;
   final void Function()? onOutlinedPressed;
+  final String buttonText;
+  final String status;
+  final String outlinedText;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +61,7 @@ class AppointmentCardWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${booking.doctorName}",
+                      "${appointment.doctorName}",
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -77,7 +83,7 @@ class AppointmentCardWidget extends StatelessWidget {
                     color: color.secondaryContainer,
                     borderRadius: BorderRadius.circular(20)),
                 child: Text(
-                  "${booking.status}",
+                  status,
                   style: TextStyle(
                     color: color.onSecondaryContainer,
                   ),
@@ -104,7 +110,7 @@ class AppointmentCardWidget extends StatelessWidget {
                 ),
                 TimeElementsWidgets(
                   size: size,
-                  text: "${booking.date}",
+                  text: "${appointment.date}",
                   svg: AppSvg.clock,
                 ),
               ],
@@ -123,14 +129,14 @@ class AppointmentCardWidget extends StatelessWidget {
               ElevatedButton(
                 onPressed: onElevatedPressed,
                 child:
-                    textWidget(text: "Reshedule", textColor: color.onPrimary),
+                    textWidget(text: outlinedText, textColor: color.onPrimary),
                 style: ElevatedButton.styleFrom(
                     fixedSize: Size(size.width * .4, size.height * .01),
                     backgroundColor: color.primary),
               ),
               OutlinedButton(
                 onPressed: onOutlinedPressed,
-                child: Text("Prescription"),
+                child: Text(buttonText),
                 style: OutlinedButton.styleFrom(
                   fixedSize: Size(size.width * .4, size.height * .01),
                 ),

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/controller/home_controller/home_controller.dart';
+import '../../../services/services.dart';
 import '/core/layouts/app_color_theme.dart';
 import '../../../app_theme.dart';
 import '../../../core/constants/app_route_name.dart';
-import '../../../data/datasource/model/doctor_model.dart';
 import '../../screens/doctor_details/doctor_details.dart';
 
 class DoctorsCard extends StatelessWidget {
-  final HomeController controller;
-
-  const DoctorsCard({
+  DoctorsCard({
     super.key,
-    required this.controller,
+    required this.scrollDirection,
   });
+  final MyServices myServices = Get.find<MyServices>();
+  final Axis scrollDirection;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,23 +22,24 @@ class DoctorsCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Obx(() {
-        if (controller.loadingStates['bookingloading'] == true ||
-            controller.doctors.isEmpty) {
+        if (myServices.loadingStates['doctorLoading'] == true ||
+            myServices.doctors.isEmpty) {
           return const Center(child: CircularProgressIndicator());
           // } else if (controller.errorMessage.isNotEmpty) {
           //   return const Center(child: Text('لست متصلاً بالانترنت'));
         } else {
+          var doctors = myServices.doctors;
           return ListView.builder(
-              itemCount: controller.doctors.length,
+              itemCount: doctors.length,
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                Doctor doctor = controller.doctors[index];
+                doctors[index];
                 return TextButton(
                     onPressed: () {
                       Get.toNamed(AppRouteName.doctorDetails,
-                          arguments: {'doctor': doctor});
+                          arguments: {'doctor': doctors[index]});
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -75,7 +76,7 @@ class DoctorsCard extends StatelessWidget {
                         children: [
                           ProfileImageWidget(
                               borderRadius: 10,
-                              profileImage: doctor.profileImage,
+                              profileImage: doctors[index].profileImage,
                               height: 200,
                               fit: BoxFit.fitHeight),
                           const SizedBox(
@@ -94,20 +95,22 @@ class DoctorsCard extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'الدكتور: ${doctor.name}',
+                                    'الدكتور: ${doctors[index].name}',
                                     style: themeArabic.textTheme.bodyLarge,
                                   ),
                                   const SizedBox(
                                     height: 5,
                                   ),
                                   Text(
-                                    doctor.specialization,
+                                    doctors[index].specialization,
                                     style: themeArabic.textTheme.bodyLarge,
                                   ),
                                   TextButton(
                                       onPressed: () {
                                         Get.toNamed(AppRouteName.doctorDetails,
-                                            arguments: {'doctor': doctor});
+                                            arguments: {
+                                              'doctor': doctors[index]
+                                            });
                                       },
                                       child: Container(
                                         margin: const EdgeInsets.only(top: 5),
