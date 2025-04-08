@@ -50,7 +50,9 @@ class SettingsPage extends StatelessWidget {
                   svgSrc: AppSvg.changePassword,
                   title: "changePassowrd".tr,
                   subTitle: "changePassowrdDesc".tr,
-                  press: () {},
+                  press: () {
+                    Get.toNamed(AppRouteName.resetPassword);
+                  },
                 ),
                 ProfileMenuCard(
                   svgSrc: AppSvg.privacyPolicy,
