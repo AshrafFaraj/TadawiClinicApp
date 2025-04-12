@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/data/datasource/model/booking_model.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 
+import '/data/datasource/model/booking_model.dart';
 import '../../data/datasource/model/prescription_model.dart';
 import '../../services/services.dart';
 
@@ -13,7 +13,7 @@ class PrescriptionsController extends GetxController {
   // Replace with your actual project path
   PrescriptionStatus status = PrescriptionStatus.initial;
   List<Prescription> prescriptions = [];
-  Booking? booking;
+  Appointment? appointment;
   late MyServices myServices;
 
   Future<void> fetchPrescriptions(int id) async {
@@ -26,8 +26,7 @@ class PrescriptionsController extends GetxController {
       final response = await http.get(
         Uri.parse(apiUrl),
         headers: {
-          'Authorization':
-              'Bearer $token', // Add Bearer token
+          'Authorization': 'Bearer $token', // Add Bearer token
           'Content-Type': 'application/json', // Optional but good to specify
         },
       );
@@ -56,10 +55,10 @@ class PrescriptionsController extends GetxController {
   void onInit() {
     myServices = Get.find<MyServices>();
     super.onInit();
-    booking = Get.arguments?['booking'] ?? Booking();
+    appointment = Get.arguments?['booking'];
 
-    if (booking!.id !=null) {
-      fetchPrescriptions(booking!.id!);
+    if (appointment!.id != null) {
+      fetchPrescriptions(appointment!.id);
     }
   }
 }

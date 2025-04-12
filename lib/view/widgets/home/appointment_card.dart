@@ -1,26 +1,22 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import '/services/services.dart';
+import 'package:lottie/lottie.dart';
 
+import '/controller/appointment/upcoming_appointment_controller.dart';
 import '/app_theme.dart';
 import '../../../core/layouts/app_color_theme.dart';
 import '/data/datasource/model/booking_model.dart';
 
 class AppointmentList extends StatelessWidget {
-  final MyServices myServices = Get.find<MyServices>();
-
-  AppointmentList({Key? key}) : super(key: key);
+  const AppointmentList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      if (myServices.loadingStates['appointmentLoading'] == true) {
-        return const Center(child: CircularProgressIndicator());
-      }
-      // else if (controller.errorMessage.isNotEmpty) {
-      //   return Center(child: Text(controller.errorMessage.value));
-      // }
-      else if (myServices.upcomingAppointment.isEmpty) {
+    Get.find<UpcomingAppointmentController>();
+    return GetBuilder<UpcomingAppointmentController>(builder: (controller) {
+      if (controller.isLoading) {
+        return Center(child: Lottie.asset('assets/lottie/ECG.json'));
+      } else if (controller.upcomingAppointments.isEmpty) {
         return Center(
           child: Container(
             margin: const EdgeInsets.all(15),
@@ -44,10 +40,10 @@ class AppointmentList extends StatelessWidget {
       } else {
         return ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: myServices.upcomingAppointment.length,
+          itemCount: controller.upcomingAppointments.length,
           itemBuilder: (context, index) {
             final Appointment appointment =
-                myServices.upcomingAppointment[index];
+                controller.upcomingAppointments[index];
             // return
             return AppointmentCard(
               appointment: appointment,
@@ -87,18 +83,16 @@ class AppointmentCard extends StatelessWidget {
       );
       actionButtons.add(const Spacer());
       actionButtons.add(actionButton(
-          onPressed: onCancel,
-          text: "إلغاء الموعد",
-          backgroundColor: AppColorTheme.background3));
+        onPressed: onCancel,
+        text: "إلغاء الموعد",
+      ));
     } else if (appointment.status == 'pending') {
       actionButtons.add(
-        ElevatedButton(
-          onPressed: onEdit,
-          child: actionButton(
-              onPressed: onEdit,
-              text: "تعديل الموعد",
-              textColor: AppColorTheme.backgroundDark),
-        ),
+        actionButton(
+            backgroundColor: AppColorTheme.background,
+            onPressed: onEdit,
+            text: "تعديل الموعد",
+            textColor: AppColorTheme.backgroundDark),
       );
     }
 
@@ -150,12 +144,13 @@ class AppointmentCard extends StatelessWidget {
 
 Widget actionButton(
     {required void Function()? onPressed,
-    Color? backgroundColor,
+    Color? backgroundColor = AppColorTheme.background3,
     Color? textColor,
     String? text}) {
   return TextButton(
     onPressed: onPressed,
     child: Container(
+        alignment: Alignment.center,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: backgroundColor, borderRadius: BorderRadius.circular(10)),

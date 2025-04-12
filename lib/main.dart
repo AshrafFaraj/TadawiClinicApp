@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 
+import 'controller/connection_controller.dart';
 import 'core/constants/app_route_name.dart';
 import 'locale/local.dart';
 import 'locale/local_controller.dart';
@@ -13,6 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await initialServices();
+  await Get.putAsync<ConnectionController>(() async => ConnectionController());
 
   runApp(const MyApp());
 }

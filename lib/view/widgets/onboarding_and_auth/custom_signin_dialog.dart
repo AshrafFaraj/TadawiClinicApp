@@ -3,10 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 
+import '/view/widgets/onboarding_and_auth/custom_register_dialog.dart';
 import '/core/constants/app_route_name.dart';
 import '/core/functions/valid_input.dart';
 import '/view/screens/onboarding_and_auth/auth/forget_password/forget_password_screen.dart';
-import 'custom_register_email_or_google.dart';
 import '../../../controller/auth/loginController/login_controller.dart';
 import '../Auth/custom_auth_textfeild.dart';
 import '../Auth/custom_auth_info.dart';
@@ -119,7 +119,15 @@ Future<Object?> customSigninDialog(BuildContext context,
                       const CustomAuthInfo(
                           textInfo:
                               "أو قم بإنشاء حساب وتسجيل بياناتك الشخصية أو استخدم حساب جوجل"),
-                      CustomRegisterByEmailOrGoogle(onClosed: onClosed),
+                      // CustomRegisterByEmailOrGoogle(onClosed: onClosed),
+                      CustomAuthQuestion(
+                        constText: "ليس لديك حساب",
+                        clickText: "إنشاء حساب جديد",
+                        onTap: () {
+                          Navigator.pop(context);
+                          customRegisterDialog(context, onClosed: onClosed);
+                        },
+                      ),
                     ]),
                   ),
                   Stack(

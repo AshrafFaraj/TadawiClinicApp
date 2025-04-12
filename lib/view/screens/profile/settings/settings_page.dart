@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/controller/settings/settings_controller.dart';
-import 'package:neurology_clinic/core/constants/app_route_name.dart';
-import 'package:neurology_clinic/core/constants/app_svg.dart';
+import 'package:neurology_clinic/services/services.dart';
+import '/controller/settings/settings_controller.dart';
+import '/core/constants/app_route_name.dart';
+import '/core/constants/app_svg.dart';
 
 import '../../../../locale/local_controller.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+  SettingsPage({super.key});
+  MyServices myServices = Get.find<MyServices>();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,8 @@ class SettingsPage extends StatelessWidget {
                   title: "changePassowrd".tr,
                   subTitle: "changePassowrdDesc".tr,
                   press: () {
-                    Get.toNamed(AppRouteName.resetPassword);
+                    Get.toNamed(AppRouteName.resetPassword,
+                        arguments: {'reason': 'change', 'email': null});
                   },
                 ),
                 ProfileMenuCard(

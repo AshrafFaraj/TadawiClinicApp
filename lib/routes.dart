@@ -1,13 +1,12 @@
 import 'package:get/get.dart';
-import 'package:neurology_clinic/view/screens/doctor_details/doctor_details.dart';
-import 'package:neurology_clinic/view/screens/appointment_page/appointment_page.dart';
-import 'package:neurology_clinic/view/screens/help_center/help_center_page.dart';
-import 'package:neurology_clinic/view/screens/prescription/prescription_page.dart';
-import 'package:neurology_clinic/view/screens/profile/edit_profile/edit_profile.dart';
-import 'package:neurology_clinic/view/screens/profile/privacy_policy/privacy_policy_page.dart';
-import 'package:neurology_clinic/view/screens/profile/profile_page/profile_page.dart';
-import 'package:neurology_clinic/view/screens/profile/settings/settings_page.dart';
-
+import '/view/screens/doctor_details/doctor_details.dart';
+import '/view/screens/appointment_page/appointment_page.dart';
+import '/view/screens/help_center/help_center_page.dart';
+import '/view/screens/prescription/prescription_page.dart';
+import '/view/screens/profile/edit_profile/edit_profile.dart';
+import '/view/screens/profile/privacy_policy/privacy_policy_page.dart';
+import '/view/screens/profile/profile_page/profile_page.dart';
+import '/view/screens/profile/settings/settings_page.dart';
 import 'middleware/my_middleware.dart';
 import 'view/screens/app_layout.dart';
 import 'core/constants/app_route_name.dart';
@@ -29,21 +28,17 @@ List<GetPage<dynamic>>? routes = [
   //     middlewares: [
   //       MyMiddleWare(),
   //     ]),
-  // GetPage(name: "/", page: () => TestVeiw()),
-  // GetPage(name: AppRouteName.onBoarding, page: () => const Onboarding()),
   GetPage(name: AppRouteName.onBoarding, page: () => const OnboardingScreen()),
   GetPage(name: AppRouteName.editProfile, page: () => const EditProfile()),
   GetPage(name: AppRouteName.profilePage, page: () => const ProfilePage()),
-  GetPage(name: AppRouteName.settingsPage, page: () => const SettingsPage()),
+  GetPage(name: AppRouteName.settingsPage, page: () => SettingsPage()),
   GetPage(name: AppRouteName.checkEmail, page: () => const CheckEmail()),
   GetPage(name: AppRouteName.privacy, page: () => const PrivacyPolicyPage()),
   GetPage(name: AppRouteName.helpCenter, page: () => const HelpCenterPage()),
-  // GetPage(name: AppRouteName.layoutPage, page: () => const MyHomePage()),
   GetPage(
       name: AppRouteName.forgetPassword, page: () => const ForgetPassword()),
   GetPage(name: AppRouteName.verfiyCode, page: () => const VerfiyCode()),
-  GetPage(name: AppRouteName.resetPassword, page: () => const ResetPassword()),
-  // GetPage(name: AppRouteName.layoutPage, page: () => const LayoutPage()),
+  GetPage(name: AppRouteName.resetPassword, page: () => ResetPassword()),
   GetPage(
       name: AppRouteName.successResetPassword,
       page: () => const SuccessResetPassword()),
@@ -70,8 +65,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(
       name: AppRouteName.prescription, page: () => const PrescriptionPage()),
   GetPage(name: AppRouteName.doctorDetails, page: () => DoctorDetails()),
-
-  // GetPage(name: AppRouteName.doctorDetails, page: () => DoctorDetailsView()),
 ];
 
 // Map<String, Widget Function(BuildContext)> routes = {

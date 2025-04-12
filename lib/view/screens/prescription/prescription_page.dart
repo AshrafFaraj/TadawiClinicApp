@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/controller/prescriptions/prescriptions_controller.dart';
-import 'package:neurology_clinic/core/constants/app_svg.dart';
-import 'package:neurology_clinic/data/datasource/model/booking_model.dart';
-import 'package:neurology_clinic/data/datasource/model/prescription_model.dart';
+
+import '/controller/prescriptions/prescriptions_controller.dart';
+import '/core/constants/app_svg.dart';
+import '/data/datasource/model/booking_model.dart';
+import '/data/datasource/model/prescription_model.dart';
 
 class PrescriptionPage extends StatelessWidget {
   const PrescriptionPage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class PrescriptionPage extends StatelessWidget {
             top: 0,
             child: CustomizedAppBar(
               appBarText: "prescriptions".tr,
-              booking: controller.booking!,
+              appointment: controller.appointment!,
               size: size,
               onPressed: () {
                 Get.back();
@@ -215,13 +216,13 @@ class CustomizedAppBar extends StatelessWidget {
     super.key,
     required this.size,
     this.onPressed,
-    required this.booking,
+    required this.appointment,
     required this.appBarText,
   });
 
   final Size size;
   final void Function()? onPressed;
-  final Booking booking;
+  final Appointment appointment;
   final String appBarText;
 
   @override
@@ -262,14 +263,14 @@ class CustomizedAppBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                booking.doctor!.name!,
+                appointment.doctorName,
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                booking.date!,
+                appointment.date,
                 style: TextStyle(color: Colors.white70, fontSize: 16),
               ),
             ],

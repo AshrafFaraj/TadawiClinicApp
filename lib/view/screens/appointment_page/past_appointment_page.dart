@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:neurology_clinic/controller/appointment/past_appointments_controller.dart';
 
 import '/core/constants/app_route_name.dart';
-import '/services/services.dart';
 import '/view/widgets/appointment/Appointment_card_widget.dart';
 
 class PastAppointmentsPage extends StatelessWidget {
   PastAppointmentsPage({Key? key}) : super(key: key);
-  final MyServices myServices = Get.find<MyServices>();
 
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
-    // return AppointmentCardWidget(size: size, color: color);
-    return Obx(() {
-      if (myServices.loadingStates['appointmentLoading'] == true) {
+    return GetBuilder<PastAppointmentController>(builder: (controller) {
+      if (controller.isLoading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      } else if (myServices.pastAppointment.isEmpty) {
+      } else if (controller.pastAppointments.isEmpty) {
         return const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -32,23 +30,23 @@ class PastAppointmentsPage extends StatelessWidget {
         );
       } else {
         return ListView.builder(
-          itemCount: myServices.pastAppointment.length,
+          itemCount: controller.pastAppointments.length,
           itemBuilder: (context, index) {
+            var appointment = controller.pastAppointments[index];
             return AppointmentCardWidget(
                 onOutlinedPressed: () {
-                  Get.toNamed(AppRouteName.prescription, arguments: {
-                    'booking': myServices.pastAppointment[index]
-                  });
+                  Get.toNamed(AppRouteName.prescription,
+                      arguments: {'booking': appointment});
                 },
                 onElevatedPressed: () {
-                  print(myServices.pastAppointment[index].id);
+                  print(appointment.id);
                 },
                 status: "completed".tr,
                 outlinedText: "reshedule".tr,
                 buttonText: "prescriptions".tr,
                 size: size,
                 color: color,
-                appointment: myServices.pastAppointment[index]);
+                appointment: appointment);
           },
         );
       }

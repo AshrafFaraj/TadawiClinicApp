@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/services/services.dart';
 
 import '/controller/appointment/upcoming_appointment_controller.dart';
 import '/core/constants/app_route_name.dart';
@@ -11,20 +10,19 @@ import '../../../core/layouts/app_layout.dart';
 
 class UpcomingAppointmentsPage extends StatelessWidget {
   UpcomingAppointmentsPage({Key? key}) : super(key: key);
-  final MyServices myServices = Get.find<MyServices>();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final color = Theme.of(context).colorScheme;
 
     return Scaffold(
-      body: Obx(
-        () {
-          if (myServices.loadingStates['appointmentLoading'] == true) {
+      body: GetBuilder<UpcomingAppointmentController>(
+        builder: (controller) {
+          if (controller.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (myServices.upcomingAppointment.isEmpty) {
+          } else if (controller.upcomingAppointments.isEmpty) {
             return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -37,10 +35,11 @@ class UpcomingAppointmentsPage extends StatelessWidget {
             );
           } else {
             Get.put(UpcomingAppointmentController());
-            var appointment = myServices.upcomingAppointment;
+
             return ListView.builder(
-              itemCount: appointment.length,
+              itemCount: controller.upcomingAppointments.length,
               itemBuilder: (context, index) {
+                var appointment = controller.upcomingAppointments[index];
                 return AppointmentCardWidget(
                   onOutlinedPressed: () {
                     showWarningDialog(
@@ -50,7 +49,7 @@ class UpcomingAppointmentsPage extends StatelessWidget {
                         btnCancelText: 'cancelMs'.tr,
                         btnOkText: 'ok'.tr,
                         btnOkOnPress: () {
-                          myServices.deleteAppointmet(appointment[index].id);
+                          controller.deleteAppointmet(appointment.id);
                         });
                   },
                   onElevatedPressed: () async {
@@ -58,15 +57,15 @@ class UpcomingAppointmentsPage extends StatelessWidget {
                         AppRouteName.bookAppointmentPage,
                         arguments: {
                           'action': 'update',
-                          'booking': appointment[index]
+                          'booking': appointment
                         });
                     if (result != null) {
-                      myServices.fetchAppointmentFromServer();
+                      controller.fetchUpcomingAppointmentFromServer();
                     }
                   },
                   size: size,
                   color: color,
-                  appointment: appointment[index],
+                  appointment: appointment,
                   status: "pending".tr,
                   outlinedText: "reshedule".tr,
                   buttonText: "cancel".tr,
@@ -90,7 +89,7 @@ class UpcomingAppointmentsPage extends StatelessWidget {
                         AppRouteName.bookAppointmentPage,
                         arguments: {'action': 'new'});
                     if (result != null) {
-                      controller.fetchUpcomingAppointments();
+                      controller.fetchUpcomingAppointmentFromServer();
                     }
                   },
                   child: Icon(Icons.add),

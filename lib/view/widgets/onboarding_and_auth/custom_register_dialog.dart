@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/view/widgets/onboarding_and_auth/build_blood_type_grid.dart';
-import 'package:neurology_clinic/view/widgets/onboarding_and_auth/build_gender_options.dart';
-import 'package:neurology_clinic/view/widgets/onboarding_and_auth/build_section_title.dart';
 import 'package:rive/rive.dart';
+
+import '/view/widgets/onboarding_and_auth/build_blood_type_grid.dart';
+import '/view/widgets/onboarding_and_auth/build_gender_options.dart';
+import '/view/widgets/onboarding_and_auth/build_section_title.dart';
 import '../../../controller/auth/registerController/register_controller.dart';
 import '../../../core/functions/valid_input.dart';
 import '../Auth/custom_auth_textfeild.dart';
@@ -67,7 +68,7 @@ Future<Object?> customRegisterDialog(BuildContext context,
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 8.0),
                                           child: SvgPicture.asset(
-                                              "assets/icons/email.svg")),
+                                              "assets/icons/User.svg")),
                                       hintText: "اكتب اسمك الكامل",
                                     ),
                                   ),
@@ -79,11 +80,10 @@ Future<Object?> customRegisterDialog(BuildContext context,
                                         return validInput(
                                             val!, 12, 30, "email");
                                       },
-                                      suffixIcon: Padding(
-                                          padding: const EdgeInsets.symmetric(
+                                      suffixIcon: const Padding(
+                                          padding: EdgeInsets.symmetric(
                                               horizontal: 8.0),
-                                          child: SvgPicture.asset(
-                                              "assets/icons/email.svg")),
+                                          child: Icon(Icons.email_outlined)),
                                       hintText: "اكتب بريدك الالكتروني",
                                     ),
                                   ),
@@ -120,8 +120,8 @@ Future<Object?> customRegisterDialog(BuildContext context,
                                         return validInput(
                                             val!, 8, 15, "password");
                                       },
-                                      suffixIcon: SvgPicture.asset(
-                                          "assets/icons/password.svg"),
+                                      suffixIcon:
+                                          const Icon(Icons.password_outlined),
                                       hintText: "ادخل كلمة السر",
                                       // mycontroller: controller.password
                                     ),

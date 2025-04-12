@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-// TODO: add flutter_svg to pubspec.yaml
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/core/constants/app_route_name.dart';
-import 'package:neurology_clinic/core/constants/app_svg.dart';
+
+import '/core/constants/app_route_name.dart';
+import '/core/constants/app_svg.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

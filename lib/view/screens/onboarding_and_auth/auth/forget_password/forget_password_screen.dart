@@ -28,18 +28,16 @@ class ForgetPassword extends StatelessWidget {
               padding: EdgeInsets.all(20),
               child: CustomAuthTitle(textTitle: "التحقق من وجود الحساب"),
             ),
-            const CustomAuthInfo(
-                textInfo:
-                    "قم بكتابة بريدك الإلكتروني او رقم هاتفك الذي استخدمته لإنشاء حسابك"),
+            const CustomAuthInfo(textInfo: "قم بكتابة بريدك الإلكتروني"),
             CustomTextFormFeildAuth(
                 validator: (val) {
                   return validInput(val!, 12, 30, "email");
                 },
                 mycontroller: controller.email,
                 suffixIcon: const Icon(Icons.email_outlined),
-                hintText: "ادخل بريدك الالكتروني أو رقم هاتفك"),
+                hintText: "البريد الالكتروني"),
             CustomAuthBotton(
-              title: "Check",
+              title: "تأكيد",
               onPressed: () {
                 controller.checkEmail();
               },

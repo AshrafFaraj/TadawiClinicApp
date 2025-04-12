@@ -1,58 +1,105 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
-import 'package:neurology_clinic/data/datasource/model/booking_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:neurology_clinic/link_api.dart';
-import 'package:neurology_clinic/services/services.dart';
+
+import '/data/datasource/model/booking_model.dart';
+import '/link_api.dart';
+import '/services/services.dart';
+import '../../core/layouts/app_color_theme.dart';
+import '../connection_controller.dart';
 
 enum AppointmentStatus { initial, loading, failure, success }
 
 class PastAppointmentController extends GetxController {
-  // Replace with your actual project path
   AppointmentStatus status = AppointmentStatus.initial;
-  List<Booking> bookings = [];
-  late MyServices myServices;
 
-  Future<void> fetchPastAppointments() async {
-    bookings.clear();
-    final token = myServices.userData['token'];
-    final id = myServices.userData['patient']['id'];
-    final String apiUrl =
-        'http://10.0.2.2:8000/api/v1/bookings?filter[status]=completed&filter[patient_id]=$id&include=doctor';
-    try {
-      status = AppointmentStatus.loading;
-      update();
-      final response = await http.get(
-        Uri.parse(apiUrl),
-        headers: {
-          'Authorization': 'Bearer $token', // Add Bearer token
-          'Accept': 'application/json', // Optional but good to specify
-        },
-      );
-      final responseData = json.decode(response.body)['data'];
-      final l = (responseData as List).map((e) => Booking.fromMap(e)).toList();
+  // خاص بمراقبة الانترنت
+  final ConnectionController _connectionController =
+      Get.find<ConnectionController>();
 
-      if (response.statusCode == 200) {
-        print(l);
-        status = AppointmentStatus.success;
-        bookings.addAll(l);
-        update();
-      } else {
-        status = AppointmentStatus.failure;
-        bookings = [];
-        update();
-      }
-      print(status);
-    } catch (e) {
-      bookings = [];
-    }
-  }
+  late MyServices _myServices;
+  late String _token;
+
+  bool isLoading = false;
+  String errorMessage = '';
+
+  static const String _pastKey = 'pastAppointment';
+  List<Appointment> pastAppointments = [];
 
   @override
   void onInit() {
-    myServices = Get.find<MyServices>();
-    fetchPastAppointments();
     super.onInit();
+    _myServices = Get.find<MyServices>();
+    _token = _myServices.userData['token'];
+
+    pastAppointments = fetchPastAppointmentFromCach(_pastKey);
+    update();
+    // مراقبة التغيير في الاتصال
+    ever<bool>(_connectionController.isConnected, (connected) {
+      if (connected) {
+        fetchPastAppointmentFromServer();
+      }
+    });
+
+    // تحميل من الانترنت عند الاتصال
+    if (!_connectionController.isConnected.value) {
+      fetchPastAppointmentFromServer();
+    }
+  }
+
+  Future<void> fetchPastAppointmentFromServer() async {
+    if (_connectionController.isConnected.value) return;
+    isLoading = true;
+    update();
+    try {
+      final response = await http.get(
+        Uri.parse(AppLink.pastAppointments),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer $_token",
+          'Accept': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        final List<dynamic> appointmentsJson = jsonResponse['data'] ?? [];
+        pastAppointments.clear();
+        pastAppointments =
+            appointmentsJson.map((json) => Appointment.fromJson(json)).toList();
+
+        update();
+
+        if (pastAppointments.isNotEmpty) {
+          await _myServices.storeData(
+              _pastKey, pastAppointments.map((b) => b.toJson()).toList());
+        }
+      } else {
+        Get.snackbar('فشل', 'لم نتمكن حاليا من تحديث مواعيدك السابقة',
+            backgroundColor: AppColorTheme.background3);
+      }
+    } catch (e) {
+      Get.snackbar('خطأ', 'تحقق من اتصالك بالإنترنت',
+          backgroundColor: AppColorTheme.background3);
+    }
+    isLoading = false;
+    update();
+  }
+
+  List<Appointment> fetchPastAppointmentFromCach(String key) {
+    final cachedData = _myServices.getData(key);
+    List<dynamic> dataList = [];
+
+    if (cachedData != null) {
+      if (cachedData is List) {
+        dataList = cachedData;
+      } else if (cachedData is Map) {
+        dataList = cachedData.values.toList();
+      }
+      return dataList
+          .map((json) => Appointment.fromJson(Map<String, dynamic>.from(json)))
+          .toList();
+    } else {
+      return [];
+    }
   }
 }

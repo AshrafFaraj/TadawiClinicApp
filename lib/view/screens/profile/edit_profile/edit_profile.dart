@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/controller/edit_profile/edit_profile_controller.dart';
+import '/controller/edit_profile/edit_profile_controller.dart';
 
 class EditProfile extends StatelessWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -21,181 +21,189 @@ class EditProfile extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(child: const ProfilePic()),
-            const SizedBox(height: 30),
-            Text(
-              "aboutMe".tr,
-              style: TextStyle(color: Colors.black),
-            ),
-            SizedBox(
-              height: 14,
-            ),
-            Container(
-              width: size.width,
-              // margin: EdgeInsets.all(15),
-              // height: size.height * .2,
-              decoration: BoxDecoration(color: Colors.white),
-              child: Column(
-                children: [
-                  CustomizedTextField(
-                    hintText: "name".tr,
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+          child: GetBuilder<EditProfileController>(builder: (controller) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(child: const ProfilePic()),
+                const SizedBox(height: 30),
+                Text(
+                  "aboutMe".tr,
+                  style: TextStyle(color: Colors.black),
+                ),
+                SizedBox(
+                  height: 14,
+                ),
+                Container(
+                  width: size.width,
+                  // margin: EdgeInsets.all(15),
+                  // height: size.height * .2,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Column(
+                    children: [
+                      CustomizedTextField(
+                        controller: controller.nameTextController,
+                        hintText: "name".tr,
+                      ),
+                      CustomizedTextField(
+                        controller: controller.mobileTextController,
+                        hintText: "mobile".tr,
+                      ),
+                      CustomizedTextField(
+                        controller: controller.addressTextController,
+                        hintText: "address".tr,
+                      ),
+                    ],
                   ),
-                  CustomizedTextField(
-                    hintText: "mobile".tr,
-                  ),
-                  CustomizedTextField(
-                    hintText: "address".tr,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 35,
-            ),
-            Text(
-              "bloodType".tr,
-              style: TextStyle(color: Colors.black),
-            ),
-            SizedBox(
-              height: 14,
-            ),
-            GetBuilder<EditProfileController>(
-              builder: (controller) {
-                return InkWell(
-                  onTap: () {
-                    Get.bottomSheet(
-                      SingleChildScrollView(
-                        child: Container(
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.vertical(top: Radius.circular(16)),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Select Blood Type',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 35,
+                ),
+                Text(
+                  "bloodType".tr,
+                  style: TextStyle(color: Colors.black),
+                ),
+                SizedBox(
+                  height: 14,
+                ),
+                GetBuilder<EditProfileController>(
+                  builder: (controller) {
+                    return InkWell(
+                      onTap: () {
+                        Get.bottomSheet(
+                          SingleChildScrollView(
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(16)),
                               ),
-                              Divider(),
-                              ...controller.bloodType.map((type) => ListTile(
-                                    title: Text(type),
-                                    onTap: () {
-                                      controller.changeBloodType(type);
-                                      Get.back();
-                                    },
-                                  )),
-                            ],
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Select Blood Type',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                  Divider(),
+                                  ...controller.bloodType
+                                      .map((type) => ListTile(
+                                            title: Text(type),
+                                            onTap: () {
+                                              controller.changeBloodType(type);
+                                              Get.back();
+                                            },
+                                          )),
+                                ],
+                              ),
+                            ),
                           ),
+                        );
+                      },
+                      child: Container(
+                        width: size.width,
+                        padding: EdgeInsets.all(10),
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("${controller.selectedBloodType}"),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.black45,
+                              size: 15,
+                            )
+                          ],
                         ),
                       ),
                     );
                   },
-                  child: Container(
-                    width: size.width,
-                    padding: EdgeInsets.all(10),
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("${controller.selectedBloodType}"),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.black45,
-                          size: 15,
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-            SizedBox(
-              height: 35,
-            ),
-            Text(
-              "gender".tr,
-              style: TextStyle(color: Colors.black),
-            ),
-            SizedBox(
-              height: 14,
-            ),
-            GetBuilder<EditProfileController>(
-              builder: (controller) {
-                return Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: controller.genders.map((gender) {
-                    return ElevatedButton(
-                        onPressed: () {
-                          controller.changeGender(gender);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          fixedSize: Size(110, 50),
-                          // side: BorderSide(
-                          //   color: controller.selectedBloodType == gender
-                          //       ? Colors.red
-                          //       : Colors.grey,
-                          // ),
-                          side: controller.selectedGender == gender
-                              ? BorderSide(color: Colors.red)
-                              : BorderSide.none,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: Text(
-                          gender,
-                          style: TextStyle(fontSize: 12, color: Colors.black),
-                        ));
-                  }).toList(),
-                );
-              },
-            ),
+                ),
+                SizedBox(
+                  height: 35,
+                ),
+                Text(
+                  "gender".tr,
+                  style: TextStyle(color: Colors.black),
+                ),
+                SizedBox(
+                  height: 14,
+                ),
+                GetBuilder<EditProfileController>(
+                  builder: (controller) {
+                    return Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: controller.genders.map((gender) {
+                        return ElevatedButton(
+                            onPressed: () {
+                              controller.changeGender(gender);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              fixedSize: Size(110, 50),
+                              // side: BorderSide(
+                              //   color: controller.selectedBloodType == gender
+                              //       ? Colors.red
+                              //       : Colors.grey,
+                              // ),
+                              side: controller.selectedGender == gender
+                                  ? BorderSide(color: Colors.red)
+                                  : BorderSide.none,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: Text(
+                              gender,
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.black),
+                            ));
+                      }).toList(),
+                    );
+                  },
+                ),
 
-            // GetBuilder<EditProfileController>(
-            //   builder: (controller) {
-            //     return Wrap(
-            //       spacing: 10,
-            //       runSpacing: 10,
-            //       children: controller.bloodType.map((bloodType) {
-            //         return ElevatedButton(
-            //             onPressed: () {
-            //               controller.changeBloodType(bloodType);
-            //             },
-            //             style: ElevatedButton.styleFrom(
-            //               fixedSize: Size(101, 15),
-            //               side: BorderSide(
-            //                 color: controller.selectedBloodType == bloodType
-            //                     ? Colors.red
-            //                     : Colors.grey,
-            //               ),
-            //               shape: RoundedRectangleBorder(
-            //                 borderRadius: BorderRadius.circular(8),
-            //               ),
-            //             ),
-            //             child: Text(
-            //               bloodType,
-            //               style: TextStyle(fontSize: 12, color: Colors.black),
-            //             ));
-            //       }).toList(),
-            //     );
-            //   },
-            // )
-          ],
-        ),
-      ),
+                // GetBuilder<EditProfileController>(
+                //   builder: (controller) {
+                //     return Wrap(
+                //       spacing: 10,
+                //       runSpacing: 10,
+                //       children: controller.bloodType.map((bloodType) {
+                //         return ElevatedButton(
+                //             onPressed: () {
+                //               controller.changeBloodType(bloodType);
+                //             },
+                //             style: ElevatedButton.styleFrom(
+                //               fixedSize: Size(101, 15),
+                //               side: BorderSide(
+                //                 color: controller.selectedBloodType == bloodType
+                //                     ? Colors.red
+                //                     : Colors.grey,
+                //               ),
+                //               shape: RoundedRectangleBorder(
+                //                 borderRadius: BorderRadius.circular(8),
+                //               ),
+                //             ),
+                //             child: Text(
+                //               bloodType,
+                //               style: TextStyle(fontSize: 12, color: Colors.black),
+                //             ));
+                //       }).toList(),
+                //     );
+                //   },
+                // )
+              ],
+            );
+          })),
     );
   }
 }
@@ -204,14 +212,17 @@ class CustomizedTextField extends StatelessWidget {
   const CustomizedTextField({
     super.key,
     required this.hintText,
+    required this.controller,
   });
   final String hintText;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: TextField(
+        controller: controller,
         decoration: InputDecoration(
           hintText: hintText,
         ),

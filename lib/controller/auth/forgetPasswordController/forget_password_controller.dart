@@ -18,7 +18,7 @@ class AppForgetPasswordControllerImp extends AppForgetPasswordController {
   checkEmail() async {
     try {
       final response = await http.post(
-        Uri.parse(AppLink.sendResetOtp),
+        Uri.parse(AppLink.sendResetPasswordOtp),
         headers: {
           "Content-Type": "application/json",
           "User-Agent": "application/json",
@@ -33,7 +33,7 @@ class AppForgetPasswordControllerImp extends AppForgetPasswordController {
         Get.snackbar("نجاح", data['message']);
         Get.offAndToNamed(AppRouteName.verfiyCode, arguments: {
           'email': email.text,
-          'nextRoute': AppRouteName.resetPassword
+          'nextRoute': AppRouteName.resetPassword,
         });
       } else {
         Get.snackbar("فشل", data['message']);

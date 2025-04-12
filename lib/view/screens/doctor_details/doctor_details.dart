@@ -29,47 +29,53 @@ class DoctorDetails extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ProfileImageWidget(
-                      profileImage: doctor.profileImage,
-                      fit: BoxFit.contain,
-                      height: 200,
-                      width: 160,
-                      borderRadius: 50,
+                    Expanded(
+                      flex: 1,
+                      child: ProfileImageWidget(
+                        profileImage: doctor.profileImage,
+                        fit: BoxFit.contain,
+                        height: 200,
+                        width: 160,
+                        borderRadius: 10,
+                      ),
                     ),
                     const SizedBox(
                       width: 20,
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'أخصائي: ${doctor.specialization}',
-                          style: themeArabic.textTheme.bodyLarge,
-                        ),
-                        Text('الخبرة: ${doctor.experienceYears} سنوات',
-                            style: themeArabic.textTheme.bodyLarge),
-                        Text('موبايل: ${doctor.mobile}',
-                            style: themeArabic.textTheme.bodyLarge),
-                        Text('الثابت: ${doctor.landlinePhone}',
-                            style: themeArabic.textTheme.bodyLarge),
-                        Text('متاح: ${doctor.isAvailable ? "نعم" : "لا"}',
-                            style: themeArabic.textTheme.bodyLarge),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                            child: doctor.detectionPrice != null
-                                ? Text(
-                                    'سعر الكشف: ${doctor.detectionPrice} ريال',
-                                    style: themeArabic.textTheme.bodyLarge)
-                                : const Text(
-                                    'غير محدد',
-                                    style: TextStyle(
-                                        color: AppColorTheme.card,
-                                        fontSize: 15),
-                                  ))
-                      ],
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'أخصائي: ${doctor.specialization}',
+                            style: themeArabic.textTheme.bodyLarge,
+                          ),
+                          Text('الخبرة: ${doctor.experienceYears} سنوات',
+                              style: themeArabic.textTheme.bodyLarge),
+                          Text('موبايل: ${doctor.mobile}',
+                              style: themeArabic.textTheme.bodyLarge),
+                          Text('الثابت: ${doctor.landlinePhone}',
+                              style: themeArabic.textTheme.bodyLarge),
+                          Text('متاح: ${doctor.isAvailable ? "نعم" : "لا"}',
+                              style: themeArabic.textTheme.bodyLarge),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                              child: doctor.detectionPrice != null
+                                  ? Text(
+                                      'سعر الكشف: ${doctor.detectionPrice} ريال',
+                                      style: themeArabic.textTheme.bodyLarge)
+                                  : const Text(
+                                      'غير محدد',
+                                      style: TextStyle(
+                                          color: AppColorTheme.card,
+                                          fontSize: 15),
+                                    ))
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       width: 5,

@@ -27,9 +27,9 @@ class CustomAuthQuestion extends StatelessWidget {
           child: Text(
             clickText,
             style: const TextStyle(
-                color: AppColorTheme.background2,
+                color: AppColorTheme.background3,
                 fontWeight: FontWeight.bold,
-                fontSize: 17),
+                fontSize: 18),
           ),
         )
       ],

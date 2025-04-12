@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:neurology_clinic/data/datasource/model/booking_model.dart';
+import '../../core/layouts/app_color_theme.dart';
+import '../../link_api.dart';
+import '../connection_controller.dart';
+import '/data/datasource/model/booking_model.dart';
 
 import '../../services/services.dart';
 
@@ -10,79 +14,115 @@ enum AppointmentStatus { initial, loading, failure, success }
 class UpcomingAppointmentController extends GetxController {
   // Replace with your actual project path
   AppointmentStatus status = AppointmentStatus.initial;
-  List<Booking> bookings = [];
-  late MyServices myServices;
-  String? token;
-  int id = 0;
 
-  Future<void> fetchUpcomingAppointments() async {
-    final String apiUrl =
-        'http://10.0.2.2:8000/api/v1/bookings?filter[status]=pending&filter[patient_id]=$id&include=doctor';
-    bookings.clear();
-    try {
-      status = AppointmentStatus.loading;
-      update();
-      final response = await http.get(
-        Uri.parse(apiUrl),
-        headers: {
-          'Authorization': 'Bearer $token', // Add Bearer token
-          'Accept': 'application/json', // Optional but good to specify
-        },
-      );
-      print(response.body);
-      final responseData = json.decode(response.body)['data'];
-      final l = (responseData as List).map((e) => Booking.fromMap(e)).toList();
+  final ConnectionController _connectionController =
+      Get.find<ConnectionController>();
+  late MyServices _myServices;
+  late String _token;
 
-      if (response.statusCode == 200) {
-        print(l[0].doctor!.name);
-        status = AppointmentStatus.success;
-        bookings.addAll(l);
-        update();
-      } else {
-        status = AppointmentStatus.failure;
-        bookings = [];
-        update();
-      }
-      print(status);
-    } catch (e) {
-      bookings = [];
-    }
-  }
+  bool isLoading = false;
+  String errorMessage = '';
 
-  // Future<void> deleteBooking(int bookingId) async {
-  //   try {
-  //     // Replace with the actual URL of your API endpoint
-  //     final url = Uri.parse('http://10.0.2.2:8000/api/v1/bookings/$bookingId');
-
-  //     final response = await http.delete(
-  //       url,
-  //       headers: {
-  //         'Authorization': 'Bearer $token', // Replace with actual token
-  //         'Accept': 'application/json',
-  //       },
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       // Booking deleted successfully
-  //       Get.snackbar('Success', 'Booking deleted successfully');
-  //       fetchUpcomingAppointments();
-  //     } else {
-  //       // Failed to delete booking
-  //       Get.snackbar('Error', 'Failed to delete booking');
-  //     }
-  //     print(response.body);
-  //   } catch (e) {
-  //     // Handle error (e.g., no network connection)
-  //     Get.snackbar('Error', 'Something went wrong. Please try again.');
-  //   }
-  // }
+  static const String _upcomingKey = 'upcomingAppointment';
+  List<Appointment> upcomingAppointments = [];
 
   @override
   void onInit() {
-    myServices = Get.find<MyServices>();
-    token = myServices.userData['token'];
-    id = myServices.userData['patient']['id'];
+    _myServices = Get.find<MyServices>();
+    _token = _myServices.userData['token'];
+    upcomingAppointments = fetchUpcomingAppointmentFromCach(_upcomingKey);
+    update();
+    // مراقبة التغيير في الاتصال
+    ever<bool>(_connectionController.isConnected, (connected) {
+      if (connected) {
+        fetchUpcomingAppointmentFromServer();
+      }
+    });
 
+    // تحميل من الانترنت عند الاتصال
+    if (!_connectionController.isConnected.value) {
+      fetchUpcomingAppointmentFromServer();
+    }
     super.onInit();
+  }
+
+  Future<void> fetchUpcomingAppointmentFromServer() async {
+    if (_connectionController.isConnected.value) return;
+    isLoading = true;
+    update();
+    try {
+      final response = await http.get(
+        Uri.parse(AppLink.upcomingAppointments),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer $_token",
+          'Accept': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        final List<dynamic> appointmentsJson = jsonResponse['data'] ?? [];
+        upcomingAppointments.clear();
+        upcomingAppointments =
+            appointmentsJson.map((json) => Appointment.fromJson(json)).toList();
+
+        update();
+
+        if (upcomingAppointments.isNotEmpty) {
+          await _myServices.storeData(_upcomingKey,
+              upcomingAppointments.map((b) => b.toJson()).toList());
+        }
+      } else {
+        Get.snackbar('فشل', 'لم نتمكن حاليا من تحديث مواعيدك القادمة',
+            backgroundColor: AppColorTheme.background3);
+      }
+    } catch (e) {
+      Get.snackbar('خطأ', 'تحقق من اتصالك بالإنترنت',
+          backgroundColor: AppColorTheme.background3);
+    }
+    isLoading = false;
+    update();
+  }
+
+  Future<void> deleteAppointmet(int bookingId) async {
+    try {
+      final url = Uri.parse('http://10.0.2.2:8000/api/v1/bookings/$bookingId');
+      final response = await http.delete(
+        url,
+        headers: {
+          'Authorization': 'Bearer $_token',
+          'Accept': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        Get.snackbar('نجاح', 'تم حذف الموعد بنجاح');
+        await fetchUpcomingAppointmentFromServer();
+      } else {
+        Get.snackbar('خطأ', 'فشلت عملية حذف الموعد',
+            backgroundColor: AppColorTheme.background3);
+      }
+    } catch (e) {
+      Get.snackbar('فشل', 'حاول مرة اخرى',
+          backgroundColor: AppColorTheme.background3);
+    }
+  }
+
+  List<Appointment> fetchUpcomingAppointmentFromCach(String key) {
+    final cachedData = _myServices.getData(key);
+    List<dynamic> dataList = [];
+
+    if (cachedData != null) {
+      if (cachedData is List) {
+        dataList = cachedData;
+      } else if (cachedData is Map) {
+        dataList = cachedData.values.toList();
+      }
+      return dataList
+          .map((json) => Appointment.fromJson(Map<String, dynamic>.from(json)))
+          .toList();
+    } else {
+      return [];
+    }
   }
 }
