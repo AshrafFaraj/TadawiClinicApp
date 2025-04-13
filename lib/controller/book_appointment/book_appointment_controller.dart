@@ -1,8 +1,7 @@
 import 'dart:convert';
 
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
-import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -10,18 +9,31 @@ import 'package:neurology_clinic/data/datasource/model/booking_model.dart';
 import 'package:neurology_clinic/data/datasource/model/doctor_shedule_model.dart';
 
 import '../../core/functions/dialog_functions.dart';
+import '../../services/services.dart';
 
-enum BookAppointmentStatus { initial, loading, failure, success }
+enum BookAppointmentStatus {
+  initial,
+  loading,
+  failure,
+  success,
+  timeLoading,
+  timeSuccess,
+  timeFailure
+}
 
 class BookAppointmentController extends GetxController {
   final now = DateTime.now();
   DateTime selectedDate = DateTime.now();
   late final EasyDatePickerController dateController;
   String? selectedTime;
+  String? formattedTime;
   BookAppointmentStatus status = BookAppointmentStatus.initial;
   String action = "";
   Booking? exsexistingBooking;
   List<String> timeSlots = [];
+  late MyServices myServices;
+  String? token;
+  int id = 0;
 
   generateTimeSlots(String startTime, String endTime) {
     final DateFormat formatter = DateFormat('hh:mm a'); // For output formatting
@@ -36,7 +48,7 @@ class BookAppointmentController extends GetxController {
     while (start.isBefore(end)) {
       slots.add(formatter.format(
           start)); // Format the DateTime object back to a string in 'hh:mm a' format
-      start = start.add(Duration(minutes: 30)); // Increment by 30 minutes
+      start = start.add(const Duration(minutes: 30)); // Increment by 30 minutes
     }
 
     timeSlots = slots; // Store the generated slots
@@ -45,13 +57,14 @@ class BookAppointmentController extends GetxController {
   // int doctorId=0;
   Future<void> getAvailableTimes(DateTime selectedDate) async {
     try {
+      status = BookAppointmentStatus.timeLoading;
+      update();
       final response = await http.get(
         Uri.parse(
             'http://10.0.2.2:8000/api/v1/doctors/1/schedule?date=${selectedDate.toIso8601String()}'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization':
-              'Bearer 3|qYwZkpUjaRh7waMnGVKj4zyKKsDE9rw6tUZOvMu6647e89da',
+          'Authorization': 'Bearer $token',
         },
       );
       final responseData = json.decode(response.body)['data'];
@@ -60,14 +73,16 @@ class BookAppointmentController extends GetxController {
 
       if (response.statusCode == 200) {
         generateTimeSlots(l[0].startTime!, l[0].endTime!);
-        print(timeSlots);
+        status = BookAppointmentStatus.timeSuccess;
         update();
       } else {
-        // Handle error
+        status = BookAppointmentStatus.timeFailure;
+        update();
         Get.snackbar('Error', 'Failed to fetch available time slots');
       }
     } catch (e) {
-      print('Error fetching available times: $e');
+      status = BookAppointmentStatus.timeFailure;
+      update();
     }
   }
 
@@ -86,15 +101,14 @@ class BookAppointmentController extends GetxController {
         Uri.parse('http://10.0.2.2:8000/api/v1/bookings'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization':
-              'Bearer 3|qYwZkpUjaRh7waMnGVKj4zyKKsDE9rw6tUZOvMu6647e89da', // Replace with your auth token
+          'Authorization': 'Bearer $token', // Replace with your auth token
           'Accept': 'application/json',
         },
         body: json.encode({
-          'patient_id': 1,
+          'patient_id': id,
           'doctor_id': 1,
           'date': selectedDate.toIso8601String(),
-          'time': selectedTime ?? '8:00 AM',
+          'time': formattedTime,
           'type': 'new', // Default type is 'general'
           'status': 'pending', // Default status is 'pending'
           'is_paid': 0,
@@ -143,20 +157,20 @@ class BookAppointmentController extends GetxController {
     try {
       status = BookAppointmentStatus.loading;
       update();
+
       final response = await http.patch(
         Uri.parse(
             'http://10.0.2.2:8000/api/v1/bookings/${exsexistingBooking!.id}'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization':
-              'Bearer 3|qYwZkpUjaRh7waMnGVKj4zyKKsDE9rw6tUZOvMu6647e89da', // Replace with your auth token
+          'Authorization': 'Bearer $token', // Replace with your auth token
           'Accept': 'application/json',
         },
         body: json.encode({
-          'patient_id': 1,
+          'patient_id': id,
           'doctor_id': 1,
           'date': selectedDate.toIso8601String(),
-          'time': selectedTime ?? '8:00 AM',
+          'time': formattedTime,
           'type': 'new', // Default type is 'general'
           'status': 'pending', // Default status is 'pending'
           'is_paid': 0,
@@ -201,15 +215,29 @@ class BookAppointmentController extends GetxController {
     }
   }
 
+  check() {
+    print(formattedTime);
+  }
 
+  formatTime(String? time) {
+    final parsedTime = DateFormat('hh:mm a').parse(time!);
+
+    formattedTime = DateFormat('H:mm').format(parsedTime);
+  }
 
   changeTime(String time) {
     selectedTime = time;
     update();
+    formatTime(selectedTime);
   }
 
   @override
   void onInit() {
+    print(Get.arguments['action']);
+    myServices = Get.find<MyServices>();
+    token = myServices.userData['token'];
+    id = myServices.userData['patient']['id'];
+
     getAvailableTimes(DateTime.now());
     // doctorId = Get.arguments?['doctorId'] ?? 0;
     dateController = EasyDatePickerController();
@@ -218,7 +246,6 @@ class BookAppointmentController extends GetxController {
     if (action == "update" && exsexistingBooking != null) {
       selectedDate = DateTime.parse(exsexistingBooking!.date!);
     }
-    // print(exsexistingBooking!.id);
     super.onInit();
   }
 

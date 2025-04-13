@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neurology_clinic/core/functions/format_time_finction.dart';
 
 import '../../../core/constants/app_svg.dart';
 import '../../../core/layouts/app_layout.dart';
@@ -13,7 +14,9 @@ class AppointmentCardWidget extends StatelessWidget {
     required this.booking,
     this.onElevatedPressed,
     this.onOutlinedPressed,
-    required this.buttonText, required this.status, required this.outlinedText,
+    required this.buttonText,
+    required this.status,
+    required this.outlinedText,
   });
   final Booking booking;
 
@@ -103,7 +106,7 @@ class AppointmentCardWidget extends StatelessWidget {
               children: [
                 TimeElementsWidgets(
                   size: size,
-                  text: "8:20 am",
+                  text: formatTime(booking.time!),
                   svg: AppSvg.calendar,
                 ),
                 TimeElementsWidgets(

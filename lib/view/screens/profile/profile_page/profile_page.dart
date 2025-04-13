@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // TODO: add flutter_svg to pubspec.yaml
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:neurology_clinic/controller/profile_controller/profile_controller.dart';
 import 'package:neurology_clinic/core/constants/app_route_name.dart';
 import 'package:neurology_clinic/core/constants/app_svg.dart';
 
@@ -9,6 +10,7 @@ class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ProfileController());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -19,7 +21,34 @@ class ProfilePage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
           children: [
-            const ProfilePic(),
+            GetBuilder<ProfileController>(
+              builder: (controller) {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      controller.selectedImage != null
+                          ? Image.file(controller.selectedImage!, height: 150)
+                          : Icon(Icons.account_circle, size: 150),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: controller.pickImage,
+                        child: Text("Pick Image"),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: controller.isLoading
+                            ? null
+                            : controller.uploadImage,
+                        child: controller.isLoading
+                            ? CircularProgressIndicator()
+                            : Text("Upload"),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
             const SizedBox(height: 20),
             ProfileMenu(
               text: "personalInfo".tr,
@@ -52,7 +81,9 @@ class ProfilePage extends StatelessWidget {
             ProfileMenu(
               text: "logout".tr,
               svgSrc: AppSvg.logOut,
-              press: () {},
+              press: () {
+                controller.logout();
+              },
             ),
           ],
         ),
@@ -64,7 +95,11 @@ class ProfilePage extends StatelessWidget {
 class ProfilePic extends StatelessWidget {
   const ProfilePic({
     Key? key,
+    this.onPressed,
+    this.backgroundImage,
   }) : super(key: key);
+  final void Function()? onPressed;
+  final ImageProvider<Object>? backgroundImage;
 
   @override
   Widget build(BuildContext context) {
@@ -75,9 +110,8 @@ class ProfilePic extends StatelessWidget {
         fit: StackFit.expand,
         clipBehavior: Clip.none,
         children: [
-          const CircleAvatar(
-            backgroundImage:
-                NetworkImage("https://i.postimg.cc/0jqKB6mS/Profile-Image.png"),
+          CircleAvatar(
+            backgroundImage: backgroundImage,
           ),
           Positioned(
             right: -16,

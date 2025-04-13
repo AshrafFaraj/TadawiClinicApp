@@ -15,19 +15,19 @@ class SimpleUseExample extends StatelessWidget {
     Get.put(BookAppointmentController());
     return Padding(
         padding: const EdgeInsets.all(18.0),
-        child: GetBuilder<BookAppointmentController>(
-          builder: (controller) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              // mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "selectdate".tr,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                EasyDateTimeLinePicker(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          // mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "selectdate".tr,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            GetBuilder<BookAppointmentController>(
+              builder: (controller) {
+                return EasyDateTimeLinePicker(
                   controller: controller.dateController,
                   firstDate: DateTime.now(),
                   lastDate: DateTime(2030, 3, 18),
@@ -37,58 +37,84 @@ class SimpleUseExample extends StatelessWidget {
                   onDateChange: (selectedDate) {
                     controller.onDateChange(selectedDate);
                   },
-                ),
-                SizedBox(height: 20),
-                Text(
-                  "selecttime".tr,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
-                      children: controller.timeSlots.map((time) {
-                        return ElevatedButton(
-                            onPressed: () {
-                              controller.changeTime(time);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              fixedSize: Size(101, 15),
-                              backgroundColor: controller.selectedTime == time
-                                  ? color.primary
-                                  : Colors.white,
-                              side: BorderSide(
-                                color: controller.selectedTime == time
+                );
+              },
+            ),
+            SizedBox(height: 20),
+            Text(
+              "selecttime".tr,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Expanded(
+              child: SingleChildScrollView(
+                  child: GetBuilder<BookAppointmentController>(
+                builder: (controller) {
+                  if (controller.status == BookAppointmentStatus.timeLoading) {
+                    return CircularProgressIndicator();
+                  } else if (controller.status ==
+                      BookAppointmentStatus.timeSuccess) {
+                    if (controller.timeSlots.isNotEmpty) {
+                      return Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: controller.timeSlots.map((time) {
+                          return ElevatedButton(
+                              onPressed: () {
+                                controller.changeTime(time);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(101, 15),
+                                backgroundColor: controller.selectedTime == time
                                     ? color.primary
-                                    : Colors.grey,
+                                    : Colors.white,
+                                side: BorderSide(
+                                  color: controller.selectedTime == time
+                                      ? color.primary
+                                      : Colors.grey,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            child: Text(
-                              time,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: controller.selectedTime == time
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
-                            ));
-                      }).toList(),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
+                              child: Text(
+                                time,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: controller.selectedTime == time
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                              ));
+                        }).toList(),
+                      );
+                    } else {
+                      print("hiiiiiiii");
+                      return Text(
+                        "الطبيب لا يداوم في هذا التاريخ",
+                        style: TextStyle(color: Colors.black),
+                      );
+                    }
+                  } else if (controller.status ==
+                      BookAppointmentStatus.timeFailure) {
+                    Text("فشل الاتصال بالانترنت");
+                  }
+
+                  return SizedBox();
+                },
+              )),
+            ),
+            SizedBox(height: 20),
+            GetBuilder<BookAppointmentController>(
+              builder: (controller) {
+                return ElevatedButton(
                   onPressed: controller.selectedTime != null
                       ? () {
                           if (controller.action == "update") {
                             controller.updateBooking();
                           } else {
                             controller.bookAppointment();
+                            // controller.check();
                           }
                         }
                       : null,
@@ -108,10 +134,10 @@ class SimpleUseExample extends StatelessWidget {
                               : "Update",
                           textColor: Colors.white,
                           fontWeight: FontWeight.w600),
-                ),
-              ],
-            );
-          },
+                );
+              },
+            )
+          ],
         ));
   }
 }

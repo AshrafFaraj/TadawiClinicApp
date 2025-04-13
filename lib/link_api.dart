@@ -19,6 +19,8 @@ class AppLink {
   static const String upcomingAppointments = "$_baseUrl/filter[status]=pending&filter[patient_id]=1&include=doctor";
   static const String verifyOtpCode = "$_baseUrl/verify-otp";
   static const String login = "$_baseUrl/login";
+  static const String logout = "$_baseUrl/logout";
+  static const String uploadImage = "$_baseUrl/patients/upload-image";
   static const String sendResetOtp = "$_baseUrl/send-reset-otp";
   static const String resetPassword = "$_baseUrl/reset-password";
   static const String doctorsDetails = "$_baseUrl/doctorsDetails";

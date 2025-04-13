@@ -35,7 +35,6 @@ class UpcomingAppointmentController extends GetxController {
       final l = (responseData as List).map((e) => Booking.fromMap(e)).toList();
 
       if (response.statusCode == 200) {
-        print(l[0].doctor!.name);
         status = AppointmentStatus.success;
         bookings.addAll(l);
         update();

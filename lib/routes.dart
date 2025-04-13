@@ -32,7 +32,7 @@ List<GetPage<dynamic>>? routes = [
   // GetPage(name: "/", page: () => TestVeiw()),
   // GetPage(name: AppRouteName.onBoarding, page: () => const Onboarding()),
   GetPage(name: AppRouteName.onBoarding, page: () => const OnboardingScreen()),
-  GetPage(name: AppRouteName.editProfile, page: () => const EditProfile()),
+  GetPage(name: AppRouteName.editProfile, page: () => EditProfile()),
   GetPage(name: AppRouteName.profilePage, page: () => const ProfilePage()),
   GetPage(name: AppRouteName.settingsPage, page: () => const SettingsPage()),
   GetPage(name: AppRouteName.checkEmail, page: () => const CheckEmail()),
@@ -52,20 +52,17 @@ List<GetPage<dynamic>>? routes = [
       name: AppRouteName.appointmentPage, page: () => const AppointmentPage()),
   GetPage(name: AppRouteName.aiChat, page: () => AiPage()),
   GetPage(
-      name: AppRouteName.bookAppointmentPage,
-      page: () => BookAppointmentPage(),
-      // middlewares: [
-      //   MyMiddleWare(),
-      // ]
-      ),
+    name: AppRouteName.bookAppointmentPage,
+    page: () => BookAppointmentPage(),
+    // middlewares: [
+    //   MyMiddleWare(),
+    // ]
+  ),
 
   GetPage(
-    name: AppRouteName.layout,
-    page: () => const RiveAppHome(),
-    middlewares: [
-      MyMiddleWare()
-    ]
-  ),
+      name: AppRouteName.layout,
+      page: () => const RiveAppHome(),
+      middlewares: [MyMiddleWare()]),
   GetPage(name: AppRouteName.home, page: () => HomeView()),
   // GetPage(name: AppRouteName.test, page: () => TestPage()),
   GetPage(

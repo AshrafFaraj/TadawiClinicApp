@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:neurology_clinic/data/datasource/model/booking_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:neurology_clinic/link_api.dart';
 import 'package:neurology_clinic/services/services.dart';
 
 enum AppointmentStatus { initial, loading, failure, success }

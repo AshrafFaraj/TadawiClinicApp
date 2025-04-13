@@ -3,20 +3,53 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:neurology_clinic/controller/edit_profile/edit_profile_controller.dart';
 
+// ignore: must_be_immutable
 class EditProfile extends StatelessWidget {
-  const EditProfile({Key? key}) : super(key: key);
+  EditProfile({Key? key}) : super(key: key);
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    Get.put(EditProfileController());
+    final controller = Get.put(EditProfileController());
     return Scaffold(
       appBar: AppBar(
         title: Text("editProfile".tr),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 15, left: 15),
-            child: Icon(Icons.check),
+            child: IconButton(
+                onPressed: () {
+                  controller.updateProfile(nameController.text,
+                      phoneController.text, addressController.text);
+                  Get.back();
+                  Get.snackbar(
+                    'تم', // No title
+                    'تم تعديل البيانات بنجاح', // Message
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.blueAccent,
+                    colorText: Colors.white,
+                    margin: EdgeInsets.all(10), // Small margin around
+                    borderRadius: 30, // Make it bubbly by rounding corners
+                    duration: Duration(seconds: 2),
+                    padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20), // Less padding for smaller size
+                    icon: Icon(Icons.check_circle,
+                        color: Colors.white), // Add an icon
+                    boxShadows: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 3,
+                        blurRadius: 6,
+                        offset: Offset(0, 4), // Shadow effect
+                      ),
+                    ],
+                  );
+                },
+                icon: Icon(Icons.check)),
           )
         ],
       ),
@@ -35,24 +68,45 @@ class EditProfile extends StatelessWidget {
               height: 14,
             ),
             Container(
-              width: size.width,
-              // margin: EdgeInsets.all(15),
-              // height: size.height * .2,
-              decoration: BoxDecoration(color: Colors.white),
-              child: Column(
-                children: [
-                  CustomizedTextField(
-                    hintText: "name".tr,
-                  ),
-                  CustomizedTextField(
-                    hintText: "mobile".tr,
-                  ),
-                  CustomizedTextField(
-                    hintText: "address".tr,
-                  ),
-                ],
-              ),
-            ),
+                width: size.width,
+                // margin: EdgeInsets.all(15),
+                // height: size.height * .2,
+                decoration: BoxDecoration(color: Colors.white),
+                child: GetBuilder<EditProfileController>(
+                  builder: (controller) {
+                    nameController.text = controller.name;
+                    phoneController.text = controller.mobile;
+                    addressController.text = controller.address;
+                    return Column(
+                      children: [
+                        CustomizedTextField(
+                          controller: nameController,
+                          isNumber: false,
+                          onChanged: (p0) {
+                            nameController.text = p0;
+                          },
+                          hintText: "name".tr,
+                        ),
+                        CustomizedTextField(
+                          controller: phoneController,
+                          isNumber: true,
+                          onChanged: (p0) {
+                            phoneController.text = p0;
+                          },
+                          hintText: "mobile".tr,
+                        ),
+                        CustomizedTextField(
+                          controller: addressController,
+                          isNumber: false,
+                          onChanged: (p0) {
+                            addressController.text = p0;
+                          },
+                          hintText: "address".tr,
+                        ),
+                      ],
+                    );
+                  },
+                )),
             SizedBox(
               height: 35,
             ),
@@ -204,14 +258,24 @@ class CustomizedTextField extends StatelessWidget {
   const CustomizedTextField({
     super.key,
     required this.hintText,
+    this.controller,
+    this.onChanged,
+    required this.isNumber,
   });
   final String hintText;
+  final TextEditingController? controller;
+  final void Function(String)? onChanged;
+  final bool isNumber;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: TextField(
+        keyboardType:
+            isNumber == false ? TextInputType.text : TextInputType.phone,
+        controller: controller,
+        onChanged: onChanged,
         decoration: InputDecoration(
           hintText: hintText,
         ),

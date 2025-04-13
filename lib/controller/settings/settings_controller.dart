@@ -20,6 +20,7 @@ class SettingsController extends GetxController {
 
   check() {
     print(myServices.userData['patient']['id']);
+    print(myServices.userData);
     print(myServices.userData['token']);
   }
 
