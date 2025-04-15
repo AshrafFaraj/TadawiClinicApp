@@ -7,12 +7,24 @@ import '/app_theme.dart';
 import '../../../core/layouts/app_color_theme.dart';
 import '/data/datasource/model/booking_model.dart';
 
-class AppointmentList extends StatelessWidget {
+class AppointmentList extends StatefulWidget {
   const AppointmentList({Key? key}) : super(key: key);
 
   @override
+  State<AppointmentList> createState() => _AppointmentListState();
+}
+
+class _AppointmentListState extends State<AppointmentList> {
+  @override
+  void initState() {
+    Get.find<UpcomingAppointmentController>().initial();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Get.find<UpcomingAppointmentController>();
+    // Get.put(UpcomingAppointmentController());
     return GetBuilder<UpcomingAppointmentController>(builder: (controller) {
       if (controller.isLoading) {
         return Center(child: Lottie.asset('assets/lottie/ECG.json'));

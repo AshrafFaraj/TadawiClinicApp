@@ -5,12 +5,14 @@ import '../../../core/layouts/app_color_theme.dart';
 import '../../../services/services.dart';
 
 class CustomAppBar extends StatelessWidget {
-  final HomeController controller;
   final MyServices myServices = Get.find<MyServices>();
-  CustomAppBar({super.key, required this.controller});
+  CustomAppBar({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    Get.put(HomeController());
     return Container(
       padding: const EdgeInsets.only(bottom: 10, right: 10),
       margin: const EdgeInsets.only(bottom: 5),
@@ -25,17 +27,19 @@ class CustomAppBar extends StatelessWidget {
                 ),
                 Positioned(
                   right: 0,
-                  child: Obx(() => controller.unreadNotifications.value > 0
-                      ? CircleAvatar(
-                          radius: 9,
-                          backgroundColor: Colors.red,
-                          child: Text(
-                            "${controller.unreadNotifications.value}",
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.white),
-                          ),
-                        )
-                      : const SizedBox()),
+                  child: GetBuilder<HomeController>(
+                      builder: (controller) =>
+                          controller.unreadNotifications > 0
+                              ? CircleAvatar(
+                                  radius: 9,
+                                  backgroundColor: Colors.red,
+                                  child: Text(
+                                    "${controller.unreadNotifications}",
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.white),
+                                  ),
+                                )
+                              : const SizedBox()),
                 ),
               ],
             ),
@@ -44,13 +48,14 @@ class CustomAppBar extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          Obx(() => Text(
-                "مرحبًا, ${myServices.userData['user']['name'] ?? ''}",
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: AppColorTheme.shadowDark,
-                    fontWeight: FontWeight.bold),
-              )),
+          GetBuilder<HomeController>(
+              builder: (controller) => Text(
+                    "مرحبًا, ${myServices.userData['user']['name'] ?? ''}",
+                    style: const TextStyle(
+                        fontSize: 20,
+                        color: AppColorTheme.shadowDark,
+                        fontWeight: FontWeight.bold),
+                  )),
         ],
       ),
     );

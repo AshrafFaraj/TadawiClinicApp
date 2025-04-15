@@ -1,64 +1,101 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:neurology_clinic/controller/connection_controller.dart';
+import 'package:neurology_clinic/link_api.dart';
 
-import '/data/datasource/model/booking_model.dart';
 import '../../data/datasource/model/prescription_model.dart';
 import '../../services/services.dart';
 
 enum AllPrescriptionsStatus { initial, loading, failure, success }
 
 class AllPrescriptionsController extends GetxController {
-  // Replace this with your actual Laravel API URL running on your local machine
-  // Replace with your actual project path
   AllPrescriptionsStatus status = AllPrescriptionsStatus.initial;
-  List<Prescription> prescriptions = [];
-  Appointment? appointment;
+  List<Prescription> allPrescriptions = [];
   late MyServices myServices;
+  String _token = "";
+  final ConnectionController _connectionController =
+      Get.find<ConnectionController>();
+  static const String _allKey = 'allPrescriptions';
 
-  Future<void> fetchPrescriptions(int id) async {
-    String apiUrl = 'http://10.0.2.2:8000/api/v1/prescriptions/$id';
-    final token = myServices.userData['token'];
-    prescriptions.clear();
+  Future<void> fetchAllPrescriptions() async {
+    status = AllPrescriptionsStatus.loading;
+    update();
+    final list = await getAllPrescriptions();
+    status = AllPrescriptionsStatus.success;
+    allPrescriptions = list;
+    update();
+  }
+
+  Future<List<Prescription>> getAllPrescriptions() async {
+    if (_connectionController.isConnected.value) {
+      final fetchedList = await fetchAllPrescriptionsApi();
+      if (fetchedList.isNotEmpty) {
+        await savePrescriptionPage(list: fetchedList);
+        return fetchedList;
+      }
+    }
+
+    // fallback to cache if offline or fetch failed
+    return loadPrescriptionPage();
+  }
+
+  Future<List<Prescription>> fetchAllPrescriptionsApi() async {
     try {
-      status = AllPrescriptionsStatus.loading;
-      update();
       final response = await http.get(
-        Uri.parse(apiUrl),
+        Uri.parse(AppLink.getAllPrescriptions),
         headers: {
-          'Authorization': 'Bearer $token', // Add Bearer token
+          'Authorization': 'Bearer $_token', // Add Bearer token
           'Content-Type': 'application/json', // Optional but good to specify
         },
       );
-      final responseData = json.decode(response.body)['data'];
-      final l =
-          (responseData as List).map((e) => Prescription.fromMap(e)).toList();
 
       if (response.statusCode == 200) {
-        print(l[0].dosage);
-        print("=========");
-        status = AllPrescriptionsStatus.success;
-        prescriptions.addAll(l);
-        update();
+        final responseData = json.decode(response.body)['data'];
+        final l =
+            (responseData as List).map((e) => Prescription.fromMap(e)).toList();
+        return l;
+      } else if (response.statusCode == 404) {
+        // API returns 404 when there's no more data
+        return [];
       } else {
-        status = AllPrescriptionsStatus.failure;
-        prescriptions = [];
+        print("Error: ${response.statusCode}");
         update();
       }
-      print(status);
     } catch (e) {
-      prescriptions = [];
+      print("Error during request: $e");
     }
+    return [];
+  }
+
+  List<Prescription> loadPrescriptionPage() {
+    final jsonList = myServices.getData(_allKey);
+
+    return jsonList != null
+        ? (jsonList as List).map((e) => Prescription.fromRawJson(e)).toList()
+        : [];
+  }
+
+  Future<bool> savePrescriptionPage({
+    required List<Prescription> list,
+  }) {
+    final jsonList = list.map((e) => e.toRawJson()).toList();
+    return myServices.storeDataBool(_allKey, jsonList);
   }
 
   @override
   void onInit() {
     myServices = Get.find<MyServices>();
-    super.onInit();
-    appointment = Get.arguments?['booking'];
+    _token = myServices.userData['token'];
+    // myServices.clearData(_allKey);
+    ever<bool>(_connectionController.isConnected, (connected) {
+      if (connected) {
+        fetchAllPrescriptions();
+      }
+    });
 
-    if (appointment!.id != null) {
-      fetchPrescriptions(appointment!.id);
-    }
+    // تحميل من الانترنت عند الاتصال
+    fetchAllPrescriptions();
+    super.onInit();
   }
 }

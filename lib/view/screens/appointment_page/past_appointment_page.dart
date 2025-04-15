@@ -1,32 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:neurology_clinic/app_theme.dart';
 import 'package:neurology_clinic/controller/appointment/past_appointments_controller.dart';
 
 import '/core/constants/app_route_name.dart';
-import '/view/widgets/appointment/Appointment_card_widget.dart';
+import '../../widgets/appointment/appointment_card_widget.dart';
 
+class PastAppointmentsPage extends StatefulWidget {
+  const PastAppointmentsPage({Key? key}) : super(key: key);
 
-class PastAppointmentsPage extends StatelessWidget {
-  PastAppointmentsPage({Key? key}) : super(key: key);
+  @override
+  State<PastAppointmentsPage> createState() => _PastAppointmentsPageState();
+}
+
+class _PastAppointmentsPageState extends State<PastAppointmentsPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    Get.find<PastAppointmentController>().initial();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
     // Get.put(PastAppointmentController());
+    super.build(context);
     return GetBuilder<PastAppointmentController>(builder: (controller) {
       if (controller.isLoading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
       } else if (controller.pastAppointments.isEmpty) {
-        return const Center(
+        return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.event_busy, size: 80, color: Colors.grey),
-              SizedBox(height: 16),
-              Text("ليس لديك مواعيد مكتملة"),
+              const Icon(Icons.event_busy, size: 80, color: Colors.grey),
+              const SizedBox(height: 16),
+              Text(
+                "ليس لديك مواعيد مكتملة",
+                style: themeArabic.textTheme.bodyLarge,
+              ),
             ],
           ),
         );
@@ -54,4 +70,8 @@ class PastAppointmentsPage extends StatelessWidget {
       }
     });
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

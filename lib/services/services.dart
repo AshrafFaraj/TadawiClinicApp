@@ -7,6 +7,15 @@ class MyServices extends GetxService {
   Future<void> storeData(String key, dynamic value) async {
     await _box.put(key, value);
   }
+  Future<bool> storeDataBool(String key, dynamic value) async {
+        try {
+      await _box.put(key, value);
+      return true; // Return true when data is successfully stored
+    } catch (e) {
+      return false; // Return false if an error occurs while storing data
+    }
+  }
+
 
   dynamic getData(String key) {
     if (_box.containsKey(key)) {

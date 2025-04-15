@@ -26,8 +26,25 @@ class UpcomingAppointmentController extends GetxController {
   static const String _upcomingKey = 'upcomingAppointment';
   List<Appointment> upcomingAppointments = [];
 
-  @override
-  void onInit() {
+  // @override
+  // void onInit() {
+  //   _myServices = Get.find<MyServices>();
+  //   _token = _myServices.userData['token'];
+  //   upcomingAppointments = fetchUpcomingAppointmentFromCach(_upcomingKey);
+  //   update();
+  //   // مراقبة التغيير في الاتصال
+  //   ever<bool>(_connectionController.isConnected, (connected) {
+  //     if (connected) {
+  //       fetchUpcomingAppointmentFromServer();
+  //     }
+  //   });
+
+  //   // تحميل من الانترنت عند الاتصال
+  //   fetchUpcomingAppointmentFromServer();
+
+  //   super.onInit();
+  // }
+  initial() {
     _myServices = Get.find<MyServices>();
     _token = _myServices.userData['token'];
     upcomingAppointments = fetchUpcomingAppointmentFromCach(_upcomingKey);
@@ -40,14 +57,11 @@ class UpcomingAppointmentController extends GetxController {
     });
 
     // تحميل من الانترنت عند الاتصال
-    if (!_connectionController.isConnected.value) {
-      fetchUpcomingAppointmentFromServer();
-    }
-    super.onInit();
+    fetchUpcomingAppointmentFromServer();
   }
 
   Future<void> fetchUpcomingAppointmentFromServer() async {
-    if (_connectionController.isConnected.value) return;
+    if (!_connectionController.isConnected.value) return;
     isLoading = true;
     update();
     try {

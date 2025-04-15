@@ -11,6 +11,7 @@ class AppLink {
   static const String sendResetPasswordOtp =
       "$_baseUrl/send-password-reset-otp";
   static const String resetPassword = "$_baseUrl/reset-password";
+  static const String getAllPrescriptions = "$_baseUrl/prescriptions/get-all";
   static const String changePassword = "$_baseUrl/change-password";
   static const String doctorsDetails = "$_baseUrl/doctorsDetails";
   static const String pastAppointments = '$_baseUrl/bookings/past';

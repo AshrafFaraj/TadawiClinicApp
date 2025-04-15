@@ -4,16 +4,31 @@ import 'package:get/get.dart';
 import '/controller/appointment/upcoming_appointment_controller.dart';
 import '/core/constants/app_route_name.dart';
 import '/core/functions/dialog_functions.dart';
-import '/view/widgets/appointment/Appointment_card_widget.dart';
+import '../../widgets/appointment/appointment_card_widget.dart';
 import '../../../core/layouts/app_layout.dart';
 
-class UpcomingAppointmentsPage extends StatelessWidget {
+class UpcomingAppointmentsPage extends StatefulWidget {
   const UpcomingAppointmentsPage({Key? key}) : super(key: key);
+
+  @override
+  State<UpcomingAppointmentsPage> createState() =>
+      _UpcomingAppointmentsPageState();
+}
+
+class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    Get.find<UpcomingAppointmentController>().initial();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final color = Theme.of(context).colorScheme;
     // Get.put(UpcomingAppointmentController());
+    super.build(context);
 
     return Scaffold(
       body: GetBuilder<UpcomingAppointmentController>(
@@ -34,8 +49,6 @@ class UpcomingAppointmentsPage extends StatelessWidget {
               ),
             );
           } else {
-            Get.put(UpcomingAppointmentController());
-
             return ListView.builder(
               itemCount: controller.upcomingAppointments.length,
               itemBuilder: (context, index) {
@@ -101,4 +114,8 @@ class UpcomingAppointmentsPage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

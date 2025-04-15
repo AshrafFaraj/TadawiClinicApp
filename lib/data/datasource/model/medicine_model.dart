@@ -9,6 +9,19 @@ class Medicine {
         company: json['company'],
        
       );
+       static Medicine fromMedicine(Medicine medicine) {
+    return Medicine(
+      name: medicine.name,
+      company: medicine.company,
+    );
+  }
+
+  Medicine toMedicine() {
+    return Medicine(
+      name: name,
+      company: company,
+    );
+  }
 
   Map<String, dynamic> toMap() => {
         'name': name,

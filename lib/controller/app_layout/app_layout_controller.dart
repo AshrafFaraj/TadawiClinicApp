@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/core/constants/app_route_name.dart';
-import 'package:neurology_clinic/view/screens/appointment_page/appointment_page.dart';
 import 'package:rive/rive.dart';
 
+import '/core/constants/app_route_name.dart';
+import '/view/screens/appointment_page/appointment_page.dart';
 import '../../core/layouts/app_color_theme.dart';
 import '../../data/datasource/model/tab_item.dart';
 import '../../view/screens/home/home_view.dart';
 import '../../view/screens/profile/profile_page/profile_page.dart';
 
-class LayoutPageController extends GetxController
-    with GetTickerProviderStateMixin {
+class LayoutController extends GetxController with GetTickerProviderStateMixin {
   static const String route = '/course-rive';
 
   late AnimationController? animationController;

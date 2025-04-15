@@ -16,6 +16,7 @@ class DoctorsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(DoctorController());
     return Container(
       height: 200,
       width: double.infinity,

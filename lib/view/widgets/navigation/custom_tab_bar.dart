@@ -10,7 +10,7 @@ import '../../../core/constants/assets.dart' as app_assets;
 class CustomTabBar extends StatelessWidget {
   const CustomTabBar({Key? key, required this.getController}) : super(key: key);
 
-  final LayoutPageController getController;
+  final LayoutController getController;
 
   @override
   Widget build(BuildContext context) {

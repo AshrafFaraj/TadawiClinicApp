@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:neurology_clinic/view/screens/prescription/all_prescriptions_page.dart';
 import '/view/screens/doctor_details/doctor_details.dart';
 import '/view/screens/appointment_page/appointment_page.dart';
 import '/view/screens/help_center/help_center_page.dart';
@@ -47,8 +48,15 @@ List<GetPage<dynamic>>? routes = [
       name: AppRouteName.appointmentPage, page: () => const AppointmentPage()),
   GetPage(name: AppRouteName.aiChat, page: () => AiPage()),
   GetPage(
-    name: AppRouteName.bookAppointmentPage,
-    page: () => BookAppointmentPage(),
+      name: AppRouteName.bookAppointmentPage,
+      page: () => BookAppointmentPage(),
+      middlewares: [
+        // MyMiddleWare(),
+      ]),
+
+  GetPage(
+    name: AppRouteName.layout,
+    page: () => const AppLayout(),
     // middlewares: [
     //   MyMiddleWare(),
     // ]
@@ -56,12 +64,14 @@ List<GetPage<dynamic>>? routes = [
 
   GetPage(
       name: AppRouteName.layout,
-      page: () => const RiveAppHome(),
+      page: () => const AppLayout(),
       middlewares: [MyMiddleWare()]),
   GetPage(name: AppRouteName.home, page: () => HomeView()),
   // GetPage(name: AppRouteName.test, page: () => TestPage()),
   GetPage(
       name: AppRouteName.prescription, page: () => const PrescriptionPage()),
+  GetPage(
+      name: AppRouteName.allPrescriptions, page: () => const AllPrescriptionsPage()),
   GetPage(name: AppRouteName.doctorDetails, page: () => DoctorDetails()),
 ];
 

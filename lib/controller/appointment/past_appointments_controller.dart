@@ -26,11 +26,29 @@ class PastAppointmentController extends GetxController {
   static const String _pastKey = 'pastAppointment';
   List<Appointment> pastAppointments = [];
 
-  @override
-  void onInit() {
-    super.onInit();
+  // @override
+  // void onInit() {
+
+  //   _myServices = Get.find<MyServices>();
+  //   _token = _myServices.userData['token'];
+
+  //   pastAppointments = fetchPastAppointmentFromCach(_pastKey);
+  //   update();
+  //   // مراقبة التغيير في الاتصال
+  //   ever<bool>(_connectionController.isConnected, (connected) {
+  //     if (connected) {
+  //       fetchPastAppointmentFromServer();
+  //     }
+  //   });
+
+  //   // تحميل من الانترنت عند الاتصال
+  //   fetchPastAppointmentFromServer();
+  //   super.onInit();
+  // }
+  initial() {
     _myServices = Get.find<MyServices>();
     _token = _myServices.userData['token'];
+    print(_token);
 
     pastAppointments = fetchPastAppointmentFromCach(_pastKey);
     update();
@@ -42,14 +60,13 @@ class PastAppointmentController extends GetxController {
     });
 
     // تحميل من الانترنت عند الاتصال
-    if (!_connectionController.isConnected.value) {
-      fetchPastAppointmentFromServer();
-    }
+    fetchPastAppointmentFromServer();
   }
 
   Future<void> fetchPastAppointmentFromServer() async {
-    if (_connectionController.isConnected.value) return;
+    if (!_connectionController.isConnected.value) return;
     isLoading = true;
+    print("fetchiiing");
     update();
     try {
       final response = await http.get(
@@ -60,6 +77,7 @@ class PastAppointmentController extends GetxController {
           'Accept': 'application/json',
         },
       );
+      print(response.body);
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         final List<dynamic> appointmentsJson = jsonResponse['data'] ?? [];
@@ -68,7 +86,6 @@ class PastAppointmentController extends GetxController {
             appointmentsJson.map((json) => Appointment.fromJson(json)).toList();
 
         update();
-
         if (pastAppointments.isNotEmpty) {
           await _myServices.storeData(
               _pastKey, pastAppointments.map((b) => b.toJson()).toList());
@@ -80,6 +97,7 @@ class PastAppointmentController extends GetxController {
     } catch (e) {
       Get.snackbar('خطأ', 'تحقق من اتصالك بالإنترنت',
           backgroundColor: AppColorTheme.background3);
+      print(e);
     }
     isLoading = false;
     update();

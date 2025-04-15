@@ -22,6 +22,7 @@ class AppRouteName {
   static const String profilePage = '/profilePage';
   static const String editProfile = '/editProfile';
   static const String prescription = '/prescription';
+  static const String allPrescriptions = '/allPrescriptions';
   static const String privacy = '/privacy';
   static const String helpCenter = '/helpCenter';
 }
