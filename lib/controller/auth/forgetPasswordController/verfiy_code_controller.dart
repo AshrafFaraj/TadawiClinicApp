@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:neurology_clinic/core/constants/app_route_name.dart';
 import 'package:neurology_clinic/services/services.dart';
 
 import '../../../link_api.dart';
@@ -34,7 +35,10 @@ class AppVerfiyCodeControllerImp extends AppVerfiyCodeController {
         await myServices.storeData('userdata', data);
 
         Get.snackbar("نجاح", data['message']);
-        Get.offAndToNamed(nextRoute!, arguments: {'email': email});
+        Get.offAndToNamed(nextRoute!, arguments: {
+          'email': email,
+          if (nextRoute == AppRouteName.resetPassword) 'reason': 'forget'
+        });
       } else {
         Get.snackbar("فشل", data['message']);
       }

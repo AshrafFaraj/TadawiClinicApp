@@ -6,12 +6,12 @@ import '/data/datasource/model/booking_model.dart';
 import '../../data/datasource/model/prescription_model.dart';
 import '../../services/services.dart';
 
-enum PrescriptionStatus { initial, loading, failure, success }
+enum AllPrescriptionsStatus { initial, loading, failure, success }
 
-class PrescriptionsController extends GetxController {
+class AllPrescriptionsController extends GetxController {
   // Replace this with your actual Laravel API URL running on your local machine
   // Replace with your actual project path
-  PrescriptionStatus status = PrescriptionStatus.initial;
+  AllPrescriptionsStatus status = AllPrescriptionsStatus.initial;
   List<Prescription> prescriptions = [];
   Appointment? appointment;
   late MyServices myServices;
@@ -21,7 +21,7 @@ class PrescriptionsController extends GetxController {
     final token = myServices.userData['token'];
     prescriptions.clear();
     try {
-      status = PrescriptionStatus.loading;
+      status = AllPrescriptionsStatus.loading;
       update();
       final response = await http.get(
         Uri.parse(apiUrl),
@@ -37,11 +37,11 @@ class PrescriptionsController extends GetxController {
       if (response.statusCode == 200) {
         print(l[0].dosage);
         print("=========");
-        status = PrescriptionStatus.success;
+        status = AllPrescriptionsStatus.success;
         prescriptions.addAll(l);
         update();
       } else {
-        status = PrescriptionStatus.failure;
+        status = AllPrescriptionsStatus.failure;
         prescriptions = [];
         update();
       }

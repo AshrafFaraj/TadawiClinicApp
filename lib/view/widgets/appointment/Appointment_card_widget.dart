@@ -11,14 +11,14 @@ class AppointmentCardWidget extends StatelessWidget {
     super.key,
     required this.size,
     required this.color,
-    required this.booking,
+    required this.appointment,
     this.onElevatedPressed,
     this.onOutlinedPressed,
     required this.buttonText,
     required this.status,
     required this.outlinedText,
   });
-  final Booking booking;
+  final Appointment appointment;
 
   final Size size;
   final ColorScheme color;
@@ -62,17 +62,17 @@ class AppointmentCardWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${booking.doctor!.name}",
+                      "${appointment.doctorName}",
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
-                    textWidget(
-                        text: "${booking.doctor!.specialization}",
-                        fontWeight: FontWeight.w500,
-                        textColor: Colors.black,
-                        fontSize: 14),
+                    // textWidget(
+                    //     text: "${booking.doctor!.specialization}",
+                    //     fontWeight: FontWeight.w500,
+                    //     textColor: Colors.black,
+                    //     fontSize: 14),
                   ],
                 ),
               ),
@@ -106,12 +106,13 @@ class AppointmentCardWidget extends StatelessWidget {
               children: [
                 TimeElementsWidgets(
                   size: size,
-                  text: formatTime(booking.time!),
+                  // text: formatTime(booking.time!),
+                  text: "8:00 am",
                   svg: AppSvg.calendar,
                 ),
                 TimeElementsWidgets(
                   size: size,
-                  text: "${booking.date}",
+                  text: "${appointment.date}",
                   svg: AppSvg.clock,
                 ),
               ],

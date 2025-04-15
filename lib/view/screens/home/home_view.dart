@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/app_theme.dart';
-import 'package:neurology_clinic/view/widgets/home/doctor_card.dart';
+
+import '/app_theme.dart';
+import '/view/widgets/home/doctor_card.dart';
 import '../../../controller/home_controller/home_controller.dart';
 import '../../widgets/home/appointment_card.dart';
 import '../../widgets/home/hcard.dart';
 import '../../widgets/home/custom_home_appbar.dart';
-import '/core/constants/app_color.dart';
 import '../../../core/layouts/app_color_theme.dart';
 import '/core/constants/app_route_name.dart';
 
@@ -35,17 +35,20 @@ class HomeView extends StatelessWidget {
               child: Column(
                 children: [
                   CustomAppBar(controller: controller),
-                  AppointmentCard(),
+                  SizedBox(height: 250, child: AppointmentList()),
                   const SizedBox(height: 16),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                     alignment: Alignment.centerRight,
                     child: Text(
                       'قائمة الأطباء',
                       style: themeArabic.textTheme.headlineLarge,
                     ),
                   ),
-                  DoctorsCard(controller: controller),
+                  DoctorsCard(
+                    scrollDirection: Axis.horizontal,
+                  ),
                   const SizedBox(height: 16),
                   Column(
                     children: [
@@ -55,13 +58,18 @@ class HomeView extends StatelessWidget {
                         },
                         child: const HCard(
                           title: 'مراجعة الادوية',
-                          color: AppColor.primaycolor,
+                          color: AppColorTheme.card,
                           icon: Icons.medical_information,
                         ),
                       ),
                       const SizedBox(
                         height: 15,
                       ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Get.toNamed(AppRouteName.onBoarding);
+                          },
+                          child: Text('Auth'))
                     ],
                   ),
                   // EmergencyButton(),

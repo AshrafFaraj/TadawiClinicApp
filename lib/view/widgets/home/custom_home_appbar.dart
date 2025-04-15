@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../controller/home_controller/home_controller.dart';
 import '../../../core/layouts/app_color_theme.dart';
+import '../../../services/services.dart';
 
 class CustomAppBar extends StatelessWidget {
   final HomeController controller;
-  const CustomAppBar({super.key, required this.controller});
+  final MyServices myServices = Get.find<MyServices>();
+  CustomAppBar({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class CustomAppBar extends StatelessWidget {
             width: 10,
           ),
           Obx(() => Text(
-                "مرحبًا, ${controller.myServices.userData['user']['name'] ?? ''}",
+                "مرحبًا, ${myServices.userData['user']['name'] ?? ''}",
                 style: const TextStyle(
                     fontSize: 20,
                     color: AppColorTheme.shadowDark,

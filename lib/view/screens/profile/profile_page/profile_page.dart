@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 // TODO: add flutter_svg to pubspec.yaml
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:neurology_clinic/controller/profile_controller/profile_controller.dart';
 import 'package:neurology_clinic/core/constants/app_route_name.dart';
 import 'package:neurology_clinic/core/constants/app_svg.dart';
@@ -23,29 +25,75 @@ class ProfilePage extends StatelessWidget {
           children: [
             GetBuilder<ProfileController>(
               builder: (controller) {
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      controller.selectedImage != null
-                          ? Image.file(controller.selectedImage!, height: 150)
-                          : Icon(Icons.account_circle, size: 150),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: controller.pickImage,
-                        child: Text("Pick Image"),
+                //             return Padding(
+                //               padding: const EdgeInsets.all(16.0),
+                //               child: Column(
+                //                 children: [
+                //                   controller.profileImage != null
+                //                       ? Image.file(controller.profileImage!, height: 150)
+                //                       : Icon(Icons.account_circle, size: 150),
+                //                   SizedBox(height: 20),
+
+                //                   SizedBox(height: 10),
+                //                   ElevatedButton(
+                //                     onPressed: (){
+                //                           Get.defaultDialog(
+                //   title: "Choose option",
+                //   content: Column(
+                //     children: [
+                //       ListTile(
+                //         leading: Icon(Icons.camera_alt),
+                //         title: Text("Take a picture"),
+                //         onTap: () {
+                //           Get.back();
+                //           controller.pickImage(ImageSource.camera);
+                //         },
+                //       ),
+                //       ListTile(
+                //         leading: Icon(Icons.photo),
+                //         title: Text("Choose from gallery"),
+                //         onTap: () {
+                //           Get.back();
+                //           controller.pickImage(ImageSource.gallery);
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // );
+
+                //                     },
+                //                     child: Text("Upload"),
+                //                   ),
+                //                 ],
+                //               ),
+                //             );
+                return ProfilePic(
+                  imageUrl: controller.imageUrl,
+                  onPressed: () {
+                    Get.defaultDialog(
+                      title: "Choose option",
+                      content: Column(
+                        children: [
+                          ListTile(
+                            leading: Icon(Icons.camera_alt),
+                            title: Text("Take a picture"),
+                            onTap: () {
+                              Get.back();
+                              controller.pickImage(ImageSource.camera);
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.photo),
+                            title: Text("Choose from gallery"),
+                            onTap: () {
+                              Get.back();
+                              controller.pickImage(ImageSource.gallery);
+                            },
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: controller.isLoading
-                            ? null
-                            : controller.uploadImage,
-                        child: controller.isLoading
-                            ? CircularProgressIndicator()
-                            : Text("Upload"),
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 );
               },
             ),
@@ -96,10 +144,10 @@ class ProfilePic extends StatelessWidget {
   const ProfilePic({
     Key? key,
     this.onPressed,
-    this.backgroundImage,
+    this.imageUrl,
   }) : super(key: key);
   final void Function()? onPressed;
-  final ImageProvider<Object>? backgroundImage;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -110,9 +158,18 @@ class ProfilePic extends StatelessWidget {
         fit: StackFit.expand,
         clipBehavior: Clip.none,
         children: [
-          CircleAvatar(
-            backgroundImage: backgroundImage,
-          ),
+          imageUrl == null
+              ? CircleAvatar(
+                  child: Icon(Icons.person),
+                )
+              : CachedNetworkImage(
+                  imageUrl: imageUrl!,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  imageBuilder: (context, imageProvider) => CircleAvatar(
+                    backgroundImage: imageProvider,
+                  ),
+                ),
           Positioned(
             right: -16,
             bottom: 0,
@@ -128,7 +185,7 @@ class ProfilePic extends StatelessWidget {
                   ),
                   backgroundColor: const Color(0xFFF5F6F9),
                 ),
-                onPressed: () {},
+                onPressed: onPressed,
                 child: SvgPicture.string(cameraIcon),
               ),
             ),

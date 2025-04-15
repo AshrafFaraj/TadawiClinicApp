@@ -29,43 +29,53 @@ class DoctorDetails extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ProfileImageWidget(
-                      profileImage: doctor.profileImage,
-                      fit: BoxFit.contain,
-                      height: 200,
-                      width: 160,
-                      borderRadius: 50,
+                    Expanded(
+                      flex: 1,
+                      child: ProfileImageWidget(
+                        profileImage: doctor.profileImage,
+                        fit: BoxFit.contain,
+                        height: 200,
+                        width: 160,
+                        borderRadius: 10,
+                      ),
                     ),
                     const SizedBox(
-                      width: 30,
+                      width: 20,
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'أخصائي: ${doctor.specialization}',
-                          style: themeArabic.textTheme.bodyLarge,
-                        ),
-                        Text('الخبرة: ${doctor.experienceYears} سنوات',
-                            style: themeArabic.textTheme.bodyLarge),
-                        Text('موبايل: ${doctor.mobile}',
-                            style: themeArabic.textTheme.bodyLarge),
-                        Text('الثابت: ${doctor.landlinePhone}',
-                            style: themeArabic.textTheme.bodyLarge),
-                        Text('متاح: ${doctor.isAvailable ? "نعم" : "لا"}',
-                            style: themeArabic.textTheme.bodyLarge),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                            child: doctor.detectionPrice != null
-                                ? Text(
-                                    'سعر الكشف: ${doctor.detectionPrice} ريال',
-                                    style: TextStyle(fontSize: 15),
-                                  )
-                                : Text('غير محدد'))
-                      ],
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'أخصائي: ${doctor.specialization}',
+                            style: themeArabic.textTheme.bodyLarge,
+                          ),
+                          Text('الخبرة: ${doctor.experienceYears} سنوات',
+                              style: themeArabic.textTheme.bodyLarge),
+                          Text('موبايل: ${doctor.mobile}',
+                              style: themeArabic.textTheme.bodyLarge),
+                          Text('الثابت: ${doctor.landlinePhone}',
+                              style: themeArabic.textTheme.bodyLarge),
+                          Text('متاح: ${doctor.isAvailable ? "نعم" : "لا"}',
+                              style: themeArabic.textTheme.bodyLarge),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                              child: doctor.detectionPrice != null
+                                  ? Text(
+                                      'سعر الكشف: ${doctor.detectionPrice} ريال',
+                                      style: themeArabic.textTheme.bodyLarge)
+                                  : const Text(
+                                      'غير محدد',
+                                      style: TextStyle(
+                                          color: AppColorTheme.card,
+                                          fontSize: 15),
+                                    ))
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       width: 5,
@@ -157,7 +167,7 @@ class DoctorDetails extends StatelessWidget {
                                   ),
                                   Container(
                                     width: 180,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 2, vertical: 5),
                                     decoration: BoxDecoration(
                                       color: AppColorTheme.background,

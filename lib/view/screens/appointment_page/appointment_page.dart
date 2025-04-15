@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/controller/appointment/appointments_controller.dart';
 
+import '/controller/appointment/appointments_controller.dart';
 import '../../../core/layouts/app_layout.dart';
 import 'past_appointment_page.dart';
 import 'upcoming_appointment_page.dart';
@@ -35,7 +35,6 @@ class AppointmentPage extends StatelessWidget {
         controller: controller.tabController,
         children: [UpcomingAppointmentsPage(), PastAppointmentsPage()],
       ),
-      
     );
   }
 }

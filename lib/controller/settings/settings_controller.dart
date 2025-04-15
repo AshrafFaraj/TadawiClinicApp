@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:neurology_clinic/data/datasource/model/language_model.dart';
 
+import '/data/datasource/model/language_model.dart';
 import '../../locale/local_controller.dart';
 import '../../services/services.dart';
 

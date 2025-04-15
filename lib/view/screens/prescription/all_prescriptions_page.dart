@@ -7,8 +7,8 @@ import '/core/constants/app_svg.dart';
 import '/data/datasource/model/booking_model.dart';
 import '/data/datasource/model/prescription_model.dart';
 
-class PrescriptionPage extends StatelessWidget {
-  const PrescriptionPage({Key? key}) : super(key: key);
+class AllPrescriptionsPage extends StatelessWidget {
+  const AllPrescriptionsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

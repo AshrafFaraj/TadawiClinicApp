@@ -18,11 +18,12 @@ ThemeData themeArabic = ThemeData(
       bodyLarge: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold,
-        color: AppColorTheme.gray,
+        color: AppColorTheme.shadow,
       ),
       bodyMedium: TextStyle(
-        fontSize: 14,
-        color: AppColorTheme.backgroundDark,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        color: AppColorTheme.background,
         height: 1.5,
       ),
     ));

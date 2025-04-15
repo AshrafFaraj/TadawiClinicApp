@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFormFeildAuth extends StatelessWidget {
-  const CustomTextFormFeildAuth(
+  CustomTextFormFeildAuth(
       {super.key,
       this.label = "",
       this.isNumber = false,
       this.isObscure = false,
-      required this.suffixIcon,
+      this.suffixIcon,
       required this.hintText,
       this.mycontroller,
       this.validator});
   final String label;
-  final Widget suffixIcon;
+  Widget? suffixIcon;
   final String hintText;
   final TextEditingController? mycontroller;
   final String? Function(String?)? validator;
