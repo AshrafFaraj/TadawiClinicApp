@@ -9,11 +9,12 @@ import '/view/widgets/appointment/Appointment_card_widget.dart';
 import '../../../core/layouts/app_layout.dart';
 
 class UpcomingAppointmentsPage extends StatelessWidget {
-  UpcomingAppointmentsPage({Key? key}) : super(key: key);
+  const UpcomingAppointmentsPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final color = Theme.of(context).colorScheme;
+    Get.put(UpcomingAppointmentController());
 
     return Scaffold(
       body: GetBuilder<UpcomingAppointmentController>(

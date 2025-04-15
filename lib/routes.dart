@@ -55,7 +55,7 @@ List<GetPage<dynamic>>? routes = [
 
   GetPage(
     name: AppRouteName.layout,
-    page: () => const RiveAppHome(),
+    page: () => const AppLayout(),
     // middlewares: [
     //   MyMiddleWare()
     // ]

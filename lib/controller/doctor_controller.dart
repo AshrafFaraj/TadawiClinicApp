@@ -25,9 +25,7 @@ class DoctorController extends GetxController {
       }
     });
     // تحميل من الانترنت عند الاتصال
-    if (_connectionController.isConnected.value) {
-      fetchDoctorsFromServer();
-    }
+    fetchDoctorsFromServer();
   }
 
   Future<void> fetchDoctorsFromServer() async {

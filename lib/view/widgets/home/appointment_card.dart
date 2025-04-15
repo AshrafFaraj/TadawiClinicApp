@@ -12,7 +12,7 @@ class AppointmentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<UpcomingAppointmentController>();
+    Get.put(UpcomingAppointmentController());
     return GetBuilder<UpcomingAppointmentController>(builder: (controller) {
       if (controller.isLoading) {
         return Center(child: Lottie.asset('assets/lottie/ECG.json'));

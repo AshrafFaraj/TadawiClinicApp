@@ -33,7 +33,7 @@ class PastAppointmentController extends GetxController {
     _token = _myServices.userData['token'];
 
     pastAppointments = fetchPastAppointmentFromCach(_pastKey);
-    update();
+    // update();
     // مراقبة التغيير في الاتصال
     ever<bool>(_connectionController.isConnected, (connected) {
       if (connected) {
@@ -42,13 +42,11 @@ class PastAppointmentController extends GetxController {
     });
 
     // تحميل من الانترنت عند الاتصال
-    if (!_connectionController.isConnected.value) {
-      fetchPastAppointmentFromServer();
-    }
+    fetchPastAppointmentFromServer();
   }
 
   Future<void> fetchPastAppointmentFromServer() async {
-    if (_connectionController.isConnected.value) return;
+    if (!_connectionController.isConnected.value) return;
     isLoading = true;
     update();
     try {
@@ -63,11 +61,14 @@ class PastAppointmentController extends GetxController {
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         final List<dynamic> appointmentsJson = jsonResponse['data'] ?? [];
-        pastAppointments.clear();
-        pastAppointments =
-            appointmentsJson.map((json) => Appointment.fromJson(json)).toList();
-
-        update();
+        if (appointmentsJson.isNotEmpty) {
+          pastAppointments.clear();
+          pastAppointments = appointmentsJson
+              .map((json) => Appointment.fromJson(json))
+              .toList();
+          isLoading = false;
+          update();
+        }
 
         if (pastAppointments.isNotEmpty) {
           await _myServices.storeData(

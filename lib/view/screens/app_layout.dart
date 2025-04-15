@@ -9,24 +9,14 @@ import '../widgets/navigation/side_menu.dart';
 import '../../core/layouts/app_color_theme.dart';
 import '../../core/constants/assets.dart' as app_assets;
 
-// Common Tab Scene for the tabs other than 1st one, showing only tab name in center
-// Widget commonTabScene(String tabName) {
-//   return Container(
-//       color: RiveAppTheme.background,
-//       alignment: Alignment.center,
-//       child: Text(tabName,
-//           style: const TextStyle(
-//               fontSize: 28, fontFamily: "Poppins", color: Colors.black)));
-// }
-
-class RiveAppHome extends StatelessWidget {
-  const RiveAppHome({Key? key}) : super(key: key);
+class AppLayout extends StatelessWidget {
+  const AppLayout({Key? key}) : super(key: key);
 
   static const String route = '/course-rive';
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<LayoutPageController>(
+    return GetBuilder<LayoutController>(
       builder: (controller) => Scaffold(
         extendBody: true,
         body: Stack(

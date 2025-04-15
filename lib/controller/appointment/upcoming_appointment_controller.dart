@@ -40,14 +40,13 @@ class UpcomingAppointmentController extends GetxController {
     });
 
     // تحميل من الانترنت عند الاتصال
-    if (!_connectionController.isConnected.value) {
-      fetchUpcomingAppointmentFromServer();
-    }
+    fetchUpcomingAppointmentFromServer();
+
     super.onInit();
   }
 
   Future<void> fetchUpcomingAppointmentFromServer() async {
-    if (_connectionController.isConnected.value) return;
+    if (!_connectionController.isConnected.value) return;
     isLoading = true;
     update();
     try {
