@@ -7,15 +7,15 @@ class MyServices extends GetxService {
   Future<void> storeData(String key, dynamic value) async {
     await _box.put(key, value);
   }
+
   Future<bool> storeDataBool(String key, dynamic value) async {
-        try {
+    try {
       await _box.put(key, value);
       return true; // Return true when data is successfully stored
     } catch (e) {
       return false; // Return false if an error occurs while storing data
     }
   }
-
 
   dynamic getData(String key) {
     if (_box.containsKey(key)) {
@@ -32,12 +32,16 @@ class MyServices extends GetxService {
 
   Future<MyServices> init() async {
     _box = await Hive.openBox('appBox');
-    final userRawData = getData('userData');
-    if (userRawData is Map) {
-      userData.value = Map<String, dynamic>.from(userRawData);
-    }
+    fetchUserDatafromCach();
 
     return this;
+  }
+
+  fetchUserDatafromCach() {
+    final data = getData('userData');
+    if (data is Map) {
+      userData.value = Map<String, dynamic>.from(data);
+    }
   }
 }
 

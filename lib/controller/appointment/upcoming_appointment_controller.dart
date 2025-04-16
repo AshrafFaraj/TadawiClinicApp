@@ -6,7 +6,6 @@ import '../../core/layouts/app_color_theme.dart';
 import '../../link_api.dart';
 import '../connection_controller.dart';
 import '/data/datasource/model/booking_model.dart';
-
 import '../../services/services.dart';
 
 enum AppointmentStatus { initial, loading, failure, success }
@@ -47,6 +46,7 @@ class UpcomingAppointmentController extends GetxController {
   initial() {
     _myServices = Get.find<MyServices>();
     _token = _myServices.userData['token'];
+    upcomingAppointments.clear();
     upcomingAppointments = fetchUpcomingAppointmentFromCach(_upcomingKey);
     update();
     // مراقبة التغيير في الاتصال

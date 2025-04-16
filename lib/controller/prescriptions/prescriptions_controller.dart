@@ -21,7 +21,8 @@ class PrescriptionsController extends GetxController {
   String _token = "";
 
   Future<void> fetchPrescriptions(int id) async {
-    String apiUrl = 'http://10.0.2.2:8000/api/v1/prescriptions/$id';
+    // String apiUrl = 'http://10.0.2.2:8000/api/v1/prescriptions/$id';
+    String apiUrl = 'http://192.168.57.234/api/v1/prescriptions/$id';
     prescriptions.clear();
     if (!_connectionController.isConnected.value) return;
     status = PrescriptionStatus.loading;

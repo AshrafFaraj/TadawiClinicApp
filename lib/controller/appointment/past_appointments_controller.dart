@@ -49,7 +49,7 @@ class PastAppointmentController extends GetxController {
     _myServices = Get.find<MyServices>();
     _token = _myServices.userData['token'];
     print(_token);
-
+    pastAppointments.clear();
     pastAppointments = fetchPastAppointmentFromCach(_pastKey);
     update();
     // مراقبة التغيير في الاتصال

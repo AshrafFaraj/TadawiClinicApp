@@ -222,7 +222,7 @@ class ProfileImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageProvider = (profileImage != null && profileImage!.isNotEmpty)
         ? NetworkImage(profileImage!)
-        : const AssetImage('assets/doctor_pic2.png') as ImageProvider;
+        : const AssetImage('assets/doctor.jpg') as ImageProvider;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
@@ -233,7 +233,7 @@ class ProfileImageWidget extends StatelessWidget {
         fit: fit,
         errorBuilder: (context, error, stackTrace) {
           return Image.asset(
-            'assets/doctor_pic2.png',
+            'assets/doctor.jpg',
             width: width,
             height: height,
             fit: fit,
