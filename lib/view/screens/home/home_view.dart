@@ -65,7 +65,7 @@ class HomeView extends StatelessWidget {
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            Get.toNamed(AppRouteName.onBoarding);
+                            Get.toNamed(AppRouteName.tokenTest);
                           },
                           child: Text('Auth'))
                     ],

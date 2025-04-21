@@ -61,6 +61,7 @@ class Booking {
 class Appointment {
   final int id;
   final int doctorId;
+  String? time;
   final String doctorName;
   final String date;
   final String status;
@@ -72,6 +73,7 @@ class Appointment {
     required this.doctorId,
     required this.doctorName,
     required this.date,
+    this.time,
     required this.status,
     required this.type,
     this.lastUpdated,
@@ -83,6 +85,7 @@ class Appointment {
       doctorId: json['doctor_id'],
       doctorName: json['doctor_name'],
       date: json['date'],
+      time: json['time'],
       status: json['status'],
       type: json['type'],
       lastUpdated: json['last_updated'] != null
@@ -97,6 +100,7 @@ class Appointment {
       'doctor_id': doctorId,
       'doctor_name': doctorName,
       'date': date,
+      'time': time,
       'status': status,
       'type': type,
       'last_updated': lastUpdated?.toIso8601String(),

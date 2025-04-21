@@ -5,8 +5,10 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:neurology_clinic/core/constants/app_route_name.dart';
 import 'package:neurology_clinic/data/datasource/model/booking_model.dart';
 import 'package:neurology_clinic/data/datasource/model/doctor_shedule_model.dart';
+import 'package:neurology_clinic/link_api.dart';
 
 import '../../core/functions/dialog_functions.dart';
 import '../../services/services.dart';
@@ -29,9 +31,10 @@ class BookAppointmentController extends GetxController {
   String? formattedTime;
   BookAppointmentStatus status = BookAppointmentStatus.initial;
   String action = "";
-  Booking? exsexistingBooking;
+  Appointment? exsexistingBooking;
   List<String> timeSlots = [];
   late MyServices myServices;
+  int doctorId = 0;
   String? token;
   int id = 0;
 
@@ -72,6 +75,11 @@ class BookAppointmentController extends GetxController {
           (responseData as List).map((e) => DoctorShedule.fromMap(e)).toList();
 
       if (response.statusCode == 200) {
+        if (responseData.isEmpty) {
+          timeSlots = [];
+          selectedTime = null;
+          print(timeSlots);
+        }
         generateTimeSlots(l[0].startTime!, l[0].endTime!);
         status = BookAppointmentStatus.timeSuccess;
         update();
@@ -88,6 +96,7 @@ class BookAppointmentController extends GetxController {
 
   onDateChange(DateTime selectDates) {
     selectedDate = selectDates;
+    selectedTime = null;
     getAvailableTimes(
         selectDates); // Fetch the available times for the selected date
     update();
@@ -98,22 +107,23 @@ class BookAppointmentController extends GetxController {
       status = BookAppointmentStatus.loading;
       update();
       final response = await http.post(
-        Uri.parse('http://10.0.2.2:8000/api/v1/bookings'),
+        Uri.parse(AppLink.bookAppointment),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token', // Replace with your auth token
           'Accept': 'application/json',
         },
         body: json.encode({
-          'patient_id': id,
-          'doctor_id': 1,
+          // 'patient_id': id,
+          'doctor_id': doctorId,
           'date': selectedDate.toIso8601String(),
           'time': formattedTime,
           'type': 'new', // Default type is 'general'
-          'status': 'pending', // Default status is 'pending'
-          'is_paid': 0,
+          // 'status': 'pending', // Default status is 'pending'
+          // 'is_paid': 0,
         }),
       );
+      print(response.body);
 
       if (response.statusCode == 201) {
         showSuccessDialog(
@@ -122,6 +132,8 @@ class BookAppointmentController extends GetxController {
           title: 'succes'.tr,
           desc: 'opDone'.tr,
           btnOkOnPress: () {
+            // Get.offAllNamed(AppRouteName.layout);
+
             Get.back(result: "success");
           },
         );
@@ -135,7 +147,8 @@ class BookAppointmentController extends GetxController {
         showErrorDialog(
           context: Get.context!,
           title: 'error'.tr,
-          desc: "errorDesc".tr,
+          // desc: "errorDesc".tr,
+          desc: "لقد حجزت مواعدا مع هذا الطبيب ",
           btnOkText: "ok".tr,
         );
         status = BookAppointmentStatus.failure;
@@ -168,7 +181,7 @@ class BookAppointmentController extends GetxController {
         },
         body: json.encode({
           'patient_id': id,
-          'doctor_id': 1,
+          'doctor_id': exsexistingBooking!.doctorId,
           'date': selectedDate.toIso8601String(),
           'time': formattedTime,
           'type': 'new', // Default type is 'general'
@@ -183,7 +196,7 @@ class BookAppointmentController extends GetxController {
           context: Get.context!,
           btnOkText: "ok".tr,
           title: 'succes'.tr,
-          desc: 'opDone'.tr,
+          desc: "تم تحديث الموعد",
           btnOkOnPress: () {
             Get.back(result: "success");
           },
@@ -237,15 +250,16 @@ class BookAppointmentController extends GetxController {
     myServices = Get.find<MyServices>();
     token = myServices.userData['token'];
     id = myServices.userData['patient']['id'];
-
-    getAvailableTimes(DateTime.now());
-    // doctorId = Get.arguments?['doctorId'] ?? 0;
     dateController = EasyDatePickerController();
     action = Get.arguments?['action'] ?? "";
-    exsexistingBooking = Get.arguments?['booking'];
-    if (action == "update" && exsexistingBooking != null) {
-      selectedDate = DateTime.parse(exsexistingBooking!.date!);
+    if (action == "new") {
+      doctorId = Get.arguments['doctorId'] ?? 0;
+      print("$doctorId=====");
+    } else if (action == "update") {
+      exsexistingBooking = Get.arguments?['booking'];
+      selectedDate = DateTime.parse(exsexistingBooking!.date);
     }
+    getAvailableTimes(selectedDate);
     super.onInit();
   }
 

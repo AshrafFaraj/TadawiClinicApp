@@ -47,6 +47,10 @@ class UpcomingAppointmentController extends GetxController {
   initial() {
     _myServices = Get.find<MyServices>();
     _token = _myServices.userData['token'];
+    checkConnectionFetching();
+  }
+
+  Future<void> checkConnectionFetching() async {
     upcomingAppointments = fetchUpcomingAppointmentFromCach(_upcomingKey);
     update();
     // مراقبة التغيير في الاتصال

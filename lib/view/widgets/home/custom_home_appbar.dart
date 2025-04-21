@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:neurology_clinic/core/constants/app_route_name.dart';
 import '../../../controller/home_controller/home_controller.dart';
 import '../../../core/layouts/app_color_theme.dart';
 import '../../../services/services.dart';
@@ -43,7 +44,9 @@ class CustomAppBar extends StatelessWidget {
                 ),
               ],
             ),
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed(AppRouteName.notificationsPage);
+            },
           ),
           const SizedBox(
             width: 10,

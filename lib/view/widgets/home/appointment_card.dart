@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../core/constants/app_route_name.dart';
+import '../../../core/functions/dialog_functions.dart';
 import '/controller/appointment/upcoming_appointment_controller.dart';
 import '/app_theme.dart';
 import '../../../core/layouts/app_color_theme.dart';
@@ -17,7 +19,9 @@ class AppointmentList extends StatefulWidget {
 class _AppointmentListState extends State<AppointmentList> {
   @override
   void initState() {
-    Get.find<UpcomingAppointmentController>().initial();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<UpcomingAppointmentController>().initial();
+    });
 
     super.initState();
   }
@@ -59,8 +63,25 @@ class _AppointmentListState extends State<AppointmentList> {
             // return
             return AppointmentCard(
               appointment: appointment,
-              onCancel: () {},
-              onEdit: () {},
+              onCancel: () {
+                showWarningDialog(
+                    context: context,
+                    title: 'question'.tr,
+                    desc: 'desc'.tr,
+                    btnCancelText: 'cancelMs'.tr,
+                    btnOkText: 'ok'.tr,
+                    btnOkOnPress: () {
+                      controller.deleteAppointmet(appointment.id);
+                    });
+              },
+              onEdit: () async {
+                final result = await Get.toNamed(
+                    AppRouteName.bookAppointmentPage,
+                    arguments: {'action': 'update', 'booking': appointment});
+                if (result != null) {
+                  controller.fetchUpcomingAppointmentFromServer();
+                }
+              },
             );
           },
         );

@@ -162,7 +162,10 @@ class EditProfile extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("${controller.selectedBloodType}"),
+                        Text(
+                          "${controller.selectedBloodType}",
+                          style: TextStyle(color: Colors.black),
+                        ),
                         Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.black45,

@@ -1,0 +1,166 @@
+import 'package:get/get.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
+import '../data/datasource/model/appointment_model.dart';
+import '../data/datasource/model/prescription_model.dart';
+
+// Android-only service to manage local notifications for appointments and medications
+class NotificationService extends GetxService {
+  final _plugin = FlutterLocalNotificationsPlugin();
+
+  // Initialize plugin and timezone (optimized for Android only)
+  Future<NotificationService> init() async {
+    const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const initSettings = InitializationSettings(android: androidInit);
+    await _plugin.initialize(initSettings);
+
+    tz.initializeTimeZones();
+    tz.setLocalLocation(tz.local);
+
+    return this;
+  }
+
+  // Schedule reminders for upcoming appointments
+  Future<void> scheduleAppointmentReminders(List<Appointment> items) async {
+    await cancelAll();
+    for (var appt in items) {
+      final base = tz.TZDateTime.from(appt.time, tz.local);
+      final reminders = [
+        const Duration(days: 2),
+        const Duration(hours: 2),
+      ];
+
+      for (var i = 0; i < reminders.length; i++) {
+        final scheduled = base.subtract(reminders[i]);
+        if (scheduled.isAfter(DateTime.now())) {
+          await _showScheduledNotification(
+            id: appt.id * 100 + i,
+            title: 'تذكير بالموعد',
+            body: 'موعدك مع الدكتور ${appt.doctorName} بتاريخ ${appt.time}',
+            scheduled: scheduled,
+            channelId: 'appointments',
+            channelName: 'Appointments',
+          );
+        }
+      }
+    }
+  }
+
+  /// Schedule medication reminders based on prescriptions
+  Future<void> scheduleMedicationReminders(List<Prescription> items) async {
+    await cancelAll();
+
+    const int reminderRetryCount = 2;
+    const Duration retryInterval = Duration(minutes: 30);
+
+    for (var pres in items) {
+      if (pres.bookingDate == null ||
+          pres.usage == null ||
+          pres.duration == null ||
+          pres.dosage == null) continue;
+
+      final DateTime startDate =
+          DateTime.tryParse(pres.bookingDate!) ?? DateTime.now();
+      final int usagePerDay =
+          int.tryParse(pres.usage!.replaceAll(RegExp(r'\D'), '')) ?? 1;
+      final int durationDays =
+          int.tryParse(pres.duration!.replaceAll(RegExp(r'\D'), '')) ?? 1;
+      final Duration interval = Duration(hours: (24 / usagePerDay).floor());
+      final Duration offset = pres.time == 'before'
+          ? const Duration(minutes: -30)
+          : const Duration(minutes: 30);
+
+      for (int day = 0; day < durationDays; day++) {
+        for (int usage = 0; usage < usagePerDay; usage++) {
+          final DateTime baseTime = startDate
+              .add(Duration(days: day))
+              .add(interval * usage)
+              .add(offset);
+
+          if (baseTime.isAfter(DateTime.now())) {
+            await _showScheduledNotification(
+              id: (pres.id ?? 0) * 1000 + day * usagePerDay + usage,
+              title: 'تذكير بالدواء',
+              body: 'حان وقت تناول ${pres.dosage}',
+              scheduled: tz.TZDateTime.from(baseTime, tz.local),
+              channelId: 'medications',
+              channelName: 'Medications',
+            );
+
+            for (int retry = 1; retry <= reminderRetryCount; retry++) {
+              final retryTime = baseTime.add(retryInterval * retry);
+              if (retryTime.isAfter(DateTime.now())) {
+                await _showScheduledNotification(
+                  id: (pres.id ?? 0) * 1000 +
+                      day * usagePerDay +
+                      usage +
+                      retry * 100,
+                  title: '🔔 تذكير إضافي',
+                  body: 'لا تنس تناول ${pres.dosage} الآن إذا لم تفعل بعد.',
+                  scheduled: tz.TZDateTime.from(retryTime, tz.local),
+                  channelId: 'medications',
+                  channelName: 'Medications',
+                );
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /// Internal method to simplify scheduling
+  Future<void> _showScheduledNotification({
+    required int id,
+    required String title,
+    required String body,
+    required tz.TZDateTime scheduled,
+    required String channelId,
+    required String channelName,
+  }) async {
+    final details = NotificationDetails(
+      android: AndroidNotificationDetails(
+        channelId,
+        channelName,
+        importance: Importance.max,
+        priority: Priority.high,
+      ),
+    );
+
+    await _plugin.zonedSchedule(
+      id,
+      title,
+      body,
+      scheduled,
+      details,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      matchDateTimeComponents: DateTimeComponents.dateAndTime,
+    );
+  }
+
+  /// Cancel a specific notification by id
+  Future<void> cancel(int id) => _plugin.cancel(id);
+
+  /// Cancel all scheduled notifications
+  Future<void> cancelAll() => _plugin.cancelAll();
+
+  //دالة لتجريب الاشعارات بقيم افتراضية
+  Future<void> scheduleTestNotification() async {
+    final now = tz.TZDateTime.now(tz.local).add(Duration(seconds: 10));
+    await _showScheduledNotification(
+      id: 999,
+      title: 'اختبار',
+      body: 'هذا إشعار تجريبي',
+      scheduled: now,
+      channelId: 'test',
+      channelName: 'Test Notifications',
+    );
+  }
+}
+
+
+/// Simplified model based on Prescription class used in the app
+
+

@@ -45,70 +45,86 @@ class SimpleUseExample extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: controller.timeSlots.map((time) {
-                    return ElevatedButton(
-                        onPressed: () {
-                          controller.changeTime(time);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: Size(101, 15),
-                          backgroundColor: controller.selectedTime == time
-                              ? color.primary
-                              : Colors.white,
-                          side: BorderSide(
-                            color: controller.selectedTime == time
-                                ? color.primary
-                                : Colors.grey,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+            controller.timeSlots.isEmpty
+                ? Expanded(
+                    child: Center(
+                      child: Text(
+                        "الطبيب لا يداوم في هاذا اليوم",
+                        style: TextStyle(color: Colors.black54),
+                      ),
+                    ),
+                  )
+                : Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: controller.timeSlots.map((time) {
+                            return ElevatedButton(
+                                onPressed: () {
+                                  controller.changeTime(time);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  fixedSize: Size(101, 15),
+                                  backgroundColor:
+                                      controller.selectedTime == time
+                                          ? color.primary
+                                          : Colors.white,
+                                  side: BorderSide(
+                                    color: controller.selectedTime == time
+                                        ? color.primary
+                                        : Colors.grey,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                child: Text(
+                                  time,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: controller.selectedTime == time
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ));
+                          }).toList(),
                         ),
-                        child: Text(
-                          time,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: controller.selectedTime == time
-                                ? Colors.blue
-                                : Colors.black,
-                          ),
-                        ));
-                  }).toList(),
-                ),
-              ),
-            ),
+                      ),
+                    ),
+                  ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: controller.selectedTime != null
-                  ? () {
-                      if (controller.action == "update") {
-                        controller.updateBooking();
-                      } else {
-                        controller.bookAppointment();
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: controller.selectedTime != null
+                    ? () {
+                        if (controller.action == "update") {
+                          controller.updateBooking();
+                        } else {
+                          controller.bookAppointment();
+                        }
                       }
-                    }
-                  : null,
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                backgroundColor: color.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(5), // Makes the button square
+                    : null,
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(double.infinity, 50),
+                  backgroundColor: color.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(5), // Makes the button square
+                  ),
                 ),
+                child: controller.status == BookAppointmentStatus.loading
+                    ? CircularProgressIndicator()
+                    : textWidget(
+                        text: controller.action == "new"
+                            ? "setappointment".tr
+                            : "Update",
+                        textColor: Colors.white,
+                        fontWeight: FontWeight.w600),
               ),
-              child: controller.status == BookAppointmentStatus.loading
-                  ? CircularProgressIndicator()
-                  : textWidget(
-                      text: controller.action == "new"
-                          ? "setappointment".tr
-                          : "Update",
-                      textColor: Colors.white,
-                      fontWeight: FontWeight.w600),
             ),
           ],
         );

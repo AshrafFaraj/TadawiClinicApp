@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:neurology_clinic/link_api.dart';
 
 import '/controller/appointment/upcoming_appointment_controller.dart';
 import '/core/constants/app_route_name.dart';
@@ -17,9 +18,14 @@ class UpcomingAppointmentsPage extends StatefulWidget {
 
 class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage>
     with AutomaticKeepAliveClientMixin {
+  late UpcomingAppointmentController upcomingAppointmentController;
+
   @override
   void initState() {
-    Get.find<UpcomingAppointmentController>().initial();
+    upcomingAppointmentController = Get.find<UpcomingAppointmentController>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      upcomingAppointmentController.initial();
+    });
     super.initState();
   }
 
@@ -31,62 +37,67 @@ class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage>
     super.build(context);
 
     return Scaffold(
-      body: GetBuilder<UpcomingAppointmentController>(
-        builder: (controller) {
-          if (controller.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (controller.upcomingAppointments.isEmpty) {
-            return const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.event_busy, size: 80, color: Colors.grey),
-                  SizedBox(height: 16),
-                  Text("لا توجد مواعيد قادمة"),
-                ],
-              ),
-            );
-          } else {
-            return ListView.builder(
-              itemCount: controller.upcomingAppointments.length,
-              itemBuilder: (context, index) {
-                var appointment = controller.upcomingAppointments[index];
-                return AppointmentCardWidget(
-                  onOutlinedPressed: () {
-                    showWarningDialog(
-                        context: context,
-                        title: 'question'.tr,
-                        desc: 'desc'.tr,
-                        btnCancelText: 'cancelMs'.tr,
-                        btnOkText: 'ok'.tr,
-                        btnOkOnPress: () {
-                          controller.deleteAppointmet(appointment.id);
-                        });
-                  },
-                  onElevatedPressed: () async {
-                    final result = await Get.toNamed(
-                        AppRouteName.bookAppointmentPage,
-                        arguments: {
-                          'action': 'update',
-                          'booking': appointment
-                        });
-                    if (result != null) {
-                      controller.fetchUpcomingAppointmentFromServer();
-                    }
-                  },
-                  size: size,
-                  color: color,
-                  appointment: appointment,
-                  status: "pending".tr,
-                  outlinedText: "reshedule".tr,
-                  buttonText: "cancel".tr,
-                );
-              },
-            );
-          }
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await upcomingAppointmentController.checkConnectionFetching();
         },
+        child: GetBuilder<UpcomingAppointmentController>(
+          builder: (controller) {
+            if (controller.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (controller.upcomingAppointments.isEmpty) {
+              return const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.event_busy, size: 80, color: Colors.grey),
+                    SizedBox(height: 16),
+                    Text("لا توجد مواعيد قادمة"),
+                  ],
+                ),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: controller.upcomingAppointments.length,
+                itemBuilder: (context, index) {
+                  final appointment = controller.upcomingAppointments[index];
+                  return AppointmentCardWidget(
+                    onOutlinedPressed: () {
+                      showWarningDialog(
+                          context: context,
+                          title: 'question'.tr,
+                          desc: 'desc'.tr,
+                          btnCancelText: 'cancelMs'.tr,
+                          btnOkText: 'ok'.tr,
+                          btnOkOnPress: () {
+                            controller.deleteAppointmet(appointment.id);
+                          });
+                    },
+                    onElevatedPressed: () async {
+                      final result = await Get.toNamed(
+                          AppRouteName.bookAppointmentPage,
+                          arguments: {
+                            'action': 'update',
+                            'booking': appointment
+                          });
+                      if (result != null) {
+                        controller.fetchUpcomingAppointmentFromServer();
+                      }
+                    },
+                    size: size,
+                    color: color,
+                    appointment: appointment,
+                    status: "pending".tr,
+                    outlinedText: "reshedule".tr,
+                    buttonText: "cancel".tr,
+                  );
+                },
+              );
+            }
+          },
+        ),
       ),
       floatingActionButton: GetBuilder<UpcomingAppointmentController>(
         builder: (controller) {
@@ -99,11 +110,13 @@ class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage>
                 child: FloatingActionButton(
                   onPressed: () async {
                     final result = await Get.toNamed(
-                        AppRouteName.bookAppointmentPage,
-                        arguments: {'action': 'new'});
+                      AppRouteName.doctorsPage,
+                    );
+
                     if (result != null) {
                       controller.fetchUpcomingAppointmentFromServer();
                     }
+                    // Get.toNamed(AppRouteName.doctorsPage);
                   },
                   child: Icon(Icons.add),
                 ),

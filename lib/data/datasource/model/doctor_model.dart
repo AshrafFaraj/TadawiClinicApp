@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import 'doctor_schedule.dart';
 
 /// نموذج بيانات الطبيب مع بيانات المستخدم وجدول الدوام
@@ -58,5 +60,20 @@ class Doctor {
       profileImage: json['user'] != null ? json['user']['profile_image'] : null,
       schedules: schedulesList,
     );
+  }
+   // Method to get today's day in the same format as the schedule day
+  String getTodayDay() {
+    return DateFormat('EEEE').format(DateTime.now()); // e.g., "Saturday"
+  }
+
+  // Method to get today's schedule for a doctor
+  List<DoctorSchedule> getTodaysSchedule() {
+    String todayDay = getTodayDay();
+    return schedules.where((schedule) => schedule.day == todayDay).toList();
+  }
+
+  // Method to get the complete schedule for a doctor
+  List<DoctorSchedule> getSchedule() {
+    return schedules;
   }
 }

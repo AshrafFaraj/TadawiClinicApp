@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:neurology_clinic/controller/connection_controller.dart';
@@ -17,6 +18,8 @@ class AllPrescriptionsController extends GetxController {
   final ConnectionController _connectionController =
       Get.find<ConnectionController>();
   static const String _allKey = 'allPrescriptions';
+  DateTime selectedDate = DateTime.now();
+  late final EasyDatePickerController dateController;
 
   Future<void> fetchAllPrescriptions() async {
     status = AllPrescriptionsStatus.loading;
@@ -42,13 +45,15 @@ class AllPrescriptionsController extends GetxController {
 
   Future<List<Prescription>> fetchAllPrescriptionsApi() async {
     try {
-      final response = await http.get(
-        Uri.parse(AppLink.getAllPrescriptions),
-        headers: {
-          'Authorization': 'Bearer $_token', // Add Bearer token
-          'Content-Type': 'application/json', // Optional but good to specify
-        },
-      );
+      final response =
+          await http.post(Uri.parse(AppLink.getAllPrescriptions), headers: {
+        'Authorization': 'Bearer $_token', // Add Bearer token
+        // 'Content-Type': 'application/json', // Optional but good to specify
+        'Accept': 'application/json',
+      }, body: {
+        'date': selectedDate.toIso8601String(),
+      });
+      print("${response.body}=====");
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body)['data'];
@@ -83,10 +88,17 @@ class AllPrescriptionsController extends GetxController {
     return myServices.storeDataBool(_allKey, jsonList);
   }
 
+  onDateChange(DateTime selectDates) {
+    selectedDate = selectDates;
+    getAllPrescriptions();
+    update();
+  }
+
   @override
   void onInit() {
     myServices = Get.find<MyServices>();
     _token = myServices.userData['token'];
+    dateController = EasyDatePickerController();
     // myServices.clearData(_allKey);
     ever<bool>(_connectionController.isConnected, (connected) {
       if (connected) {

@@ -14,6 +14,7 @@ class AppRouteName {
   static const String appointmentPage = "/appointmentPage";
   static const String bookAppointmentPage = "/bookAppointmentPage";
   static const String layoutPage = "/layoutPage";
+  static const String tokenTest = "/tokenTest";
 
   static const layout = '/';
   static const home = '/home';
@@ -25,4 +26,6 @@ class AppRouteName {
   static const String allPrescriptions = '/allPrescriptions';
   static const String privacy = '/privacy';
   static const String helpCenter = '/helpCenter';
+  static const String doctorsPage = '/doctorsPage';
+  static const String notificationsPage = '/notificationsPage';
 }

@@ -48,8 +48,10 @@ class PastAppointmentController extends GetxController {
   initial() {
     _myServices = Get.find<MyServices>();
     _token = _myServices.userData['token'];
-    print(_token);
+    checkFetching();
+  }
 
+  Future<void> checkFetching() async {
     pastAppointments = fetchPastAppointmentFromCach(_pastKey);
     update();
     // مراقبة التغيير في الاتصال

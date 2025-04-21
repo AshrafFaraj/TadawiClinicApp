@@ -11,7 +11,8 @@ class MedicationCardWidget extends StatelessWidget {
     super.key,
     required this.size,
     required this.prescription,
-    required this.instructions, required this.isAll,
+    required this.instructions,
+    required this.isAll,
   });
 
   final Size size;
@@ -55,10 +56,12 @@ class MedicationCardWidget extends StatelessWidget {
                 SizedBox(
                   width: 155,
                 ),
-               isAll==true? Text(
-                  "${prescription.bookingDate}",
-                  style: TextStyle(color: Colors.black45, fontSize: 15),
-                ):Text("")
+                isAll == true
+                    ? Text(
+                        "${prescription.bookingDate}",
+                        style: TextStyle(color: Colors.black45, fontSize: 15),
+                      )
+                    : Text("")
               ],
             ),
           ),

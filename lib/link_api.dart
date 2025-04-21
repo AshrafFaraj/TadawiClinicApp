@@ -4,6 +4,7 @@ class AppLink {
   static const String register = "$_baseUrl/register";
   static const String verifyOtpCode = "$_baseUrl/verify-otp";
   static const String login = "$_baseUrl/login";
+  static const String storeToken = "$_baseUrl/store-token";
   static const String logout = "$_baseUrl/logout";
   static const String uploadImage = "$_baseUrl/patients/upload-image";
   static const String getImage = "$_baseUrl/patients/get-image";
@@ -18,6 +19,7 @@ class AppLink {
   static const String upcomingAppointments = "$_baseUrl/bookings/upcoming";
   static const String updateAppointments = "$_baseUrl/bookings/upcoming";
   static const String deleteAppointments = "$_baseUrl/bookings/";
+  static const String bookAppointment = "$_baseUrl/bookings/";
 
   static const String isOnline = "http://10.0.2.2";
 }

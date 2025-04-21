@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -16,6 +17,10 @@ void main() async {
   await iniDi();
   await Hive.initFlutter();
   await initialServices();
+  await Firebase.initializeApp();
+  // NotificationService();
+  // await Firebase.initializeApp();
+
   await Get.putAsync<ConnectionController>(() async => ConnectionController());
 
   runApp(const MyApp());

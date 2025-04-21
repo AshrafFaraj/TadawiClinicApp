@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/constants/app_route_name.dart';
 import '../../../data/datasource/model/doctor_model.dart';
 import '/app_theme.dart';
 import '../../../core/layouts/app_color_theme.dart';
@@ -194,7 +195,36 @@ class DoctorDetails extends StatelessWidget {
                           'عذراً : لم يتم اضافة اوقات الدوام',
                           style: themeArabic.textTheme.bodyLarge,
                         )),
-                )
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        final result = await Get.toNamed(
+                            AppRouteName.bookAppointmentPage,
+                            arguments: {
+                              'action': 'new',
+                              'doctorId': doctor.id
+                            });
+
+                        if (result != null) {
+                          Get.back(result: "success");
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 50),
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              5), // Makes the button square
+                        ),
+                      ),
+                      child: Text(
+                        "setappointment".tr,
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w600),
+                      )),
+                ),
               ],
             ),
           ),
