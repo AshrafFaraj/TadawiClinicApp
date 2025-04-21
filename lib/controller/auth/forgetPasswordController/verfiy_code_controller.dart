@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:neurology_clinic/core/constants/app_route_name.dart';
-import 'package:neurology_clinic/services/services.dart';
+import '/core/constants/app_route_name.dart';
+import '/services/services.dart';
 
 import '../../../link_api.dart';
 
@@ -29,18 +29,19 @@ class AppVerfiyCodeControllerImp extends AppVerfiyCodeController {
           "otp": otpCode,
         }),
       );
-      final data = jsonDecode(response.body);
+      final jsonResponse = jsonDecode(response.body);
       if (response.statusCode == 200) {
         MyServices myServices = Get.find<MyServices>();
-        await myServices.storeData('userdata', data);
+        await myServices.storeData('userData', jsonResponse['data']);
+        myServices.fetchUserDatafromCach;
 
-        Get.snackbar("نجاح", data['message']);
+        Get.snackbar("نجاح", jsonResponse['message']);
         Get.offAndToNamed(nextRoute!, arguments: {
           'email': email,
           if (nextRoute == AppRouteName.resetPassword) 'reason': 'forget'
         });
       } else {
-        Get.snackbar("فشل", data['message']);
+        Get.snackbar("فشل", jsonResponse['message']);
       }
     } catch (e) {
       Get.snackbar("خطأ", "حدث خطأ أثناء الاتصال بالسيرفر.");

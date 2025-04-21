@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '/data/datasource/model/booking_model.dart';
+import '../../data/datasource/model/appointment_model.dart';
 import '/link_api.dart';
 import '/services/services.dart';
 import '../../core/layouts/app_color_theme.dart';

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:neurology_clinic/link_api.dart';
 
 import '/controller/appointment/upcoming_appointment_controller.dart';
 import '/core/constants/app_route_name.dart';
 import '/core/functions/dialog_functions.dart';
 import '../../widgets/appointment/appointment_card_widget.dart';
-import '../../../core/layouts/app_layout.dart';
 
 class UpcomingAppointmentsPage extends StatefulWidget {
   const UpcomingAppointmentsPage({Key? key}) : super(key: key);

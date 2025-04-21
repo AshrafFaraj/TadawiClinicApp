@@ -27,6 +27,9 @@ class DoctorDetails extends StatelessWidget {
               children: [
                 Text('الدكتور: ${doctor.name}',
                     style: themeArabic.textTheme.headlineSmall),
+                const SizedBox(
+                  height: 15,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -34,8 +37,8 @@ class DoctorDetails extends StatelessWidget {
                       flex: 1,
                       child: ProfileImageWidget(
                         profileImage: doctor.profileImage,
-                        fit: BoxFit.contain,
-                        height: 200,
+                        fit: BoxFit.cover,
+                        height: 180,
                         width: 160,
                         borderRadius: 10,
                       ),
@@ -252,7 +255,7 @@ class ProfileImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageProvider = (profileImage != null && profileImage!.isNotEmpty)
         ? NetworkImage(profileImage!)
-        : const AssetImage('assets/doctor_pic2.png') as ImageProvider;
+        : const AssetImage('assets/doctor.jpg') as ImageProvider;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
@@ -263,7 +266,7 @@ class ProfileImageWidget extends StatelessWidget {
         fit: fit,
         errorBuilder: (context, error, stackTrace) {
           return Image.asset(
-            'assets/doctor_pic2.png',
+            'assets/doctor.jpg',
             width: width,
             height: height,
             fit: fit,

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:neurology_clinic/core/functions/format_time_finction.dart';
 
 import '../../../core/constants/app_svg.dart';
 import '../../../core/layouts/app_layout.dart';
-import '../../../data/datasource/model/booking_model.dart';
+import '../../../data/datasource/model/appointment_model.dart';
 import 'time_elements_widget.dart';
 
 class AppointmentCardWidget extends StatelessWidget {

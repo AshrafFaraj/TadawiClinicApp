@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../data/datasource/model/appointment_model.dart';
 import '../connection_controller.dart';
-import '/data/datasource/model/booking_model.dart';
 import '../../data/datasource/model/prescription_model.dart';
 import '../../services/services.dart';
 
@@ -22,9 +22,11 @@ class PrescriptionsController extends GetxController {
 
   Future<void> fetchPrescriptions(int id) async {
     String apiUrl = 'http://10.0.2.2:8000/api/v1/prescriptions/$id';
+    // String apiUrl = 'http://192.168.172.234/api/v1/prescriptions/$id';
     prescriptions.clear();
     if (!_connectionController.isConnected.value) return;
     status = PrescriptionStatus.loading;
+    print('--------------- Prescription loading ....');
     update();
     try {
       final response = await http.get(
@@ -34,6 +36,7 @@ class PrescriptionsController extends GetxController {
           'Content-Type': 'application/json', // Optional but good to specify
         },
       );
+      print('--------------- ${response.statusCode} ....');
       final responseData = json.decode(response.body)['data'];
       final l =
           (responseData as List).map((e) => Prescription.fromMap(e)).toList();

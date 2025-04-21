@@ -4,10 +4,10 @@ import 'package:lottie/lottie.dart';
 
 import '../../../core/constants/app_route_name.dart';
 import '../../../core/functions/dialog_functions.dart';
+import '../../../data/datasource/model/appointment_model.dart';
 import '/controller/appointment/upcoming_appointment_controller.dart';
 import '/app_theme.dart';
 import '../../../core/layouts/app_color_theme.dart';
-import '/data/datasource/model/booking_model.dart';
 
 class AppointmentList extends StatefulWidget {
   const AppointmentList({Key? key}) : super(key: key);

@@ -16,10 +16,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await iniDi();
   await Hive.initFlutter();
-  await initialServices();
   await Firebase.initializeApp();
-  // NotificationService();
-  // await Firebase.initializeApp();
+  await initialServices();
 
   await Get.putAsync<ConnectionController>(() async => ConnectionController());
 

@@ -27,7 +27,7 @@ class DoctorsCard extends StatelessWidget {
         } else if (controller.doctors.isEmpty) {
           return Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             height: double.infinity,
             width: double.infinity,
             decoration: BoxDecoration(
@@ -81,7 +81,8 @@ class DoctorsCard extends StatelessWidget {
                             alpha: 0.2), // Shadow color with opacity
                         spreadRadius: 2, // How wide the shadow spreads
                         blurRadius: 10, // How soft the shadow looks
-                        offset: Offset(4, 4), // X and Y offset of the shadow
+                        offset:
+                            const Offset(4, 4), // X and Y offset of the shadow
                       ),
                     ],
                   ),
@@ -115,8 +116,11 @@ class DoctorsCard extends StatelessWidget {
                               ),
                               const SizedBox(height: 5),
                               Text(
-                                doctors[index].specialization,
-                                style: themeArabic.textTheme.bodyLarge,
+                                'أخصائي: ${doctors[index].specialization}',
+                                style: const TextStyle(
+                                    color: AppColorTheme.card,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
                               ),
                               TextButton(
                                 onPressed: () {

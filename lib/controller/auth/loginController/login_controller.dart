@@ -60,18 +60,17 @@ class AppLoginControllerImp extends AppLoginController {
           'password': passwordController.text,
         }),
       );
-      print("${response.body}========");
+      // print("${response.body}========");
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final data = jsonDecode(response.body);
-        print(data);
+        final jsonResponse = jsonDecode(response.body);
+        print('login data ------${jsonResponse['data']}');
         // حفظ بيانات المستخدم والتوكن محليًا باستخدام Hive
-        MyServices myServices = Get.find();
-        await myServices.storeData('userData', data);
-        myServices.userData.value = Map<String, dynamic>.from(data);
-        print(
-            "------------------------------token : ${myServices.userData['token']}");
-        print(
-            "------------------------------name : ${myServices.userData['user']['name']}");
+        MyServices myServices = Get.find<MyServices>();
+        await myServices.storeData('userData', jsonResponse['data']);
+        myServices.fetchUserDatafromCach;
+
+        // print(
+        //     "------------------------------name : ${myServices.userData['user']['name']}");
         check.fire();
         Future.delayed(const Duration(seconds: 2), () {
           isShowLoading = false;
