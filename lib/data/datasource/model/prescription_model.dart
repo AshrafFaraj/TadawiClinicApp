@@ -22,7 +22,7 @@ class Prescription {
       this.medicine,
       this.bookingDate});
 
-       factory Prescription.fromRawJson(String str) =>
+  factory Prescription.fromRawJson(String str) =>
       Prescription.fromMap(json.decode(str));
 
   String toRawJson() => json.encode(toMap());
@@ -35,7 +35,7 @@ class Prescription {
         medicine: json['medicine'] == null
             ? null
             : Medicine.fromMap(json['medicine']),
-            bookingDate: json['booking_date'],
+        bookingDate: json['booking_date'],
       );
 
   Map<String, dynamic> toMap() => {
@@ -46,6 +46,6 @@ class Prescription {
         'notes': notes,
         'medicine':
             medicine != null ? Medicine.fromMedicine(medicine!).toMap() : null,
-        'booking_date':bookingDate
+        'booking_date': bookingDate
       };
 }

@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../../core/layouts/app_color_theme.dart';
+import '../../data/datasource/model/appointment_model.dart';
 import '../../link_api.dart';
 import '../connection_controller.dart';
-import '/data/datasource/model/booking_model.dart';
 import '../../services/services.dart';
 
 enum AppointmentStatus { initial, loading, failure, success }
@@ -100,7 +100,8 @@ class UpcomingAppointmentController extends GetxController {
 
   Future<void> deleteAppointmet(int bookingId) async {
     try {
-      final url = Uri.parse('http://10.0.2.2:8000/api/v1/bookings/$bookingId');
+      final url = Uri.parse('${AppLink.deleteAppointment}$bookingId');
+      print('************************${AppLink.deleteAppointment}$bookingId');
       final response = await http.delete(
         url,
         headers: {
@@ -110,6 +111,9 @@ class UpcomingAppointmentController extends GetxController {
       );
 
       if (response.statusCode == 200) {
+        upcomingAppointments
+            .removeWhere((appointment) => appointment.id == bookingId);
+        update();
         Get.snackbar('نجاح', 'تم حذف الموعد بنجاح');
         await fetchUpcomingAppointmentFromServer();
       } else {

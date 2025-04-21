@@ -84,7 +84,7 @@ class EditProfileController extends GetxController {
   @override
   void onInit() {
     myServices = Get.find<MyServices>();
-    id = myServices.userData['patient']['id'];
+    // id = myServices.userData['patient']['id'];
     token = myServices.userData['token'];
     name = myServices.userData['user']['name'] ?? "";
     mobile = myServices.userData['user']['mobile'] ?? "";

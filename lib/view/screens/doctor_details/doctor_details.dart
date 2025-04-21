@@ -26,6 +26,9 @@ class DoctorDetails extends StatelessWidget {
               children: [
                 Text('الدكتور: ${doctor.name}',
                     style: themeArabic.textTheme.headlineSmall),
+                const SizedBox(
+                  height: 15,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -33,8 +36,8 @@ class DoctorDetails extends StatelessWidget {
                       flex: 1,
                       child: ProfileImageWidget(
                         profileImage: doctor.profileImage,
-                        fit: BoxFit.contain,
-                        height: 200,
+                        fit: BoxFit.cover,
+                        height: 180,
                         width: 160,
                         borderRadius: 10,
                       ),

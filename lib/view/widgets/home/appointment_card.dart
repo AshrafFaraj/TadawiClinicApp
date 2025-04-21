@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../data/datasource/model/appointment_model.dart';
+import '/core/constants/app_route_name.dart';
 import '/controller/appointment/upcoming_appointment_controller.dart';
 import '/app_theme.dart';
 import '../../../core/layouts/app_color_theme.dart';
@@ -59,8 +61,13 @@ class _AppointmentListState extends State<AppointmentList> {
             // return
             return AppointmentCard(
               appointment: appointment,
-              onCancel: () {},
-              onEdit: () {},
+              onCancel: () async {
+                await controller.deleteAppointmet(appointment.id);
+              },
+              onEdit: () {
+                Get.toNamed(AppRouteName.bookAppointmentPage,
+                    arguments: {'appointmentId': appointment.id});
+              },
             );
           },
         );

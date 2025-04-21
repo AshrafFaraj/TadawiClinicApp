@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/datasource/model/appointment_model.dart';
 import '../../../data/datasource/model/booking_model.dart';
 
 class CustomizedAppbarWidget extends StatelessWidget {

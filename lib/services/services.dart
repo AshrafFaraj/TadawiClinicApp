@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
+import 'notification_service.dart';
+
 class MyServices extends GetxService {
   late Box _box;
   Future<void> storeData(String key, dynamic value) async {
@@ -47,4 +49,5 @@ class MyServices extends GetxService {
 
 initialServices() async {
   await Get.putAsync<MyServices>(() => MyServices().init());
+  await Get.putAsync<NotificationService>(() => NotificationService().init());
 }
