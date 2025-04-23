@@ -1,6 +1,6 @@
 class AppLink {
-  static const String _baseUrl = "http://10.0.2.2:8000/api/v1";
-  // static const String _baseUrl = "http://192.168.172.234:8000/api/v1";
+  // static const String _baseUrl = "http://10.0.2.2:8000/api/v1";
+  static const String _baseUrl = "http://192.168.22.234:8000/api/v1";
   static const String register = "$_baseUrl/register";
   static const String verifyOtpCode = "$_baseUrl/verify-otp";
   static const String login = "$_baseUrl/login";

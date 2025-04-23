@@ -82,13 +82,9 @@ class UpcomingAppointmentController extends GetxController {
         upcomingAppointments.clear();
         upcomingAppointments =
             appointmentsJson.map((json) => Appointment.fromJson(json)).toList();
-
         update();
-
-        if (upcomingAppointments.isNotEmpty) {
-          await _myServices.storeData(_upcomingKey,
-              upcomingAppointments.map((b) => b.toJson()).toList());
-        }
+        await _myServices.storeData(
+            _upcomingKey, upcomingAppointments.map((b) => b.toJson()).toList());
       } else {
         Get.snackbar('فشل', 'لم نتمكن حاليا من تحديث مواعيدك القادمة',
             backgroundColor: AppColorTheme.background3);

@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:neurology_clinic/doctors_page/doctors_page.dart';
 import 'package:neurology_clinic/view/screens/notifications/notifications_page.dart';
 import 'package:neurology_clinic/view/screens/prescription/all_prescriptions_page.dart';
-import 'package:neurology_clinic/view/screens/test/token_test.dart';
 import '/view/screens/doctor_details/doctor_details.dart';
 import '/view/screens/appointment_page/appointment_page.dart';
 import '/view/screens/help_center/help_center_page.dart';
@@ -58,12 +57,11 @@ List<GetPage<dynamic>>? routes = [
       ]),
 
   GetPage(
-    name: AppRouteName.layout,
-    page: () => const AppLayout(),
-    middlewares: [
-      MyMiddleWare(),
-    ]
-  ),
+      name: AppRouteName.layout,
+      page: () => const AppLayout(),
+      middlewares: [
+        MyMiddleWare(),
+      ]),
 
   GetPage(
       name: AppRouteName.layout,
@@ -74,11 +72,13 @@ List<GetPage<dynamic>>? routes = [
   GetPage(
       name: AppRouteName.prescription, page: () => const PrescriptionPage()),
   GetPage(
-      name: AppRouteName.allPrescriptions, page: () => const AllPrescriptionsPage()),
+      name: AppRouteName.allPrescriptions,
+      page: () => const AllPrescriptionsPage()),
   GetPage(name: AppRouteName.doctorDetails, page: () => DoctorDetails()),
-  GetPage(name: AppRouteName.tokenTest, page: () => TokenSenderScreen()),
+  // GetPage(name: AppRouteName.tokenTest, page: () => TokenSenderScreen()),
   GetPage(name: AppRouteName.doctorsPage, page: () => DoctorsPage()),
-  GetPage(name: AppRouteName.notificationsPage, page: () => NotificationsPage()),
+  GetPage(
+      name: AppRouteName.notificationsPage, page: () => NotificationsPage()),
 ];
 
 // Map<String, Widget Function(BuildContext)> routes = {

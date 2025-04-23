@@ -47,48 +47,53 @@ class AppLoginControllerImp extends AppLoginController {
   @override
   // دالة تسجيل الدخول
   login() async {
-    isShowLoading = true;
-    isShowConfetti = true;
     update();
     try {
-      print("heloooooooo");
-      final response = await http.post(
-        Uri.parse(AppLink.login),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'email': emailController.text,
-          'password': passwordController.text,
-        }),
-      );
-      // print("${response.body}========");
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final jsonResponse = jsonDecode(response.body);
-        print('login data ------${jsonResponse['data']}');
-        // حفظ بيانات المستخدم والتوكن محليًا باستخدام Hive
-        MyServices myServices = Get.find<MyServices>();
-        await myServices.storeData('userData', jsonResponse['data']);
-        myServices.fetchUserDatafromCach;
+      FormState? formData = formState.currentState;
+      if (formData!.validate()) {
+        isShowLoading = true;
+        isShowConfetti = true;
+        print("heloooooooo");
+        final response = await http.post(
+          Uri.parse(AppLink.login),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            'email': emailController.text,
+            'password': passwordController.text,
+          }),
+        );
+        // print("${response.body}========");
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          final jsonResponse = jsonDecode(response.body);
+          print('login data ------${jsonResponse['data']}');
+          // حفظ بيانات المستخدم والتوكن محليًا باستخدام Hive
+          MyServices myServices = Get.find<MyServices>();
+          // await myServices.clearData('userData');
+          await myServices.storeData('userData', jsonResponse['data']);
+          myServices.fetchUserDatafromCach();
+          print('**************${myServices.userData}');
 
-        // print(
-        //     "------------------------------name : ${myServices.userData['user']['name']}");
-        check.fire();
-        Future.delayed(const Duration(seconds: 2), () {
-          isShowLoading = false;
-          update();
-          confetti.fire();
-        });
-        Get.snackbar("نجاح", "تم تسجيل الدخول بنجاح!");
-        Get.offAllNamed(AppRouteName.layout);
-      } else {
-        // في حالة حصول خطأ مثلاً: صلاحية غير كافية أو بيانات غير صحيحة
-        error.fire();
-        Future.delayed(const Duration(seconds: 2), () {
-          isShowLoading = false;
-          update();
-        });
+          // print(
+          //     "------------------------------name : ${myServices.userData['user']['name']}");
+          check.fire();
+          Future.delayed(const Duration(seconds: 2), () {
+            isShowLoading = false;
+            update();
+            confetti.fire();
+          });
+          Get.snackbar("نجاح", "تم تسجيل الدخول بنجاح!");
+          Get.offAllNamed(AppRouteName.layout);
+        } else {
+          // في حالة حصول خطأ مثلاً: صلاحية غير كافية أو بيانات غير صحيحة
+          error.fire();
+          Future.delayed(const Duration(seconds: 2), () {
+            isShowLoading = false;
+            update();
+          });
 
-        final errorData = jsonDecode(response.body);
-        Get.snackbar("خطأ", errorData['message'] ?? "خطأ أثناء تسجيل الدخول");
+          final errorData = jsonDecode(response.body);
+          Get.snackbar("خطأ", errorData['message'] ?? "خطأ أثناء تسجيل الدخول");
+        }
       }
     } catch (e) {
       Get.snackbar("خطأ", "حدث خطأ أثناء الاتصال بالسيرفر.");

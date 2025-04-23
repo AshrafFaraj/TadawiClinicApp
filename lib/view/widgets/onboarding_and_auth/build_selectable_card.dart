@@ -18,8 +18,8 @@ class BuildSelectableCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        constraints: const BoxConstraints(minHeight: 50),
-        margin: const EdgeInsets.all(2),
+        constraints: const BoxConstraints(minHeight: 40),
+        margin: const EdgeInsets.all(1),
         decoration: BoxDecoration(
           gradient: gradient,
           color: isSelected ? AppColorTheme.background3 : AppColorTheme.card,
@@ -31,6 +31,7 @@ class BuildSelectableCard extends StatelessWidget {
             children: [
               Text(
                 text,
+                textDirection: TextDirection.ltr,
                 style: TextStyle(
                   color: isSelected ? Colors.blue[900] : Colors.white,
                   fontWeight: FontWeight.bold,

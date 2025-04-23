@@ -9,10 +9,13 @@ class CustomAuthTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      textTitle,
-      style: Theme.of(context).textTheme.headlineLarge,
-      textAlign: TextAlign.center,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15.0),
+      child: Text(
+        textTitle,
+        style: Theme.of(context).textTheme.headlineLarge,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

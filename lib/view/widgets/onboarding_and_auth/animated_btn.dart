@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:neurology_clinic/core/layouts/app_color_theme.dart';
 import 'package:rive/rive.dart';
 
 class AnimatedBtn extends StatelessWidget {
@@ -32,7 +33,12 @@ class AnimatedBtn extends StatelessWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Text("لنبدأ", style: TextStyle(fontWeight: FontWeight.w600))
+                  Text("لنبدأ",
+                      style: TextStyle(
+                          fontSize: 22,
+                          letterSpacing: -1,
+                          color: AppColorTheme.background2,
+                          fontWeight: FontWeight.w600))
                 ],
               )),
         ]),

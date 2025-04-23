@@ -9,11 +9,14 @@ class CustomAuthInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 15, bottom: 25),
+      padding: const EdgeInsets.only(top: 10, bottom: 20),
       child: Text(
         textInfo,
         // style: Theme.of(context).textTheme.bodyMedium,
-        style: const TextStyle(color: AppColorTheme.background2),
+        style: const TextStyle(
+            wordSpacing: 2,
+            letterSpacing: -1,
+            color: AppColorTheme.background2),
         textAlign: TextAlign.center,
       ),
     );

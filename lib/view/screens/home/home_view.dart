@@ -17,10 +17,10 @@ class HomeView extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: Container(
         height: MediaQuery.of(context).size.height,
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: AppColorTheme.background,
-          borderRadius: BorderRadius.circular(30),
         ),
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
@@ -31,23 +31,16 @@ class HomeView extends StatelessWidget {
                   ? ((MediaQuery.of(context).size.width - 20) / 2)
                   : MediaQuery.of(context).size.width,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CustomAppBar(),
-                  const SizedBox(height: 250, child: AppointmentList()),
+                  const AppointmentList(),
                   const SizedBox(height: 16),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'قائمة الأطباء',
-                      style: themeArabic.textTheme.headlineLarge,
-                    ),
-                  ),
+                  const CardListTitle(title: 'قائمة الأطباء'),
                   DoctorsCard(
                     scrollDirection: Axis.horizontal,
                   ),
-                  const SizedBox(height: 16),
+                  const CardListTitle(title: 'أدويتي'),
                   Column(
                     children: [
                       TextButton(
@@ -65,9 +58,9 @@ class HomeView extends StatelessWidget {
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            Get.toNamed(AppRouteName.tokenTest);
+                            Get.toNamed(AppRouteName.onBoarding);
                           },
-                          child: Text('Auth'))
+                          child: Text('Test Auth'))
                     ],
                   ),
                   // EmergencyButton(),
@@ -76,6 +69,24 @@ class HomeView extends StatelessWidget {
             ),
           ]),
         ),
+      ),
+    );
+  }
+}
+
+class CardListTitle extends StatelessWidget {
+  const CardListTitle({super.key, required this.title});
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(maxWidth: 360),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      alignment: Alignment.centerRight,
+      child: Text(
+        title,
+        style: themeArabic.textTheme.headlineLarge,
       ),
     );
   }

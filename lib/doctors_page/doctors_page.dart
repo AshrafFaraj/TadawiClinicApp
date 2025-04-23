@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:neurology_clinic/controller/doctor_controller.dart';
 import 'package:neurology_clinic/core/functions/format_time_finction.dart';
+import 'package:neurology_clinic/core/layouts/app_color_theme.dart';
 import 'package:neurology_clinic/data/datasource/model/doctor_model.dart';
 import 'package:neurology_clinic/data/datasource/model/doctor_schedule.dart';
 
@@ -48,9 +49,9 @@ class DoctorsPage extends StatelessWidget {
                   children: [
                     Lottie.asset('assets/lottie/no_connect.json',
                         height: 100, width: 100, fit: BoxFit.fill),
-                    Text(
+                    const Text(
                       'لا يوجد أطباء حالياً أو لا يوجد اتصال',
-                      // style: themeArabic.textTheme.bodyLarge,
+                      style: TextStyle(color: AppColorTheme.card),
                     ),
                   ],
                 ),

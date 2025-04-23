@@ -15,7 +15,7 @@ import '../auth/custom_auth_question.dart';
 import 'custom_auth_button.dart';
 import 'custom_position_trigger.dart';
 
-Future<Object?> customSigninDialog(BuildContext context,
+Future<Object?> customLoginDialog(BuildContext context,
     {required ValueChanged onClosed}) {
   return showGeneralDialog(
       barrierLabel: "Sign In",
@@ -44,7 +44,7 @@ Future<Object?> customSigninDialog(BuildContext context,
             resizeToAvoidBottomInset:
                 false, // avoid overflow error when keyboard shows up
             body: GetBuilder<AppLoginControllerImp>(builder: (controller) {
-              Get.put(ForgetPassword());
+              Get.put(const ForgetPassword());
               return Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -60,17 +60,13 @@ Future<Object?> customSigninDialog(BuildContext context,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                "البريد الالكتروني",
-                                style: TextStyle(color: Colors.black54),
-                              ),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 8.0, bottom: 16),
                                 child: CustomTextFormFeildAuth(
-                                  // validator: (val) {
-                                  //   return validInput(val!, 12, 30, "email");
-                                  // },
+                                  validator: (val) {
+                                    return validInput(val!, 12, 30, "email");
+                                  },
                                   mycontroller: controller.emailController,
                                   suffixIcon: Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -81,17 +77,13 @@ Future<Object?> customSigninDialog(BuildContext context,
                                       "ادخل بريدك الالكتروني أو رقم الهاتف",
                                 ),
                               ),
-                              const Text(
-                                "كلمة المرور",
-                                style: TextStyle(color: Colors.black54),
-                              ),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 8.0, bottom: 16),
                                 child: CustomTextFormFeildAuth(
-                                  validator: (val) {
-                                    return validInput(val!, 8, 15, "password");
-                                  },
+                                  // validator: (val) {
+                                  //   return validInput(val!, 8, 15, "password");
+                                  // },
                                   isObscure: controller.isObscure,
                                   mycontroller: controller.passwordController,
                                   suffixIcon: IconButton(
@@ -118,7 +110,7 @@ Future<Object?> customSigninDialog(BuildContext context,
                           )),
                       const CustomAuthInfo(
                           textInfo:
-                              "أو قم بإنشاء حساب وتسجيل بياناتك الشخصية أو استخدم حساب جوجل"),
+                              "في حال انه ليس لديك حساب من قبل قم بإنشاء حساب جديد وتسجيل بياناتك الشخصية المطلوبة"),
                       // CustomRegisterByEmailOrGoogle(onClosed: onClosed),
                       CustomAuthQuestion(
                         constText: "ليس لديك حساب",

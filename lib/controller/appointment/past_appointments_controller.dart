@@ -88,10 +88,9 @@ class PastAppointmentController extends GetxController {
             appointmentsJson.map((json) => Appointment.fromJson(json)).toList();
 
         update();
-        if (pastAppointments.isNotEmpty) {
-          await _myServices.storeData(
-              _pastKey, pastAppointments.map((b) => b.toJson()).toList());
-        }
+
+        await _myServices.storeData(
+            _pastKey, pastAppointments.map((b) => b.toJson()).toList());
       } else {
         Get.snackbar('فشل', 'لم نتمكن حاليا من تحديث مواعيدك السابقة',
             backgroundColor: AppColorTheme.background3);

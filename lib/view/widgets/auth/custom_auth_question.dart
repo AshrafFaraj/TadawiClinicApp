@@ -19,14 +19,17 @@ class CustomAuthQuestion extends StatelessWidget {
       children: [
         Text(
           "$constText ؟  ",
-          style:
-              const TextStyle(color: AppColorTheme.background2, fontSize: 17),
+          style: const TextStyle(
+              letterSpacing: -1,
+              color: AppColorTheme.background2,
+              fontSize: 17),
         ),
         InkWell(
           onTap: onTap,
           child: Text(
             clickText,
             style: const TextStyle(
+                letterSpacing: -1,
                 color: AppColorTheme.background3,
                 fontWeight: FontWeight.bold,
                 fontSize: 18),

@@ -14,14 +14,20 @@ class OnBoardingText extends StatelessWidget {
             Text(
               "احجز موعدك مع الطبيب بلمسة زر",
               style: TextStyle(
-                  fontSize: 50, height: 1.2, color: AppColorTheme.background2),
+                  fontSize: 52,
+                  letterSpacing: -1,
+                  height: 1.2,
+                  color: AppColorTheme.background2),
             ),
             SizedBox(
               height: 16,
             ),
             Text(
-              " يمكنك  الآن ومن حيثما كنت بإمكانك اختيار افضل الأطباء كفاءتاً وفي افضل المراكز الطبية والعيادات بإمكانك الحجز عن بعد وفي الوقت الملائم",
-              style: TextStyle(color: AppColorTheme.background2),
+              " يمكنك  الآن وحيثما كنت اختيار أفضل الأطباء كفاءتاً وفي افضل العيادات بإمكانك الحجز عن بعد وسيتم إشعارك بحلول موعدك مع الطبيب ومن ثم مراجعة أدويتك حيث سيتم تذكيرك دائماً بأوقات استعمالها",
+              style: TextStyle(
+                  fontSize: 18,
+                  letterSpacing: -1,
+                  color: AppColorTheme.background2),
             )
           ]),
         ),

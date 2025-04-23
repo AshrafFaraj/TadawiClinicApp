@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../core/constants/app_route_name.dart';
 import '../../../core/functions/dialog_functions.dart';
@@ -28,65 +28,70 @@ class _AppointmentListState extends State<AppointmentList> {
 
   @override
   Widget build(BuildContext context) {
-    // Get.put(UpcomingAppointmentController());
-    return GetBuilder<UpcomingAppointmentController>(builder: (controller) {
-      if (controller.isLoading) {
-        return Center(child: Lottie.asset('assets/lottie/ECG.json'));
-      } else if (controller.upcomingAppointments.isEmpty) {
-        return Center(
-          child: Container(
-            margin: const EdgeInsets.all(15),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppColorTheme.card,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.event_busy,
-                    size: 80, color: AppColorTheme.background),
-                const SizedBox(height: 16),
-                Text("لا توجد مواعيد قادمة",
-                    style: themeArabic.textTheme.bodyMedium),
-              ],
-            ),
-          ),
-        );
-      } else {
-        return ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: controller.upcomingAppointments.length,
-          itemBuilder: (context, index) {
-            final Appointment appointment =
-                controller.upcomingAppointments[index];
-            // return
-            return AppointmentCard(
-              appointment: appointment,
-              onCancel: () {
-                showWarningDialog(
-                    context: context,
-                    title: 'question'.tr,
-                    desc: 'desc'.tr,
-                    btnCancelText: 'cancelMs'.tr,
-                    btnOkText: 'ok'.tr,
-                    btnOkOnPress: () {
-                      controller.deleteAppointmet(appointment.id);
-                    });
-              },
-              onEdit: () async {
-                final result = await Get.toNamed(
-                    AppRouteName.bookAppointmentPage,
-                    arguments: {'action': 'update', 'booking': appointment});
-                if (result != null) {
-                  controller.fetchUpcomingAppointmentFromServer();
-                }
-              },
-            );
-          },
-        );
-      }
-    });
+    return Container(
+      alignment: Alignment.center,
+      width: double.infinity,
+      height: 200,
+      child: GetBuilder<UpcomingAppointmentController>(builder: (controller) {
+        return Skeletonizer(
+            enabled: controller.isLoading,
+            child: (controller.upcomingAppointments.isEmpty)
+                ? Center(
+                    child: Container(
+                      constraints:
+                          const BoxConstraints(maxWidth: 360, maxHeight: 200),
+                      margin: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColorTheme.card,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.event_busy,
+                              size: 80, color: AppColorTheme.background),
+                          const SizedBox(height: 16),
+                          Text("لا توجد مواعيد قادمة",
+                              style: themeArabic.textTheme.bodyMedium),
+                        ],
+                      ),
+                    ),
+                  )
+                : ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.upcomingAppointments.length,
+                    itemBuilder: (context, index) {
+                      final Appointment appointment =
+                          controller.upcomingAppointments[index];
+                      // return
+                      return AppointmentCard(
+                        appointment: appointment,
+                        onCancel: () {
+                          showWarningDialog(
+                              context: context,
+                              title: 'question'.tr,
+                              desc: 'desc'.tr,
+                              btnCancelText: 'cancelMs'.tr,
+                              btnOkText: 'ok'.tr,
+                              btnOkOnPress: () {
+                                controller.deleteAppointmet(appointment.id);
+                              });
+                        },
+                        onEdit: () async {
+                          final result = await Get.toNamed(
+                              AppRouteName.bookAppointmentPage,
+                              arguments: {
+                                'action': 'update',
+                                'booking': appointment
+                              });
+                          if (result != null) {
+                            controller.fetchUpcomingAppointmentFromServer();
+                          }
+                        },
+                      );
+                    }));
+      }),
+    );
   }
 }
 
@@ -104,39 +109,14 @@ class AppointmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // بناء قائمة الأزرار حسب حالة الموعد
-    List<Widget> actionButtons = [];
-    if (appointment.status == 'unconfirmed') {
-      actionButtons.add(
-        actionButton(
-            onPressed: onEdit,
-            text: "تعديل الموعد",
-            backgroundColor: AppColorTheme.background,
-            textColor: AppColorTheme.shadowDark),
-      );
-      actionButtons.add(const Spacer());
-      actionButtons.add(actionButton(
-        onPressed: onCancel,
-        text: "إلغاء الموعد",
-      ));
-    } else if (appointment.status == 'pending') {
-      actionButtons.add(
-        actionButton(
-            backgroundColor: AppColorTheme.background,
-            onPressed: onEdit,
-            text: "تعديل الموعد",
-            textColor: AppColorTheme.backgroundDark),
-      );
-    }
-
     return Container(
-      constraints: const BoxConstraints(maxWidth: 380, maxHeight: 200),
-      padding: const EdgeInsets.all(30),
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      constraints: const BoxConstraints(maxWidth: 360, maxHeight: 200),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [
-          AppColorTheme.card,
-          AppColorTheme.card.withValues(alpha: 0.5)
+          AppColorTheme.card.withValues(alpha: 0.9),
+          AppColorTheme.card.withValues(alpha: 0.3)
         ], begin: Alignment.topLeft, end: Alignment.bottomRight),
         boxShadow: [
           BoxShadow(
@@ -157,18 +137,64 @@ class AppointmentCard extends StatelessWidget {
         children: [
           Text("موعدك القادم", style: themeArabic.textTheme.headlineLarge),
           const SizedBox(
-            height: 15,
+            height: 10,
           ),
-          Text("مع الدكتور : ${appointment.doctorName}",
-              style: themeArabic.textTheme.bodyMedium),
-          const SizedBox(height: 8),
-          Text("موعد زيارتك : ${appointment.date}",
-              style: themeArabic.textTheme.bodyMedium),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: actionButtons,
-          )
+          Center(
+            child: Text("مع الدكتور : ${appointment.doctorName}",
+                style: themeArabic.textTheme.bodyMedium),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            constraints: const BoxConstraints(minHeight: 40),
+            decoration: BoxDecoration(
+                color: AppColorTheme.card,
+                borderRadius: BorderRadius.circular(10)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.calendar_month_outlined,
+                  color: Colors.white,
+                ),
+                Text(" ${appointment.date}",
+                    style: themeArabic.textTheme.bodyMedium),
+                const SizedBox(
+                  width: 20,
+                ),
+                Image.asset(
+                  'assets/clock.png',
+                  color: Colors.white,
+                ),
+                Text("  ${appointment.time.hour}:${appointment.time.minute}",
+                    style: themeArabic.textTheme.bodyMedium),
+                const SizedBox(
+                  width: 5,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 5),
+          appointment.type == 'new'
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    (appointment.status == 'unconfirmed')
+                        ? actionButton(
+                            onPressed: onCancel,
+                            text: "إلغاء الموعد",
+                          )
+                        : const SizedBox(),
+                    const Spacer(),
+                    actionButton(
+                        onPressed: onEdit,
+                        text: "تعديل الموعد",
+                        backgroundColor: AppColorTheme.background,
+                        textColor: AppColorTheme.shadowDark),
+                  ],
+                )
+              : const SizedBox(),
         ],
       ),
     );
@@ -184,7 +210,7 @@ Widget actionButton(
     onPressed: onPressed,
     child: Container(
         alignment: Alignment.center,
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         decoration: BoxDecoration(
             color: backgroundColor, borderRadius: BorderRadius.circular(10)),
         child: Text(

@@ -18,7 +18,7 @@ class CustomAuthBotton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 24),
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
       child: ElevatedButton.icon(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
@@ -34,7 +34,10 @@ class CustomAuthBotton extends StatelessWidget {
             CupertinoIcons.arrow_right,
             color: iconColor,
           ),
-          label: Text(title)),
+          label: Text(
+            title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          )),
     );
   }
 }

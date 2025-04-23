@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 
@@ -10,11 +9,10 @@ import '../../../controller/auth/registerController/register_controller.dart';
 import '../../../core/functions/valid_input.dart';
 import '../Auth/custom_auth_textfeild.dart';
 import '../Auth/custom_auth_question.dart';
-import '../Auth/custom_auth_info.dart';
 import '../Auth/custom_auth_title.dart';
 import 'custom_auth_button.dart';
 import 'custom_position_trigger.dart';
-import 'custom_signin_dialog.dart';
+import 'custom_login_dialog.dart';
 
 Future<Object?> customRegisterDialog(BuildContext context,
     {required ValueChanged onClosed}) {
@@ -33,9 +31,9 @@ Future<Object?> customRegisterDialog(BuildContext context,
       pageBuilder: (context, _, __) {
         return Center(
           child: Container(
-            height: MediaQuery.of(context).size.height - 150,
+            height: MediaQuery.of(context).size.height - 100,
             margin: const EdgeInsets.symmetric(horizontal: 16),
-            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
             decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.95),
                 borderRadius: const BorderRadius.all(Radius.circular(15))),
@@ -50,119 +48,94 @@ Future<Object?> customRegisterDialog(BuildContext context,
                       SingleChildScrollView(
                         child: Column(children: [
                           const CustomAuthTitle(textTitle: "إنشاء حساب"),
-                          const CustomAuthInfo(
-                              textInfo: "قم بتعبئة جميع البيانات التالية"),
                           Form(
                               key: controller.formState,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: CustomTextFormFeildAuth(
-                                      validator: (val) {
-                                        return validInput(val!, 20, 30, "name");
-                                      },
-                                      mycontroller: controller.name,
-                                      suffixIcon: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8.0),
-                                          child: SvgPicture.asset(
-                                              "assets/icons/User.svg")),
-                                      hintText: "اكتب اسمك الكامل",
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: CustomTextFormFeildAuth(
-                                      mycontroller: controller.email,
-                                      validator: (val) {
-                                        return validInput(
-                                            val!, 12, 30, "email");
-                                      },
-                                      suffixIcon: const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 8.0),
-                                          child: Icon(Icons.email_outlined)),
-                                      hintText: "اكتب بريدك الالكتروني",
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: CustomTextFormFeildAuth(
-                                        mycontroller: controller.mobile,
-                                        validator: (val) {
-                                          return validInput(
-                                              val!, 9, 9, "phone");
-                                        },
-                                        isNumber: true,
-                                        suffixIcon: const Icon(
-                                            Icons.phone_android_outlined),
-                                        hintText: "ادخل رقم الموبايل"),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: CustomTextFormFeildAuth(
-                                      validator: (val) {
-                                        return validInput(val!, 1, 3, "age");
-                                      },
-                                      mycontroller: controller.age,
-                                      suffixIcon:
-                                          const Icon(Icons.date_range_outlined),
-                                      hintText: "كم هو عمرك",
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: CustomTextFormFeildAuth(
-                                      mycontroller: controller.password,
-                                      validator: (val) {
-                                        return validInput(
-                                            val!, 8, 15, "password");
-                                      },
-                                      suffixIcon:
-                                          const Icon(Icons.password_outlined),
-                                      hintText: "ادخل كلمة السر",
-                                      // mycontroller: controller.password
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: CustomTextFormFeildAuth(
-                                      mycontroller: controller.address,
-                                      validator: (val) {
-                                        return validInput(
-                                            val!, 10, 30, "address");
-                                      },
-                                      suffixIcon: const Padding(
+                                  CustomTextFormFeildAuth(
+                                    validator: (val) {
+                                      return validInput(val!, 20, 30, "name");
+                                    },
+                                    mycontroller: controller.name,
+                                    suffixIcon: const Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 8.0),
-                                        child: Icon(Icons.location_city),
-                                      ),
-                                      hintText: "اكتب عنوانك",
+                                        child: Icon(Icons.person_2_outlined)),
+                                    hintText: "اكتب اسمك الكامل",
+                                  ),
+                                  CustomTextFormFeildAuth(
+                                    mycontroller: controller.email,
+                                    validator: (val) {
+                                      return validInput(val!, 12, 30, "email");
+                                    },
+                                    suffixIcon: const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Icon(Icons.email_outlined)),
+                                    hintText: "اكتب بريدك الالكتروني",
+                                  ),
+                                  CustomTextFormFeildAuth(
+                                    mycontroller: controller.password,
+                                    validator: (val) {
+                                      return validInput(
+                                          val!, 8, 15, "password");
+                                    },
+                                    suffixIcon:
+                                        const Icon(Icons.password_outlined),
+                                    hintText: "ادخل كلمة السر",
+                                    // mycontroller: controller.password
+                                  ),
+                                  CustomTextFormFeildAuth(
+                                      mycontroller: controller.mobile,
+                                      validator: (val) {
+                                        return validInput(val!, 9, 9, "phone");
+                                      },
+                                      isNumber: true,
+                                      suffixIcon: const Icon(
+                                          Icons.phone_android_outlined),
+                                      hintText: "ادخل رقم الموبايل"),
+                                  CustomTextFormFeildAuth(
+                                    validator: (val) {
+                                      return validInput(val!, 1, 3, "age");
+                                    },
+                                    mycontroller: controller.age,
+                                    suffixIcon:
+                                        const Icon(Icons.date_range_outlined),
+                                    hintText: "كم هو عمرك",
+                                  ),
+                                  CustomTextFormFeildAuth(
+                                    mycontroller: controller.address,
+                                    validator: (val) {
+                                      return validInput(
+                                          val!, 10, 30, "address");
+                                    },
+                                    suffixIcon: const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: Icon(Icons.my_location_outlined),
                                     ),
+                                    hintText: "اكتب عنوانك",
+                                  ),
+                                  Column(
+                                    children: [
+                                      const BuildSectionTitle(
+                                        title: 'اختر فصيلة الدم',
+                                      ),
+                                      BuildBloodTypeGrid(
+                                        controller: controller,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      const BuildSectionTitle(
+                                          title: 'اختر الجنس'),
+                                      BuildGenderOptions(
+                                        controller: controller,
+                                      ),
+                                    ],
                                   ),
                                   Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Column(
-                                        children: [
-                                          const BuildSectionTitle(
-                                            title: 'اختر فصيلة الدم',
-                                          ),
-                                          BuildBloodTypeGrid(
-                                            controller: controller,
-                                          ),
-                                          const SizedBox(height: 20),
-                                          const BuildSectionTitle(
-                                              title: 'اختر الجنس'),
-                                          BuildGenderOptions(
-                                            controller: controller,
-                                          ),
-                                        ],
-                                      )),
-                                  Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 8.0, bottom: 24),
+                                          top: 8.0, bottom: 5),
                                       child: CustomAuthBotton(
                                           onPressed: controller.register,
                                           title: "إنشاء"))
@@ -173,20 +146,10 @@ Future<Object?> customRegisterDialog(BuildContext context,
                             clickText: "تسجيل الدخول",
                             onTap: () {
                               Navigator.pop(context);
-                              customSigninDialog(context, onClosed: onClosed);
+                              customLoginDialog(context, onClosed: onClosed);
                             },
                           ),
                         ]),
-                      ),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: MediaQuery.of(context).size.height - 1030,
-                        child: const CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Colors.white,
-                          child: Icon(Icons.close, color: Colors.black),
-                        ),
                       ),
                       Stack(
                         children: [

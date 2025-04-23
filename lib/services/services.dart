@@ -27,7 +27,7 @@ class MyServices extends GetxService {
   }
 
   Future<void> clearData(String key) async {
-    await _box.delete(key);
+    _box.containsKey(key) ? await _box.delete(key) : null;
   }
 
   RxMap<String, dynamic> userData = <String, dynamic>{}.obs;

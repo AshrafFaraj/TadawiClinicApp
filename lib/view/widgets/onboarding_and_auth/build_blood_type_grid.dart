@@ -8,17 +8,14 @@ class BuildBloodTypeGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      shrinkWrap: true,
-      crossAxisCount: 4,
-      mainAxisSpacing: 2,
-      crossAxisSpacing: 2,
-      childAspectRatio: 1.5,
+    return Row(
       children: controller.bloodTypes
-          .map((type) => BuildSelectableCard(
-                text: type,
-                isSelected: controller.selectedBloodType == type,
-                onTap: () => controller.selectBloodType(type),
+          .map((type) => Expanded(
+                child: BuildSelectableCard(
+                  text: type,
+                  isSelected: controller.selectedBloodType == type,
+                  onTap: () => controller.selectBloodType(type),
+                ),
               ))
           .toList(),
     );

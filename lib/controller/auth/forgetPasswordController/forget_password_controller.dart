@@ -13,30 +13,34 @@ abstract class AppForgetPasswordController extends GetxController {
 
 class AppForgetPasswordControllerImp extends AppForgetPasswordController {
   late TextEditingController email;
+  GlobalKey<FormState> formState = GlobalKey<FormState>();
 
   @override
-  checkEmail() async {
+  Future<void> checkEmail() async {
     try {
-      final response = await http.post(
-        Uri.parse(AppLink.sendResetPasswordOtp),
-        headers: {
-          "Content-Type": "application/json",
-          "User-Agent": "application/json",
-          "Accept": "application/json"
-        },
-        body: jsonEncode({
-          "email": email.text,
-        }),
-      );
-      final data = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        Get.snackbar("نجاح", data['message']);
-        Get.offAndToNamed(AppRouteName.verfiyCode, arguments: {
-          'email': email.text,
-          'nextRoute': AppRouteName.resetPassword,
-        });
-      } else {
-        Get.snackbar("فشل", data['message']);
+      FormState? formData = formState.currentState;
+      if (formData!.validate()) {
+        final response = await http.post(
+          Uri.parse(AppLink.sendResetPasswordOtp),
+          headers: {
+            "Content-Type": "application/json",
+            "User-Agent": "application/json",
+            "Accept": "application/json"
+          },
+          body: jsonEncode({
+            "email": email.text,
+          }),
+        );
+        final data = jsonDecode(response.body);
+        if (response.statusCode == 200) {
+          Get.snackbar("نجاح", data['message']);
+          Get.offAndToNamed(AppRouteName.verfiyCode, arguments: {
+            'email': email.text,
+            'nextRoute': AppRouteName.resetPassword,
+          });
+        } else {
+          Get.snackbar("فشل", data['message']);
+        }
       }
     } catch (e) {
       Get.snackbar("خطأ", "حدث خطأ أثناء الاتصال بالسيرفر.");

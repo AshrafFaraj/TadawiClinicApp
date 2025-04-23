@@ -1,3 +1,5 @@
+import 'package:neurology_clinic/core/layouts/app_color_theme.dart';
+
 import '/controller/auth/registerController/success_signup_controller.dart';
 import '/view/widgets/Auth/custom_auth_appbar.dart';
 import '/view/widgets/Auth/custom_auth_button.dart';
@@ -22,13 +24,13 @@ class SuccessSignUp extends StatelessWidget {
             const Icon(
               Icons.check_circle_outline,
               size: 200,
-              color: AppColor.primaycolor,
+              color: AppColorTheme.card,
             ),
             const Spacer(),
             SizedBox(
                 width: double.infinity,
                 child: CustomAuthButton(
-                  text: "الذهاب الي تسجيل الدخول",
+                  text: "هيا بنا لنبدأ",
                   onPressed: () {
                     controller.goToHome();
                   },

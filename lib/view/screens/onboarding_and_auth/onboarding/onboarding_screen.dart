@@ -5,7 +5,7 @@ import 'package:rive/rive.dart' as rive;
 import '../../../widgets/onboarding_and_auth/custom_position_blurfill.dart';
 import '../../../widgets/onboarding_and_auth/onboarding_text.dart';
 import '../../../widgets/onboarding_and_auth/animated_btn.dart';
-import '../../../widgets/onboarding_and_auth/custom_signin_dialog.dart';
+import '../../../widgets/onboarding_and_auth/custom_login_dialog.dart';
 import '../../../../controller/auth/onboardingController/onboarding_screen_controller.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -52,7 +52,7 @@ class OnboardingScreen extends StatelessWidget {
                         controller.btnAnimationController.isActive = true;
                         Future.delayed(const Duration(milliseconds: 800), () {
                           controller.changeIsSignInDialogShown(true);
-                          customSigninDialog(context, onClosed: (_) {
+                          customLoginDialog(context, onClosed: (_) {
                             controller.changeIsSignInDialogShown(false);
                           });
                         });

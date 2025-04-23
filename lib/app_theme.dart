@@ -6,22 +6,30 @@ ThemeData themeArabic = ThemeData(
     fontFamily: "Cairo",
     textTheme: const TextTheme(
       headlineLarge: TextStyle(
+        letterSpacing: -1,
+        wordSpacing: 2,
         fontSize: 24,
         fontWeight: FontWeight.bold,
         color: AppColorTheme.background2,
       ),
       headlineSmall: TextStyle(
+        letterSpacing: -1,
+        wordSpacing: 2,
         fontSize: 20,
         fontWeight: FontWeight.bold,
         color: AppColorTheme.background2,
       ),
       bodyLarge: TextStyle(
-        fontSize: 16,
+        letterSpacing: -1,
+        wordSpacing: 2,
+        fontSize: 15,
         fontWeight: FontWeight.bold,
         color: AppColorTheme.shadow,
       ),
       bodyMedium: TextStyle(
-        fontSize: 16,
+        letterSpacing: -1,
+        wordSpacing: 2,
+        fontSize: 15,
         fontWeight: FontWeight.bold,
         color: AppColorTheme.background,
         height: 1.5,

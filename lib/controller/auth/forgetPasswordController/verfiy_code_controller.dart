@@ -33,7 +33,7 @@ class AppVerfiyCodeControllerImp extends AppVerfiyCodeController {
       if (response.statusCode == 200) {
         MyServices myServices = Get.find<MyServices>();
         await myServices.storeData('userData', jsonResponse['data']);
-        myServices.fetchUserDatafromCach;
+        myServices.fetchUserDatafromCach();
 
         Get.snackbar("نجاح", jsonResponse['message']);
         Get.offAndToNamed(nextRoute!, arguments: {

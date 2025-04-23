@@ -12,9 +12,8 @@ class HCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints(maxHeight: 100, maxWidth: 400),
+      constraints: const BoxConstraints(maxHeight: 100, maxWidth: 360),
       padding: const EdgeInsets.symmetric(horizontal: 30),
-      margin: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(10),
