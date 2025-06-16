@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class AiController extends GetxController {
-  final String apiKey = "AIzaSyAde9vzxwbM616UGBzB7O7-TeQrctuOtVc"; 
   final String baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
   List<Map<String, dynamic>> messages = []; // Non-reactive list
